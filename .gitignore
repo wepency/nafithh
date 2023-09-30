@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # phpstorm project files
 .idea
 
@@ -35,3 +36,11 @@ tests/_support/_generated
 
 #vagrant folder
 /.vagrant
+=======
+assets/*
+!assets/.gitignore
+protected/runtime/*
+!protected/runtime/.gitignore
+protected/data/*.db
+themes/classic/views/
+>>>>>>> f5d497d92ed5e894b75a0da3f59d8e62454f8569
