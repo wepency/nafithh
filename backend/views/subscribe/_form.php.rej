@@ -1,0 +1,9 @@
+diff a/backend/views/subscribe/_form.php b/backend/views/subscribe/_form.php	(rejected hunks)
+@@ -27,7 +27,6 @@
+ 
+                 <label for='' class='col-sm-2 control-label'><?= Yii::t('app', 'Company Type') ?> </label> 
+ 
+-                <div class='col-sm-10'><?= $form->field($model, 'compony_type')->textInput()->label(false) ?></div>
+                 <div class='col-sm-10'><?= $form->field($model, 'company_type')->textInput()->label(false) ?></div>
+ 
+                 <label for='' class='col-sm-2 control-label'><?= Yii::t('app', 'Company Name') ?> </label> 

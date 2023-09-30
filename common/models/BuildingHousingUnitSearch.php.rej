@@ -1,0 +1,6 @@
+diff a/common/models/BuildingHousingUnitSearch.php b/common/models/BuildingHousingUnitSearch.php	(rejected hunks)
+@@ -20,3 +20,3 @@
+         return [
+-            [['id', 'building_id', 'floors_no', 'housing_unit_type', 'rooms', 'entrances', 'has_parking', 'toilets', 'kitchen', 'conditioner_num', 'pool', 'rent_type', 'status', 'for_rent', 'for_sale','lounge'], 'integer'],
++            [['id', 'building_id', 'floors_no', 'housing_unit_type', 'rooms', 'entrances', 'has_parking', 'toilets', 'kitchen', 'conditioner_num', 'pool', 'rent_type', 'status','lounge'], 'integer'],
+             [['housing_unit_name', 'area', 'furniture', 'detail'], 'safe'],

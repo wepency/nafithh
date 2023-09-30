@@ -1,0 +1,40 @@
+#Options -Indexes
+#Options FollowSymlinks
+RewriteEngine on
+
+# If a directory or a file exists, use it directly
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+# Otherwise forward it to index.php
+RewriteRule . index.php
+
+
+<IfModule mod_headers.c>
+Header set X-Frame-Options "sameorigin"
+#Header set Content-Security-Policy "default-src 'none'; script-src * 'unsafe-hashes' ; connect-src 'self'; img-src 'self'; style-src *  fonts.googleapis.com;font-src  'self' fonts.gstatic.com"
+Header unset Server
+Header always unset X-Powered-By
+Header unset X-Powered-By
+Header unset X-CF-Powered-By
+Header unset X-Mod-Pagespeed
+Header unset X-Pingback
+#Header always set Content-Security-Policy "<policy>"
+ 
+Header set Strict-Transport-Security "max-age=10886400; includeSubDomains; preload" env=HTTPS
+#Header set X-Frame-Options "ALLOW-FROM https://www.googletagmanager.com/"
+Header always set X-Xss-Protection "1; mode=block"
+Header always set X-Content-Type-Options "nosniff"
+Header set Referrer-Policy: strict-origin-when-cross-origin
+</IfModule>
+
+# # php -- BEGIN cPanel-generated handler, do not edit
+# # Set the “ea-php73” package as the default “PHP” programming language.
+# <IfModule mime_module>
+#   AddHandler application/x-httpd-ea-php73 .php .php7 .phtml
+# </IfModule>
+# # php -- END cPanel-generated handler, do not edit
+
+
+
+
+

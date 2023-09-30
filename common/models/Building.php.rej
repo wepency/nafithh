@@ -1,0 +1,8 @@
+diff a/common/models/Building.php b/common/models/Building.php	(rejected hunks)
+@@ -367,6 +367,4 @@
+ 			'has_parking' => Yii::t('app', 'Has Parking'),
+-			'for_rent' => Yii::t('app', 'For Rent'),
+-			'for_sale' => Yii::t('app', 'For Sale'),
+ 			'rent_price' => Yii::t('app', 'Rent Price'),
+ 			'sale_price' => Yii::t('app', 'Sale Price'),
+ 			'invest_price' => Yii::t('app', 'Invest Price'),
