@@ -1,25 +1,23 @@
-<?php 
-$targt_lang = (Yii::$app->language=='en') ? 'ar' : 'en';
-	if (Yii::$app->language=='en'){
-		$targt_lang = 'ar';
-		$targt_lang_n = 'Ar';
-		
-	
-	}
-	else
-	{
-		$targt_lang = 'en';
-		$targt_lang_n = 'En';
-	}
+<?php
+$targt_lang = (Yii::$app->language == 'en') ? 'ar' : 'en';
+if (Yii::$app->language == 'en') {
+    $targt_lang = 'ar';
+    $targt_lang_n = 'Ar';
+
+
+} else {
+    $targt_lang = 'en';
+    $targt_lang_n = 'En';
+}
 $current_page = Yii::$app->controller->id;
 $action_id = Yii::$app->controller->action->id;
- ?>
-   <!-- Start Header -->
+?>
+    <!-- Start Header -->
     <header class="header">
         <div class="container-fluid pl-0 top-header">
             <div class="row">
                 <div class="col-lg-3 offset-lg-1 col-md-4 offset-md-1 col-sm-12 col-12 align-self-end">
-                    <img src="<?= $setting->logo?>" class="logo">
+                    <img src="<?= $setting->logo ?>" class="logo">
                 </div>
                 <div class="col-lg-8 col-md-7 col-sm-12 col-12">
                     <div class="contact-info">
@@ -27,35 +25,36 @@ $action_id = Yii::$app->controller->action->id;
                             <li class="nav-item">
                                 <div class="media">
                                     <div class="icon-photo align-self-center ml-3">
-                                        <img src="<?=Yii::$app->homeUrl?>images/icon-global.png">
+                                        <img src="<?= Yii::$app->homeUrl ?>images/icon-global.png">
                                     </div>
                                     <div class="media-body align-self-center text-right">
-                                        <h5 class="mt-0"><?= yii::t('app','Company Headquarters')?></h5>
-                                        <p class="mb-0"><?= $setting->_address?></p>
-                                       
+                                        <h5 class="mt-0"><?= yii::t('app', 'Company Headquarters') ?></h5>
+                                        <p class="mb-0"><?= $setting->_address ?></p>
+
                                     </div>
                                 </div>
                             </li>
                             <li class="nav-item">
                                 <div class="media">
                                     <div class="icon-photo align-self-center ml-3">
-                                        <img src="<?=Yii::$app->homeUrl?>images/icon-email.png">
+                                        <img src="<?= Yii::$app->homeUrl ?>images/icon-email.png">
                                     </div>
                                     <div class="media-body align-self-center text-right">
-                                        <h5 class="mt-0"><?= yii::t('app','Email')?></h5>
-                                        <p class="mb-0"><?= $setting->email?></p>
+                                        <h5 class="mt-0"><?= yii::t('app', 'Email') ?></h5>
+                                        <p class="mb-0"><?= $setting->email ?></p>
                                     </div>
                                 </div>
                             </li>
                             <li class="nav-item">
                                 <div class="media">
                                     <div class="icon-photo align-self-center ml-3">
-                                        <img src="<?=Yii::$app->homeUrl?>images/whatsappline.png">
+                                        <img src="<?= Yii::$app->homeUrl ?>images/whatsappline.png">
                                     </div>
                                     <div class="media-body align-self-center text-right">
-                                        <a class="" target="_blank" href="https://api.whatsapp.com/send?phone=+966<?= $setting->mobile?>;">
-                                        <h5 class="mt-0"><?= yii::t('app','For inquiries')?></h5>
-                                            <p class="mb-0"><?= $setting->mobile?></p>
+                                        <a class="" target="_blank"
+                                           href="https://api.whatsapp.com/send?phone=+966<?= $setting->mobile ?>;">
+                                            <h5 class="mt-0"><?= yii::t('app', 'For inquiries') ?></h5>
+                                            <p class="mb-0"><?= $setting->mobile ?></p>
                                         </a>
                                     </div>
                                 </div>
@@ -65,33 +64,41 @@ $action_id = Yii::$app->controller->action->id;
                     <nav class="navbar navbar-expand-lg navbar-light header-menu">
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav main-menu">
-                                <li class="nav-item <?php if($current_page=='site' && $action_id=='index'){?> active<?php } ?>">
-                                    <a class="nav-link" href="<?=Yii::$app->homeUrl?>"><?= yii::t('app','Home')?></a>
+                                <li class="nav-item <?php if ($current_page == 'site' && $action_id == 'index') { ?> active<?php } ?>">
+                                    <a class="nav-link"
+                                       href="<?= Yii::$app->homeUrl ?>"><?= yii::t('app', 'Home') ?></a>
                                 </li>
-                                <li class="nav-item <?php if($current_page=='about' && $action_id=='index'){?> active<?php } ?>">
-                                    <a class="nav-link" href="<?=Yii::$app->homeUrl?>about"><?= yii::t('app','know Us')?></a>
+                                <li class="nav-item <?php if ($current_page == 'about' && $action_id == 'index') { ?> active<?php } ?>">
+                                    <a class="nav-link"
+                                       href="<?= Yii::$app->homeUrl ?>about"><?= yii::t('app', 'know Us') ?></a>
                                 </li>
-                                <li class="nav-item  <?php if($current_page=='service' && $action_id=='index'){?> active<?php } ?>">
-                                    <a class="nav-link" href="<?=Yii::$app->homeUrl?>service"><?= yii::t('app','Our Services')?></a>
+                                <li class="nav-item  <?php if ($current_page == 'service' && $action_id == 'index') { ?> active<?php } ?>">
+                                    <a class="nav-link"
+                                       href="<?= Yii::$app->homeUrl ?>service"><?= yii::t('app', 'Our Services') ?></a>
                                 </li>
-                                <li class="nav-item  <?php if($current_page=='gallery'){?> active<?php } ?>">
-                                    <a class="nav-link" href="<?=Yii::$app->homeUrl?>gallery"><?= yii::t('app','Nafithh gallery')?></a>
+                                <li class="nav-item  <?php if ($current_page == 'gallery') { ?> active<?php } ?>">
+                                    <a class="nav-link"
+                                       href="<?= Yii::$app->homeUrl ?>gallery"><?= yii::t('app', 'Nafithh gallery') ?></a>
                                 </li>
-                                <li class="nav-item <?php if($current_page=='plan'){?> active<?php } ?>">
-                                    <a class="nav-link" href="<?=Yii::$app->homeUrl?>plan"><?= yii::t('app','Plans')?></a>
+                                <li class="nav-item <?php if ($current_page == 'plan') { ?> active<?php } ?>">
+                                    <a class="nav-link"
+                                       href="<?= Yii::$app->homeUrl ?>plan"><?= yii::t('app', 'Plans') ?></a>
                                 </li>
-                                <li class="nav-item <?php if($current_page=='partner' && $action_id=='index'){?> active<?php } ?>">
-                                    <a class="nav-link" href="<?=Yii::$app->homeUrl?>partner"><?= yii::t('app','Our partners')?></a>
+                                <li class="nav-item <?php if ($current_page == 'partner' && $action_id == 'index') { ?> active<?php } ?>">
+                                    <a class="nav-link"
+                                       href="<?= Yii::$app->homeUrl ?>partner"><?= yii::t('app', 'Our partners') ?></a>
                                 </li>
-                                <!-- <li class="nav-item  <?php if($current_page=='subscribe' && $action_id=='index'){?> active<?php } ?>">
-                                    <a class="nav-link" href="<?=Yii::$app->homeUrl?>subscribe"><?= yii::t('app','Subscribe With Us')?></a>
+                                <!-- <li class="nav-item  <?php if ($current_page == 'subscribe' && $action_id == 'index') { ?> active<?php } ?>">
+                                    <a class="nav-link" href="<?= Yii::$app->homeUrl ?>subscribe"><?= yii::t('app', 'Subscribe With Us') ?></a>
                                 </li> -->
-                                <li class="nav-item  <?php if($current_page=='contact-us' && $action_id=='index'){?> active<?php } ?>">
-                                    <a class="nav-link" href="<?=Yii::$app->homeUrl?>contact-us"><?= yii::t('app','Contact Us')?></a>
+                                <li class="nav-item  <?php if ($current_page == 'contact-us' && $action_id == 'index') { ?> active<?php } ?>">
+                                    <a class="nav-link"
+                                       href="<?= Yii::$app->homeUrl ?>contact-us"><?= yii::t('app', 'Contact Us') ?></a>
                                 </li>
-								
+
                                 <li class="nav-item lang">
-                                    <a class="nav-link " href="<?=Yii::$app->homeUrl?>site/language?language=<?= $targt_lang ?>"><?= Yii::t('app',$targt_lang_n) ?></a>
+                                    <a class="nav-link "
+                                       href="<?= Yii::$app->homeUrl ?>site/language?language=<?= $targt_lang ?>"><?= Yii::t('app', $targt_lang_n) ?></a>
                                 </li>
                             </ul>
                         </div>
@@ -105,13 +112,14 @@ $action_id = Yii::$app->controller->action->id;
                     <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="logo-div">
                             <a href="JavaScript:;" class="menu-button">
-                                <img src="<?=Yii::$app->homeUrl?>images/icon-menu.png">
+                                <img src="<?= Yii::$app->homeUrl ?>images/icon-menu.png">
                             </a>
-                            <a href="#" class="m-logo"><img src="<?=Yii::$app->homeUrl?>images/logo-nafeza.png" ></a>
+                            <a href="#" class="m-logo"><img src="<?= Yii::$app->homeUrl ?>images/logo-nafeza.png"></a>
                             <ul class="nav">
                                 <li class="nav-item lang">
                                     <a class="nav-link" href="#">
-                                        <a class="nav-link " href="<?=Yii::$app->homeUrl?>site/language?language=<?= $targt_lang ?>"><?= Yii::t('app',$targt_lang_n) ?></a>
+                                        <a class="nav-link "
+                                           href="<?= Yii::$app->homeUrl ?>site/language?language=<?= $targt_lang ?>"><?= Yii::t('app', $targt_lang_n) ?></a>
                                     </a>
                                 </li>
                             </ul>
@@ -121,62 +129,64 @@ $action_id = Yii::$app->controller->action->id;
             </div>
         </div>
         <div class="">
-            <div class="mobile-menu-overlay" ></div>
-            <div class="menu-mobile scroll scroll-wight-sidemenu" >
-                <div class="show-menu-mobile" style="display:;" >
-                    <div class="header-menu-mobile" >
+            <div class="mobile-menu-overlay"></div>
+            <div class="menu-mobile scroll scroll-wight-sidemenu">
+                <div class="show-menu-mobile" style="display:;">
+                    <div class="header-menu-mobile">
                         <div class="logo-opacity-bg">
                             <i class="fas fa-times close-menu"></i>
-                            <img src="<?=Yii::$app->homeUrl?>images/logo-nafeza.png" class="logo">
+                            <img src="<?= Yii::$app->homeUrl ?>images/logo-nafeza.png" class="logo">
                         </div>
                         <ul class="nav nav-pills login-nav">
                             <li class="nav-item">
-                                <a class="nav-link" href="javascript:;"><?= $setting->email?></a>
+                                <a class="nav-link" href="javascript:;"><?= $setting->email ?></a>
                             </li>
                             <li class="nav-item mr-auto">
-                                <a class="nav-link" href="https://api.whatsapp.com/send?phone=+966<?= $setting->mobile?>;"><?= $setting->mobile?></a>
+                                <a class="nav-link"
+                                   href="https://api.whatsapp.com/send?phone=+966<?= $setting->mobile ?>;"><?= $setting->mobile ?></a>
                             </li>
                         </ul>
                     </div>
                     <div class="body-menu-mobile">
                         <div class="fixed-menu">
                             <ul class="list-group list-group-flush">
-                                <li class="list-group-item <?php if($current_page=='site' && $action_id=='index'){?> active<?php } ?>">
-                                    <a class="nav-link" href="<?=Yii::$app->homeUrl?>">
-                                        <span><?= yii::t('app','Home')?></span>
+                                <li class="list-group-item <?php if ($current_page == 'site' && $action_id == 'index') { ?> active<?php } ?>">
+                                    <a class="nav-link" href="<?= Yii::$app->homeUrl ?>">
+                                        <span><?= yii::t('app', 'Home') ?></span>
                                     </a>
                                 </li>
-                                <li class="list-group-item <?php if($current_page=='about' && $action_id=='index'){?> active<?php } ?>">
-                                    <a class="nav-link" href="<?=Yii::$app->homeUrl?>about">
-                                        <span><?= yii::t('app','know Us')?></span>
+                                <li class="list-group-item <?php if ($current_page == 'about' && $action_id == 'index') { ?> active<?php } ?>">
+                                    <a class="nav-link" href="<?= Yii::$app->homeUrl ?>about">
+                                        <span><?= yii::t('app', 'know Us') ?></span>
                                     </a>
                                 </li>
-                                <li class="list-group-item <?php if($current_page=='service' && $action_id=='index'){?> active<?php } ?>">
-                                    <a class="nav-link" href="<?=Yii::$app->homeUrl?>service">
-                                        <span><?= yii::t('app','Our Services')?></span>
+                                <li class="list-group-item <?php if ($current_page == 'service' && $action_id == 'index') { ?> active<?php } ?>">
+                                    <a class="nav-link" href="<?= Yii::$app->homeUrl ?>service">
+                                        <span><?= yii::t('app', 'Our Services') ?></span>
                                     </a>
                                 </li>
-                                <li class="list-group-item <?php if($current_page=='gallery' && $action_id=='index'){?> active<?php } ?>">
-                                    <a class="nav-link" href="<?=Yii::$app->homeUrl?>gallery">
-                                        <span><?= yii::t('app','Nafithh gallery')?></span>
+                                <li class="list-group-item <?php if ($current_page == 'gallery' && $action_id == 'index') { ?> active<?php } ?>">
+                                    <a class="nav-link" href="<?= Yii::$app->homeUrl ?>gallery">
+                                        <span><?= yii::t('app', 'Nafithh gallery') ?></span>
                                     </a>
                                 </li>
-                                 <li class="list-group-item <?php if($current_page=='plan'){?> active<?php } ?>">
-                                    <a class="nav-link" href="<?=Yii::$app->homeUrl?>plan">
-                                        <span><?= yii::t('app','Plans')?></span>
+                                <li class="list-group-item <?php if ($current_page == 'plan') { ?> active<?php } ?>">
+                                    <a class="nav-link" href="<?= Yii::$app->homeUrl ?>plan">
+                                        <span><?= yii::t('app', 'Plans') ?></span>
                                     </a>
                                 </li>
-                                <li class="list-group-item <?php if($current_page=='partner' && $action_id=='index'){?> active<?php } ?>">
-                                    <a class="nav-link" href="<?=Yii::$app->homeUrl?>partner">
-                                        <span><?= yii::t('app','Our partners')?></span>
+                                <li class="list-group-item <?php if ($current_page == 'partner' && $action_id == 'index') { ?> active<?php } ?>">
+                                    <a class="nav-link" href="<?= Yii::$app->homeUrl ?>partner">
+                                        <span><?= yii::t('app', 'Our partners') ?></span>
                                     </a>
                                 </li>
-                                <li class="nav-item  <?php if($current_page=='contact-us' && $action_id=='index'){?> active<?php } ?>">
-                                    <a class="nav-link" href="<?=Yii::$app->homeUrl?>contact-us"><?= yii::t('app','Contact Us')?></a>
+                                <li class="nav-item  <?php if ($current_page == 'contact-us' && $action_id == 'index') { ?> active<?php } ?>">
+                                    <a class="nav-link"
+                                       href="<?= Yii::$app->homeUrl ?>contact-us"><?= yii::t('app', 'Contact Us') ?></a>
                                 </li>
-                                <!-- <li class="list-group-item <?php if($current_page=='contact' && $action_id=='index'){?> active<?php } ?>">
-                                    <a class="nav-link" href="<?=Yii::$app->homeUrl?>subscribe">
-                                        <span><?= yii::t('app','Subscribe With Us')?></span>
+                                <!-- <li class="list-group-item <?php if ($current_page == 'contact' && $action_id == 'index') { ?> active<?php } ?>">
+                                    <a class="nav-link" href="<?= Yii::$app->homeUrl ?>subscribe">
+                                        <span><?= yii::t('app', 'Subscribe With Us') ?></span>
                                     </a>
                                 </li> -->
                             </ul>
@@ -189,18 +199,7 @@ $action_id = Yii::$app->controller->action->id;
     <!-- End Header -->
 
 
-
-
-
-
-
-
-
-
-
-
-
-<?php 
+<?php
 /*
 use common\components\GeneralHelpers;
 $banner = GeneralHelpers::getBannerAllPage();
@@ -394,4 +393,4 @@ use yii\helpers\Html;
         </nav>
     </div>
 </header>
-*/?>
+*/ ?>

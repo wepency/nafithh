@@ -135,7 +135,7 @@ class StatementController extends Controller
 
 
     public function actionIndex($owner_id)
-    {    
+    {
         $user = yii::$app->user->identity;
         $estate_office_id = \common\components\GeneralHelpers::getEstateOfficeId();
         $officeBuilding = EstateOfficeBuilding::find()->where(['estate_office_id' => $estate_office_id,'owner_id'=>$owner_id,'is_active'=>1])->all();
@@ -157,7 +157,6 @@ class StatementController extends Controller
         ->joinWith(['contract','contract.installments'])
         ->andOnCondition(['IN','installment.payment_status_owner', [Installment::STATUS_UNPAID,Installment::STATUS_PART_PAID]])
         ->andOnCondition($andWhere)->all();
-
 
         $searchModel = new StatementSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams,$owner_id,$estate_office_id);

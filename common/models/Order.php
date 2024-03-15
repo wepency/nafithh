@@ -94,7 +94,7 @@ class Order extends \yii\db\ActiveRecord
             [['content'], 'string'],
             [['detail_field'], 'safe'],
             [['created_date'], 'safe'],
-            [['email'], 'email'],   
+            [['email'], 'email'],
             [['plan_id', 'status', 'response_by', 'payment_status', 'company_type'], 'integer'],
             [['payment_status'],'default','value'=>Installment::STATUS_UNPAID],
             [['name', 'email', 'company_name'], 'string', 'max' => 100],

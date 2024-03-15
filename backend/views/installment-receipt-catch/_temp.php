@@ -39,12 +39,14 @@ $estateOffice = $installment->contract->estateOffice;
                                     <span><?=$estateOffice->mobile?></span>
                                 </div>
                             </div>
+                            <?php if (!is_null($estateOffice?->city)): ?>
                             <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                                 <div class="form-group">
                                     <label><?=Yii::t('app', 'Office Address')?></label>
-                                    <span><?=$estateOffice->city->_name.' - '.$estateOffice->district->_name?></span>
+                                    <span><?=$estateOffice?->city?->_name.' - '.$estateOffice?->district?->_name?></span>
                                 </div>
                             </div>
+                            <?php endif; ?>
                         </div>
                     </div>
                     <div class="block-title clearfix">

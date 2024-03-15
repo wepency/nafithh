@@ -174,7 +174,6 @@ class User extends ActiveRecord implements IdentityInterface
             'agree_term' => Yii::t('app', 'Agree Terms and conditions'),
             'identity_type_id' => Yii::t('app', 'Identity Type'),
             'identity_id' => Yii::t('app', 'Identity Id'),
-
         ];
     }
 
@@ -524,6 +523,12 @@ class User extends ActiveRecord implements IdentityInterface
     public function getUserEstateOffice()
     {
         return $this->hasOne(UserEstateOffice::class, ['user_id' => 'id']);
+    }
+
+    public function getEstateOffice()
+    {
+        return $this->hasOne(EstateOffice::class, ['id' => 'estate_office_id'])
+            ->viaTable('user_estate_office', ['user_id' => 'id']);
     }
 
     public function getUserMaintenanceOffice()

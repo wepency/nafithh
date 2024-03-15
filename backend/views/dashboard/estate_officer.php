@@ -47,7 +47,7 @@ extract($option);
 </div>
 <div class="row">
 	<div class="col-md-6">
-		<div class="col-md-6">
+		<div class="col-md-6" style="padding-right: 0">
 			<?php echo Chart::card([
 				'content' => $InstaEnd,
 				'label' => yii::t('app','Number').' '.yii::t('app',"Installements").' '.yii::t('app',"the belated"),

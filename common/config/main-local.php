@@ -7,6 +7,9 @@ return [
             'dsn' => 'mysql:host=localhost;dbname=nafit',
             'username' => 'root',
             'password' => '',
+//            'dsn' => 'mysql:host=localhost;dbname=nafit_aqar',
+//            'username' => 'nafit_aqar',
+//            'password' => 'gk3K5pGcXqbcfxy4H0',
             'charset' => 'utf8',
             'on afterOpen' => function($event) { 
                 // set 'Asia/Bangkok' timezone
@@ -14,12 +17,27 @@ return [
             },
         ],
         'mailer' => [
-           'class' => 'yii\swiftmailer\Mailer',
-            'viewPath' => '@common/mail',
-            // send all mails to a file by default. You have to set
-            // 'useFileTransport' to false and configure a transport
-            // for the mailer to send real emails.
+            'class' => \yii\symfonymailer\Mailer::class,
+            'viewPath' => '@app/mail',
+            // send all mails to a file by default.
             'useFileTransport' => true,
+            'transport' => [
+                'scheme' => 'smtps',
+                'dsn' => 'native://default',
+                'class' => 'Symfony\Component\Mailer\Bridge\Smtp\Transport',
+                'host' => 'mail.s1323.sureserver.com',
+                'port' => 465,
+                'encryption' => 'ssl',
+                'username' => 'no-reply@nafithh.sa',
+                'password' => 'tvR;=SPuYC--3oWq',
+                'streamOptions' => [
+                    'ssl' => [
+                        'allow_self_signed' => true,
+                        'verify_peer' => false,
+                        'verify_peer_name' => false,
+                    ],
+                ],
+            ],
         ],
     ],
 ];

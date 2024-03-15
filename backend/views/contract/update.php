@@ -42,7 +42,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 
 					<label for='' class='col-sm-2 control-label'><?=Yii::t('app', 'Contract Form')?></label>
 					<div class='col-sm-4'>
-					    <label class='label-data'><?= $model->contractForm->_name ?></label>
+					    <label class='label-data'><?= $model->contractForm?->_name ?></label>
 					</div>
 
 					<label for='' class='col-sm-2 control-label'><?=Yii::t('app', 'Number Installments')?></label>
@@ -125,7 +125,8 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 					                    'showUpload' => false,
 					                    'showRemove' => true,
 					                    'initialPreviewDownloadUrl'=>true,
-					                    'initialPreviewConfig' => [array('type' => pathinfo($model->file, PATHINFO_EXTENSION),'downloadUrl' => $model->file)],
+//					                    'initialPreviewConfig' => [array('type' => pathinfo($model->file, PATHINFO_EXTENSION),'downloadUrl' => $model->file)],
+					                    'initialPreviewConfig' => [array('type' => 'pdf','downloadUrl' => $model?->file)],
 					                    'initialPreview'=> !empty($model->file) ? $model->file : '',
 					                    'initialPreviewAsData'=>true,
 					                    'deleteUrl' => Url::to(['contract/delete-file', 'id' => $model->id, 'attribute' => 'file']),

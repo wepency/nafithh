@@ -1,0 +1,4 @@
+RewriteEngine On
+
+# Rewrite requests to /nafath/callback to your PHP script
+RewriteRule ^nafath/callback$ callback.php [L]

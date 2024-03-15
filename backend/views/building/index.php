@@ -148,11 +148,63 @@ $this->params['breadcrumbs'][] = $this->title;
                         return Yii::$app->params['statusCase'][Yii::$app->language][$model->ad_status];
                     }
                 ],
+//                [
+//                    'label' => Yii::t('app', 'for sale - for renting - for investing'),
+//                    'attribute' => 'for_rent',
+//                    'filter' => Yii::$app->params['adsubtype'][Yii::$app->language],
+//                    'value' => function ($model) {
+//                        return Yii::$app->params['adsubtype'][Yii::$app->language][$model->ad_subtype];
+//                    }
+//                ],
                 [
-                    'attribute' => 'ad_subtype',
+                    'label' => Yii::t('app', 'for sale - for renting - for investing'),
+                    'attribute' => 'for_rent',
                     'filter' => Yii::$app->params['adsubtype'][Yii::$app->language],
+                    'format' => 'html',
                     'value' => function ($model) {
-                        return Yii::$app->params['adsubtype'][Yii::$app->language][$model->ad_subtype];
+                        $out = '<div style="text-align:center">';
+
+                        if ($model->for_rent) {
+                            $out .= "<p>للإيجار</p>";
+                        }
+
+                        if ($model->for_sale) {
+                            $out .= "<p>للبيع</p>";
+                        }
+
+                        if ($model->for_invest) {
+                            $out .= "<p>للاستثمار</p>";
+                        }
+
+                        $out .= "</div>";
+
+                        return $out;
+                    }
+                ],
+                [
+                    'label' => Yii::t('app', 'Price'),
+                    'format' => 'html', // Set the format to 'html'
+                    'attribute' => 'rent_price',
+                    'filter' => true,
+                    'headerOptions' => ['style' => 'min-width:120px'],
+                    'value' => function ($model) {
+                        $out = '<div style="text-align:center">';
+
+                        if ($model->for_rent) {
+                            $out .= "<p>$model->rent_price</p>";
+                        }
+
+                        if ($model->for_sale) {
+                            $out .= "<p>$model->sale_price</p>";
+                        }
+
+                        if ($model->for_invest) {
+                            $out .= "<p>$model->invest_price</p>";
+                        }
+
+                        $out .= "</div>";
+
+                        return $out;
                     }
                 ],
                 [

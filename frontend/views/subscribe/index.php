@@ -52,7 +52,6 @@ use yii\bootstrap\ActiveForm;
                                     <div class="form-group">
                                          <label><?= yii::t('app','Mobile') ?></label>
                                         <?= $form->field($model, 'mobile')->textInput(['placeholder' => yii::t('app','Mobile')])->label(false) ?>
-                      
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-12">
@@ -69,7 +68,7 @@ use yii\bootstrap\ActiveForm;
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                                     <div class="form-group">
                                         <label><?= yii::t('app','Company Name') ?></label>
-                                          <?= $form->field($model, 'compony_name')->textInput(['placeholder' => yii::t('app','Compony Name')])->label(false) ?>
+                                          <?= $form->field($model, 'company_name')->textInput(['placeholder' => yii::t('app','Company Name')])->label(false) ?>
                       
                                     </div>
                                 </div>

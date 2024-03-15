@@ -254,6 +254,9 @@ $(document).ready(function(){
 
 
     // });
-     
+
+    // $('.btn-submit').on('click', function (){
+    //     $(this).attr('disabled', true)
+    // })
 });
 

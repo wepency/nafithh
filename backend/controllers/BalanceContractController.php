@@ -74,6 +74,7 @@ class BalanceContractController extends Controller
 			GeneralHelpers::balanceChange($model,'add',true);
 			
             return $this->redirect(['view', 'id' => $model->id]);
+
         } else {
             return $this->render('create', [
                 'model' => $model,

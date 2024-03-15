@@ -86,7 +86,7 @@ class InstallmentReceiptCatchController extends Controller
         }elseIf(yii::$app->user->identity->role == 'renter' &&  $estatOffice->enable_installment_deposit_bank == 0){
             $messageError = yii::t('app',"The Current Estate Office don't have Any payemnt methode!");
         }else{
-            
+
         }
 
         if($messageError){
@@ -104,25 +104,26 @@ class InstallmentReceiptCatchController extends Controller
                 $model->payment_status = Installment::STATUS_UNPAID;
                 $model->save(false);
                 GeneralHelpers::setImages($model);
-                $model->trigger(InstallmentReceiptCatch::EVENT_PAID); 
+                // $model->trigger(InstallmentReceiptCatch::EVENT_PAID);
                 return $this->redirect(['index']);
             }
 
             $installment->amount_paid +=  $model->amount_paid;
-            $installment->amount_remaining = $installment->amount - $installment->amount_paid; 
+            $installment->amount_remaining = $installment->amount - $installment->amount_paid;
             $model->amount_remaining = $installment->amount_remaining;
 
             //تغيير حالة الدفع بحسب مبلغ الدفع
             if($model->amount_remaining == 0 && $installment->amount_paid >=  $installment->amount){
                 $installment->payment_status = $model->payment_status = Installment::STATUS_PAID;
+
                 $installment->trigger(Installment::EVENT_STATEMENT);
-                
+
             }else{
                 $installment->payment_status = $model->payment_status = Installment::STATUS_PART_PAID;
             }
             $model->user_receive_id = Yii::$app->user->identity->id;
             $model->save();
-            $model->trigger(InstallmentReceiptCatch::EVENT_PAID); 
+            // $model->trigger(InstallmentReceiptCatch::EVENT_PAID);
             $installment->save();
             GeneralHelpers::setImages($model);
 
@@ -152,12 +153,12 @@ class InstallmentReceiptCatchController extends Controller
             Yii::$app->session->setFlash('danger',yii::t('app',"This Receipt Catch is Cancelled"));
             return $this->redirect(Yii::$app->request->referrer);
         }
-        
+
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             $installment = $model->installment;
 
             $installment->amount_paid +=  $model->amount_paid;
-            $installment->amount_remaining = $installment->amount - $installment->amount_paid; 
+            $installment->amount_remaining = $installment->amount - $installment->amount_paid;
             $model->amount_remaining = $installment->amount_remaining;
 
             //تغيير حالة الدفع بحسب مبلغ الدفع
@@ -168,7 +169,7 @@ class InstallmentReceiptCatchController extends Controller
             }
             $model->user_receive_id = Yii::$app->user->identity->id;
             $model->save();
-            $model->trigger(InstallmentReceiptCatch::EVENT_PAID); 
+            // $model->trigger(InstallmentReceiptCatch::EVENT_PAID);
             $installment->save();
             GeneralHelpers::setImages($model);
 
@@ -200,7 +201,7 @@ class InstallmentReceiptCatchController extends Controller
             Yii::$app->session->setFlash('danger',yii::t('app',"This Receipt Catch is Cancelled"));
             return $this->redirect(Yii::$app->request->referrer);
         }
-        $model->payment_status = Installment::STATUS_CANCEL; 
+        $model->payment_status = Installment::STATUS_CANCEL;
         $model->save();
 
         $installment = $model->installment;
@@ -211,13 +212,13 @@ class InstallmentReceiptCatchController extends Controller
             $installment->payment_status = Installment::STATUS_UNPAID;
         }else{
             $installment->payment_status = Installment::STATUS_PART_PAID;
-        } 
+        }
 
         $installment->save();
         Yii::$app->session->setFlash('success',Yii::t('app','The Receipt Catch has been successfully cancelled'));
         return $this->redirect(Yii::$app->request->referrer);
     }
-     
+
     /**
      * Deletes an existing InstallmentReceiptCatch model.
      * If deletion is successful, the browser will be redirected to the 'index' page.

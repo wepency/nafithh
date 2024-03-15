@@ -600,7 +600,7 @@ a:hover h5{
     margin-bottom: 20px;
 }
 .building-info .media-body {
-    background: #f7f7f7;
+    /*background: #f7f7f7;*/
     height: 100%;
     padding: 10px 15px;
     align-items: center;

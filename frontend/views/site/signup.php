@@ -139,31 +139,31 @@ use kartik\select2\Select2;
                       
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-12" style="overflow: hidden">
-                                    <div class="form-group mb-25">
-                                        <label><?=Yii::t('app','Attach Documents');?></label>
-                                        <div class="input-group " id="addFile" onclick="document.getElementById('signupform-imagefiles').click()">
-                                            <input type="text"  class="inputfile bg-white form-control" placeholder="<?=Yii::t('app','Attach Documents')?>" readonly />
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text">
-                                                    <i class="fas fa-cloud-upload-alt"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <span id="fp"></span>
-
-                                        <?= $form->field($model, 'imageFiles[]')->fileInput(['multiple' => true,'class' => 'position-absolute','style' => "right: -90px;bottom:-50px",
-                                            'onchange'=>'
-                                            fi = event.target;
-                                            if (fi.files.length > 0) {
-                                                // THE TOTAL FILE COUNT.
-                                                document.getElementById("fp").innerHTML =
-                                                    "Total Files: <b>" + fi.files.length + "</b></br >";
-                                            }
-                                            '
-                                        ])->label(false); ?>
-                                    </div>
-                                </div>
+<!--                                <div class="col-md-6 col-12" style="overflow: hidden">-->
+<!--                                    <div class="form-group mb-25">-->
+<!--                                        <label>--><?php //=Yii::t('app','Attach Documents');?><!--</label>-->
+<!--                                        <div class="input-group " id="addFile" onclick="document.getElementById('signupform-imagefiles').click()">-->
+<!--                                            <input type="text"  class="inputfile bg-white form-control" placeholder="--><?php //=Yii::t('app','Attach Documents')?><!--" readonly />-->
+<!--                                            <div class="input-group-prepend">-->
+<!--                                                <div class="input-group-text">-->
+<!--                                                    <i class="fas fa-cloud-upload-alt"></i>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                        <span id="fp"></span>-->
+<!---->
+<!--                                        --><?php //= $form->field($model, 'imageFiles[]')->fileInput(['multiple' => true,'class' => 'position-absolute','style' => "right: -90px;bottom:-50px",
+//                                            'onchange'=>'
+//                                            fi = event.target;
+//                                            if (fi.files.length > 0) {
+//                                                // THE TOTAL FILE COUNT.
+//                                                document.getElementById("fp").innerHTML =
+//                                                    "Total Files: <b>" + fi.files.length + "</b></br >";
+//                                            }
+//                                            '
+//                                        ])->label(false); ?>
+<!--                                    </div>-->
+<!--                                </div>-->
                             </div>
                             <div class="row mt-4">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-12 text-center">

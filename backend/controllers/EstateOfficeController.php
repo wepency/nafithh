@@ -31,6 +31,7 @@ class EstateOfficeController extends Controller
                 'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
+                    'force-delete' => ['POST'],
                 ],
             ],
         ];
@@ -214,8 +215,15 @@ class EstateOfficeController extends Controller
      */
     public function actionDelete($id)
     {
+//        return $id;
         $this->findModel($id)->delete();
         return $this->redirect(['index']);
+    }
+
+    public function actionForceDelete()
+    {
+        $id = Yii::$app->request->post('id');
+        return $this->asJson(['success' => $this->findModel($id)->terminateOfficeAccount()]);
     }
 
 

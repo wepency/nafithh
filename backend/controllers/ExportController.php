@@ -16,12 +16,12 @@ class ExportController extends Controller
 
 
     private $PlanWidget;
-    private $html;
+    public $html;
 
     public function actionDownload($destination = Pdf::DEST_BROWSER)
     {
-
         $currentUser = \common\models\Chat::getInfoUser();
+
         if ($currentUser['userType'] == 'estate_officer') {
             $office = EstateOffice::findOne($currentUser['userId']);
             $this->setContent($office);
@@ -100,7 +100,6 @@ class ExportController extends Controller
         // print_r($pdf->getApi()->fontdata); die();
 
         return $pdf->render();
-
     }
 
     public function setContent($office)

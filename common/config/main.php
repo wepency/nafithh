@@ -18,7 +18,6 @@ return [
             'uploadDir' => '@upload/redactor',
             'uploadUrl' => '@web/../uploads/redactor',
             'imageAllowExtensions'=>['jpg','png','gif']
-           
         ],
     ],
     'aliases' => [
@@ -53,7 +52,7 @@ return [
                     '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
                     '<controller:[\w\-]+>/<id:\d+>' => '<controller>/view',
                     '<controller:[\w\-]+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
-                    '<controller:[\w\-]+>/<action:\w+>' => '<controller>/<action>',
+                    '<controller:[\w\-]+>/<action:\w+>' => '<controller>/<action>'
             ),
         ],
         'sendGrid' => [
@@ -89,26 +88,47 @@ return [
             'class' => 'yii\rbac\DbManager', // or use 'yii\rbac\PhpManager'
             'defaultRoles' => ['developer','admin','admin_user','estate_officer','estate_officer_user','owner','maintenance_officer','maintenance_officer_user','renter','owner_estate_officer'],
         ],
+
+        // Production paths
+
         'uploadUrl' => [
             'class' => 'yii\web\UrlManager',
-            'baseUrl' => 'https://nafithh.com/uploads/',
+            'baseUrl' => 'https://nafithh.sa/web/uploads/',
             'enablePrettyUrl' => true,
             'showScriptName' => false,
         ],
         'assetsUrl' => [
             'class' => 'yii\web\UrlManager',
-            'baseUrl' => 'https://nafithh.com/frontend/assets/image/',
+            'baseUrl' => 'https://nafithh.sa/web/frontend/assets/image/',
             'enablePrettyUrl' => true,
             'showScriptName' => false,
         ],
         'BaseUrl' => [
             'class' => 'yii\web\UrlManager',
-            'baseUrl' => 'https://nafithh.com/',
+            'baseUrl' => 'https://nafithh.sa/web',
             'enablePrettyUrl' => true,
             'showScriptName' => false,
         ],
 
+        // Localhost paths
+
+//        'uploadUrl' => [
+//            'class' => 'yii\web\UrlManager',
+//            'baseUrl' => 'http://localhost:8080/uploads/',
+//            'enablePrettyUrl' => true,
+//            'showScriptName' => false,
+//        ],
+//        'assetsUrl' => [
+//            'class' => 'yii\web\UrlManager',
+//            'baseUrl' => 'http://localhost:8080/frontend/assets/image/',
+//            'enablePrettyUrl' => true,
+//            'showScriptName' => false,
+//        ],
+//        'BaseUrl' => [
+//            'class' => 'yii\web\UrlManager',
+//            'baseUrl' => 'http://localhost:8080',
+//            'enablePrettyUrl' => true,
+//            'showScriptName' => false,
+//        ],
     ],
-    
-    
 ];

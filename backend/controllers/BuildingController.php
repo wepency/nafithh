@@ -2,19 +2,19 @@
 
 namespace backend\controllers;
 
-use Yii;
+use common\components\GeneralHelpers;
 use common\models\Building;
-use common\models\BuildingSearch;
 use common\models\BuildingHousingUnit;
+use common\models\BuildingSearch;
 use common\models\EstateOfficeBuilding;
 use common\models\EstateOfficeOwner;
+use common\models\Model;
+use Yii;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
-use common\models\Model;
-use common\components\GeneralHelpers;
-use yii\filters\AccessControl;
 
 
 /**
@@ -22,6 +22,7 @@ use yii\filters\AccessControl;
  */
 class BuildingController extends Controller
 {
+
     /**
      * @inheritdoc
      */
@@ -33,12 +34,17 @@ class BuildingController extends Controller
                 'only' => ['view', 'update', 'create'],
                 'rules' => [
                     [
-                        'actions' => ['view','update', 'create'],
+                        'actions' => ['view', 'update'],
                         'allow' => true,
-                        'roles' => ['owner','estate_officer','estate_officer_user','admin','admin_user','owner_estate_officer'],
+                        'roles' => ['owner', 'estate_officer', 'estate_officer_user', 'admin', 'admin_user', 'owner_estate_officer'],
                         'roleParams' => function ($rule) {
-                                return ['building' => $this->findModel(Yii::$app->request->get('id'))];
+                            return ['building' => $this->findModel(Yii::$app->request->get('id'))];
                         },
+                    ],
+                    [
+                        'actions' => ['create'],
+                        'allow' => true,
+                        'roles' => ['owner', 'estate_officer', 'estate_officer_user', 'admin', 'admin_user', 'owner_estate_officer'],
                     ],
                 ],
             ],
@@ -46,6 +52,7 @@ class BuildingController extends Controller
                 'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
+                    'create' => ['GET', 'POST']
                 ],
             ],
         ];
@@ -73,19 +80,17 @@ class BuildingController extends Controller
      */
     public function actionView($id)
     {
-      
-        
-      
-        
+
+
         // $query = Building::find()->where(['id'=>$id])->orderby('id DESC');
-      
+
         // $customer = Building::find()->where(['id' => $id])->one();
-      
+
         // $offertype   = $customer->offertype;
         // $offerprice  = $customer->offerprice;
-        
+
         // //print_r($customer);
-      
+
         // $customer = Building::findOne($id);
         // if($offertype == 1)
         // {
@@ -93,7 +98,7 @@ class BuildingController extends Controller
         //   $customer->rent_price = '0';
         //   $customer->for_sale = '1';
         //   $customer->sale_price = $offerprice;
-          
+
         //   $customer->save();
         // }
         // else
@@ -102,7 +107,7 @@ class BuildingController extends Controller
         //   $customer->for_sale = '0'; 
         //   $customer->sale_price = '0';
         //   $customer->rent_price = $offerprice;
-          
+
         //   $customer->save(); 
         // }
         return $this->render('view', [
@@ -117,10 +122,11 @@ class BuildingController extends Controller
      */
     public function actionCreate($owner_id = null)
     {
+
         $modelsHousings = [new BuildingHousingUnit];
         $arrImages2 = [];
-        $model = new Building();
-         // $model->scenario = 'create';
+        $model = new Building;
+        // $model->scenario = 'create';
 
         $model->owner_id = $owner_id;
         if ($model->load(Yii::$app->request->post())) {
@@ -130,20 +136,19 @@ class BuildingController extends Controller
             Model::loadMultiple($modelsHousings, Yii::$app->request->post());
             $valid = Model::validateMultiple($modelsHousings) && $valid;
 
-            
-          
             if ($valid) {
+
                 $model->save();
 
                 $estate_office_id = \common\components\GeneralHelpers::getEstateOfficeId();
-                
+
                 $estate_office_owner = new EstateOfficeOwner();
                 $estate_office_owner->owner_id = $model->owner_id;
                 $estate_office_owner->estate_office_id = $estate_office_id;
                 $estate_office_owner->save();
 
                 $estate_building = new EstateOfficeBuilding();
-            
+
                 $estate_building->building_id = $model->id;
                 $estate_building->owner_id = $model->owner_id;
                 $estate_building->estate_office_id = $estate_office_id;
@@ -151,51 +156,54 @@ class BuildingController extends Controller
                 $estate_building->receive_date = $model->receive_date;
                 $estate_building->expire_date = $model->expire_date;
                 $estate_building->is_active = 1;
-              
-                
-               
-                
-                $estate_building->save();
-				GeneralHelpers::setImagesWithWatemark($model);
-                
-                $model->trigger(Building::EVENT_NEW); 
-                $transaction = \Yii::$app->db->beginTransaction();
-                    try {
-                        if ($flag = ($model->id!=NULL) ) {
-                            foreach ($modelsHousings as $modelHousing) 
-                            {
-                                $modelHousing->building_id = $model->id;
-                                if (! ($flag = $modelHousing->save(false))) {
-                                    $transaction->rollBack();
-                                    break;
-                                }
-                                $modelHousing->trigger(BuildingHousingUnit::EVENT_NEW); 
 
+                $estate_building->save();
+                GeneralHelpers::setImagesWithWatemark($model);
+
+                $model->trigger(Building::EVENT_NEW);
+                $transaction = \Yii::$app->db->beginTransaction();
+                try {
+                    if ($flag = ($model->id != NULL)) {
+                        foreach ($modelsHousings as $modelHousing) {
+                            $modelHousing->building_id = $model->id;
+
+                            if (!($flag = $modelHousing->save(false))) {
+                                $transaction->rollBack();
+                                break;
                             }
+
+                            $modelHousing->trigger(BuildingHousingUnit::EVENT_NEW);
                         }
-                        if ($flag) {
-                            $transaction->commit();
-                        }
-                    } catch (Exception $e) {
-                        $transaction->rollBack();
                     }
 
-            }else{
+                    if ($flag) {
+                        $transaction->commit();
+                    }
+
+                } catch (\Exception $e) {
+                    $transaction->rollBack();
+                }
+
+            } else {
+
                 return $this->render('create', [
                     'model' => $model,
                     'arrImages2' => $arrImages2,
                     'modelsHousings' => (empty($modelsHousings)) ? [new BuildingHousingUnit] : $modelsHousings,
                 ]);
+
             }
-			
-			
+
             return $this->redirect(['view', 'id' => $model->id]);
+
         } else {
+
             return $this->render('create', [
                 'model' => $model,
                 'arrImages2' => $arrImages2,
                 'modelsHousings' => (empty($modelsHousings)) ? [new BuildingHousingUnit] : $modelsHousings,
             ]);
+
         }
     }
 
@@ -208,10 +216,11 @@ class BuildingController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-		$arrImages2 = GeneralHelpers::updateImages($model);
-        $modelsHousings = BuildingHousingUnit::find()->where(['building_id'=>$model->id])->all();
+        $arrImages2 = GeneralHelpers::updateImages($model);
 
-        if ($model->load(Yii::$app->request->post()) ) {
+        $modelsHousings = BuildingHousingUnit::find()->where(['building_id' => $model->id])->all();
+
+        if ($model->load(Yii::$app->request->post())) {
             $valid = $model->validate();
 
             /**************** PollAnswer *********************/
@@ -222,50 +231,50 @@ class BuildingController extends Controller
             $valid = Model::validateMultiple($modelsHousings) && $valid;
 
             if ($valid) {
-                $model->trigger(Building::EVENT_VIEW_RENTER_PAY); 
+                $model->trigger(Building::EVENT_VIEW_RENTER_PAY);
                 $model->save();
-                
+
                 GeneralHelpers::setImagesWithWatemark($model);
                 $estate_office_id = \common\components\GeneralHelpers::getEstateOfficeId();
-                $estate_building = EstateOfficeBuilding::find()->where(['estate_office_id'=>$estate_office_id,'building_id'=>$model->id,'is_active'=>1])->one();
-                if ($estate_building!==null){
+                $estate_building = EstateOfficeBuilding::find()->where(['estate_office_id' => $estate_office_id, 'building_id' => $model->id, 'is_active' => 1])->one();
+                if ($estate_building !== null) {
                     $estate_building->receive_date = $model->receive_date;
                     $estate_building->expire_date = $model->expire_date;
                     $estate_building->save();
                 }
 
                 $transaction = \Yii::$app->db->beginTransaction();
-                    try {
-                        if ($flag = ($model->id!=NULL)) {
-                            if (! empty($deletedIDsUpsell)) {
-                                BuildingHousingUnit::deleteAll(['id' => $deletedIDsUpsell]);
-                              }
-                            foreach ($modelsHousings as $modelHousing) 
-                            {
-                                $modelHousing->building_id = $model->id;
-                                if (! ($flag = $modelHousing->save(false))) {
-                                    $transaction->rollBack();
-                                    break;
-                                }
+                try {
+                    if ($flag = ($model->id != NULL)) {
+                        if (!empty($deletedIDsUpsell)) {
+                            BuildingHousingUnit::deleteAll(['id' => $deletedIDsUpsell]);
+                        }
+                        foreach ($modelsHousings as $modelHousing) {
+                            $modelHousing->building_id = $model->id;
+                            if (!($flag = $modelHousing->save(false))) {
+                                $transaction->rollBack();
+                                break;
                             }
                         }
-                        if ($flag) {
-                            $transaction->commit();
-                        }
-                    } catch (Exception $e) {
-                        $transaction->rollBack();
                     }
+                    if ($flag) {
+                        $transaction->commit();
+                    }
+                } catch (Exception $e) {
+                    $transaction->rollBack();
+                }
                 return $this->redirect(['view', 'id' => $model->id]);
             }
-        
-        }
-            return $this->render('update', [
-                'model' => $model,
-                'arrImages2' => $arrImages2,
-                'modelsHousings' => (empty($modelsHousings)) ? [new BuildingHousingUnit] : $modelsHousings,
 
-            ]);
+        }
+        return $this->render('update', [
+            'model' => $model,
+            'arrImages2' => $arrImages2,
+            'modelsHousings' => (empty($modelsHousings)) ? [new BuildingHousingUnit] : $modelsHousings,
+
+        ]);
     }
+
     /**
      * Deletes an existing Building model.
      * If deletion is successful, the browser will be redirected to the 'index' page.

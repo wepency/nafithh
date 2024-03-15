@@ -44,12 +44,12 @@ CrudAsset::register($this);
                             ]); ?> 
                                 <div class="form-group">
                                     <label><?= yii::t('app','User Name')?></label>
-                                    <?= $form->field($model, 'username')->textInput(['autofocus' => true,'placeholder'=>Yii::t('app','User Name'),'class'=>'form-control'])->label(false) ?>
+                                    <?= $form->field($model, 'username')->textInput(['placeholder'=>Yii::t('app','User Name'),'class'=>'form-control'])->label(false) ?>
 
                                 </div>
                                 <div class="form-group">
                                     <label><?= yii::t('app','Passward')?></label>
-                                    <?= $form->field($model, 'password')->textInput(['autofocus' => true,'class'=>'form-control'])->label(false)->passwordInput() ?>
+                                    <?= $form->field($model, 'password')->textInput(['class'=>'form-control'])->label(false)->passwordInput() ?>
                                 </div>
                                 <div class="row mb-25">
                                     <div class="col-lg-6 col-md-6 col-sm-12 col-12">

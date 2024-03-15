@@ -258,8 +258,8 @@ class Building extends \yii\db\ActiveRecord
 		return [
 
 
-			[['advertiser_license_number', 'owner_id', 'building_name', 'building_type_id', 'floors', 'housing_units', 'city_id', 'district_id' /*, 'lang', 'lat', 'building_age'*/, 'neighborhood_name', 'advertiser_name', 'advertiser_mobile', 'limit_property', 'document_rights', 'information_affects', 'ad_description', 'ad_publish_date', 'ad_expire_date', 'advertiser_side', 'advertiser_adjective', 'advertiser_email', 'ad_type', 'ad_subtype', 'ad_status', 'street_name', 'real_estate_interface', 'room_type', 'using_for','width','length', 'street_view','agreeterms','authorization_number', 'space'], 'required'],
-
+//			[['advertiser_license_number', 'owner_id', 'building_name', 'building_type_id', 'floors', 'housing_units', 'city_id', 'district_id' /*, 'lang', 'lat', 'building_age'*/, 'neighborhood_name', 'advertiser_name', 'advertiser_mobile', 'limit_property', 'document_rights', 'information_affects', 'ad_description', 'ad_publish_date', 'ad_expire_date', 'advertiser_side', 'advertiser_adjective', 'advertiser_email', 'ad_type', 'ad_subtype', 'ad_status', 'street_name', 'real_estate_interface', 'room_type', 'using_for','width','length', 'street_view','agreeterms','authorization_number', 'space'], 'required'],
+			[['owner_id', 'building_name', 'city_id', 'district_id',  /* 'floors', 'housing_units', 'limit_property', 'document_rights', 'information_affects','real_estate_interface', */'agreeterms'], 'required'],
 
             //[['advertiser_license_number', 'owner_id', 'instrument_number', 'building_name', 'building_type_id', 'floors', 'housing_units', 'city_id', 'district_id' /*, 'lang', 'lat'*/, 'building_age', 'neighborhood_name', 'advertiser_name', 'advertiser_mobile',  'ad_description', 'ad_publish_date', 'ad_expire_date', 'advertiser_side', 'advertiser_adjective', 'advertiser_email', 'ad_type', 'ad_subtype', 'ad_status', 'real_estate_interface', 'room_type', 'using_for',   'agreeterms'], 'required'],
 
@@ -293,19 +293,19 @@ class Building extends \yii\db\ActiveRecord
                 return $('#'+id)[0].checked == true ;
             }"],
 
-			['limit_property_yes', 'required', 'when' => function ($model) {
-				return $model->limit_property == '1';
-			}, 'whenClient' => "function (attribute, value) {
+//			['limit_property_yes', 'required', 'when' => function ($model) {
+//				return $model->limit_property == '1';
+//			}, 'whenClient' => "function (attribute, value) {
+//
+//                return $('#building-limit_property input[type=\'radio\']:checked').val() == '1';
+//            }",],
 
-                return $('#building-limit_property input[type=\'radio\']:checked').val() == '1';
-            }",],
-
-			['document_rights_yes', 'required', 'when' => function ($model) {
-				return $model->document_rights == '1';
-			}, 'whenClient' => "function (attribute, value) {
-
-                return $('#building-document_rights input[type=\'radio\']:checked').val() == '1';
-            }",],
+//			['document_rights_yes', 'required', 'when' => function ($model) {
+//				return $model->document_rights == '1';
+//			}, 'whenClient' => "function (attribute, value) {
+//
+//                return $('#building-document_rights input[type=\'radio\']:checked').val() == '1';
+//            }",],
 
 			['information_affects_yes', 'required', 'when' => function ($model) {
 				return $model->information_affects == '1';
@@ -589,7 +589,7 @@ class Building extends \yii\db\ActiveRecord
 						'owner_name' => $this->owner->name,
 						'status_view' => $status,
 					];
-					\common\components\GeneralHelpers::sendNotif(self::NOTIF_TEMP_VIEW_RENTER_PAY_ESTATE, $params, $this->estateContract->estateOffice->id);
+//					\common\components\GeneralHelpers::sendNotif(self::NOTIF_TEMP_VIEW_RENTER_PAY_ESTATE, $params, $this->estateContract->estateOffice->id);
 
 					$params = [
 						're_id' => $this->owner->id,
@@ -607,7 +607,7 @@ class Building extends \yii\db\ActiveRecord
 						'url' => $link,
 					];
 
-					\common\components\GeneralHelpers::sendNotif(self::NOTIF_TEMP_VIEW_RENTER_PAY_OWNERS, $params, $this->estateContract->estateOffice->id);
+//					\common\components\GeneralHelpers::sendNotif(self::NOTIF_TEMP_VIEW_RENTER_PAY_OWNERS, $params, $this->estateContract->estateOffice->id);
 				};
 			};
 		}

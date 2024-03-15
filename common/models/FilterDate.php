@@ -38,7 +38,10 @@ trait FilterDate
     public function filterByDate(&$query,$filed = 'created_at')
     {
         $className = @array_keys(yii::$app->request->get())[0];
-        if(!class_exists($className)){
+
+//        if(!class_exists($className)){
+        if(!is_object($className) && $className !== null
+            && class_exists($className)){
             $className = $this->formName();
         }
         

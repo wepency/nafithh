@@ -31,6 +31,23 @@ $config = [
             'viewPath' => '@app/mail',
             // send all mails to a file by default.
             'useFileTransport' => true,
+            'transport' => [
+                'scheme' => 'smtps',
+                'dsn' => 'native://default',
+                'class' => 'Symfony\Component\Mailer\Bridge\Smtp\Transport',
+                'host' => 'mail.s1323.sureserver.com',
+                'port' => 465,
+                'encryption' => 'ssl',
+                'username' => 'no-reply@nafithh.sa',
+                'password' => 'tvR;=SPuYC--3oWq',
+                'streamOptions' => [
+                    'ssl' => [
+                        'allow_self_signed' => true,
+                        'verify_peer' => false,
+                        'verify_peer_name' => false,
+                    ],
+                ],
+            ],
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

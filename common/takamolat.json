@@ -1,0 +1,72 @@
+{
+  "Header": {
+    "ResTime": "2023-11-22T22:14:57.219Z",
+    "ChId": "realestateportals",
+    "ReqID": "4969e711655e7d600006f0b7",
+    "Status": {
+      "Code": 200,
+      "Description": "OK"
+    }
+  },
+  "Body": {
+    "result": {
+      "isValid": true,
+      "advertisement": {
+        "advertiserId": "1011260294",
+        "adLicenseNumber": "7100041957",
+        "deedNumber": 310123015159,
+        "advertiserName": "فهد محمد عبد الله الراجح",
+        "phoneNumber": "0557257776",
+        "brokerageAndMarketingLicenseNumber": "1100041016",
+        "isConstrained": false,
+        "isPawned": false,
+        "streetWidth": 0,
+        "propertyArea": 300,
+        "propertyPrice": 73000,
+        "numberOfRooms": 5,
+        "propertyType": "دور",
+        "propertyAge": "ست سنوات",
+        "advertisementType": "إيجار",
+        "location": {
+          "region": "منطقة الرياض",
+          "regionCode": "1",
+          "city": "الرياض",
+          "cityCode": "100001",
+          "district": "الملقا",
+          "districtCode": "100001021",
+          "street": "الحلقة",
+          "postalCode": "13521",
+          "buildingNumber": "3691",
+          "additionalNumber": "7218",
+          "longitude": "24",
+          "latitude": "24"
+        },
+        "propertyFace": null,
+        "planNumber": "1863/أب",
+        "obligationsOnTheProperty": "لا يوجد",
+        "guaranteesAndTheirDuration": "",
+        "theBordersAndLengthsOfTheProperty": "",
+        "complianceWithTheSaudiBuildingCode": false,
+        "channels": [
+          "منصة مرخصة"
+        ],
+        "propertyUsages": [
+          "سكني"
+        ],
+        "propertyUtilities": [
+          "كهرباء",
+          "مياه",
+          "صرف صحي"
+        ],
+        "creationDate": "07/11/2023",
+        "endDate": "31/07/2024",
+        "qrCodeUrl": "https://eservicesredp.rega.gov.sa/public/IndividualBroker/ElanDetails/08dbdf87-4573-4614-88de-22ae87d537b2"
+      }
+    },
+    "targetUrl": null,
+    "success": true,
+    "error": null,
+    "unAuthorizedRequest": false,
+    "__abp": true
+  }
+}

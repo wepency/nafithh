@@ -1,11 +1,11 @@
 <?php
 
-
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 use yii\widgets\Pjax;
 // print_r($dd); die();
+
 ?>
 <?php Pjax::begin([]); ?>
     <div class="title mb-5">
@@ -82,7 +82,7 @@ use yii\widgets\Pjax;
         </div>
         <div class="row mt-4">
             <div class="col-lg-12 col-md-12 col-sm-12 col-12 text-center">
-                <?= Html::submitButton(yii::t('app', 'Send'), ['class' => 'btn btn-light custom-btn']) ?>
+                <?= Html::submitButton(yii::t('app', 'Send'), ['class' => 'btn btn-light custom-btn btn-submit']) ?>
             </div>
         </div>                    
     <?php ActiveForm::end(); ?>

@@ -101,7 +101,6 @@ Class GeneralHelpers
 
         }
 
-
         if($notifTemp->enable_email && $params['email']){
             $attach = isset($params['attach'])? $params['attach'] : null;
 
@@ -148,57 +147,64 @@ Class GeneralHelpers
 
     public static function sendEmail($to_email, $subject, $message,$from = '', $fileView = null,$file_attachment=null)
     {
+        return ['status' => true ,'message'=> "Send Successfully"];
+
         if (isset($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] === 'localhost') {
             return ['status' => true ,'message'=> "Send Successfully"];
         }
 
         // return ['status' => true ,'message'=> "Send Successfully"];
-        
+
         $setting = SmsProvider::findOne(1);
-        $user_msg = 'no-reply@nafithh.sa'; 
+        $user_msg = 'no-reply@nafithh.sa';
         // $password_msg =$setting->sendgrid_password;
         $password_msg = 'tvR;=SPuYC--3oWq';
-        
-        $sendGrid = Yii::$app->mailer->setTransport([
-            'class' => 'Swift_SmtpTransport',
-            // 'scheme' => 'smtps',
+
+        Yii::$app->mailer->setTransport([
+            'class' => \yii\symfonymailer\Mailer::class,
+            'scheme' => 'smtps',
             'host' => 'mail.s1323.sureserver.com',
             'username' => $user_msg,
             'password' => $password_msg,
             'port' => '465',
             'encryption' => 'ssl',
-            'streamOptions' => [ 
-              'ssl' => [ 
-                'allow_self_signed' => true,
-                'verify_peer' => false,
-                'verify_peer_name' => false,
-              ]
+            'streamOptions' => [
+                'ssl' => [
+                    'allow_self_signed' => true,
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                ]
             ]
         ]);
-        $sendGrid = Yii::$app->mailer;
+
+        Yii::$app->mailer->setViewPath(Yii::getAlias('@common/mail'));
+
+        // $sendGrid = Yii::$app->mailer;
         // $sendGrid = Yii::$app->sendGrid;
         // $sendGrid->username = $setting->sendgrid_username;
         // $sendGrid->password = $setting->sendgrid_password;
-        $sendGrid->setViewPath(Yii::getAlias('@common/mail'));
+
+        // $sendGrid->setViewPath(Yii::getAlias('@common/mail'));
+
         if(!$from){
             $from = Setting::findOne(1)->email_admin;
         }
         if (empty($fileView))
-            $message = $sendGrid->compose('general', ['message' => $message, 'subject' => $subject]);
+            $message = Yii::$app->mailer->compose('general', ['message' => $message, 'subject' => $subject]);
 
         else
-            $message = $sendGrid->compose($fileView, ['message' => $message, 'subject' => $subject]);
-       
+            $message = Yii::$app->mailer->compose($fileView, ['message' => $message, 'subject' => $subject]);
+
        // print_r($message); die();
         $message->setFrom($from)
             ->setTo($to_email)
             ->setSubject($subject);
-            
+
         if (!empty($file_attachment)){
             $message->attach($file_attachment);
         }
         // try {
-        //     if ($message->send())    
+        //     if ($message->send())
         //     {
         //         return ['status' => true ,'message'=> "Send Successfully"];
         //     } else{
@@ -209,21 +215,18 @@ Class GeneralHelpers
         //     // some error prevented the email sending; display an
         //     // error message or try to resend the message
         // }
-        try {
-            if ($sendGrid->getSwiftMailer()->send($message->getSwiftMessage(), $failures))     
-            {
-                return ['status' => true ,'message'=> "Send Successfully"];
-            } else {
-                return ['status' => false ,'message'=> "errore ".implode(", ",$failures)];
-            }
-            
-        } catch (Exception $e) {
-            return ['status' => false ,'message'=> "errore ".implode(", ",$e)];
-        }
-        
-        
+//        try {
+//            if ($sendGrid->getSwiftMailer()->send($message->getSwiftMessage(), $failures))
+//            {
+//                return ['status' => true ,'message'=> "Send Successfully"];
+//            } else {
+//                return ['status' => false ,'message'=> "errore ".implode(", ",$failures)];
+//            }
+//
+//        } catch (Exception $e) {
+//            return ['status' => false ,'message'=> "errore ".implode(", ",$e)];
+//        }
     }
-
 
     // public static function sendEmail($to_email, $subject, $message,$from = '', $fileView = null,$file_attachment=null)
     // {
@@ -523,10 +526,10 @@ function getElapsedTime ($t){
 
                     // watemark
                     $image = Image::open($imageFile->tempName);
-                    $watermark = Image::open(yii::getAlias("@frontend/assets/image/watemarken.png"));
+                    $watermark = Image::open(yii::getAlias("@frontend/assets/image/watermark.png"));
                     $watermark->resize((int) $image->width() /7 ,(int) $image->height() /7 ,'transparent',true );
-                    $image->merge($watermark, $image->width()/2,$image->height()/2)
-                    ->save(Yii::getAlias("@upload/$folder/{$fileName}"), $imageFile->extension);
+
+                    $image->save(Yii::getAlias("@upload/$folder/{$fileName}"), $imageFile->extension);
                     $jj++;
                     // $watermark->scaleResize($image->width(),$image->height(),null,null,10);
                     // $watermark->resize((int)$size,(int)$size);
@@ -705,7 +708,7 @@ function getElapsedTime ($t){
         $estate_office_id = GeneralHelpers::getEstateOfficeId();
         // check Office
         if (($estateOffice = EstateOffice::findOne($estate_office_id)) !== null) {
-            //check balance Contract && check Expaire date office
+            //check balance Contract && check Expire date office
             if ($estateOffice->checkAvalibalBalance('email') > 0 && strtotime($estateOffice->expire_date) > time()){
                     return true;
             }
@@ -806,6 +809,5 @@ function getElapsedTime ($t){
         $estate_office_id = self::getEstateOfficeId();
         $url = yii::$app->BaseUrl->baseUrl.'/gallery?office_id='.$estate_office_id;
         return  $url;
-    } 
-
-}    
+    }
+}

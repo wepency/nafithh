@@ -2,13 +2,14 @@
 
 namespace backend\controllers;
 
-use Yii;
+use common\components\GeneralHelpers;
 use common\models\Ad;
 use common\models\AdSearch;
+use Yii;
+use yii\filters\VerbFilter;
+use yii\httpclient\Client;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
-use common\components\GeneralHelpers;
 
 /**
  * AdController implements the CRUD actions for Ad model.
@@ -55,10 +56,10 @@ class AdController extends Controller
 
     public function actionTest($number)
     {
-        $dd = GeneralHelpers::sendSms($number,'test');
-        print_r($dd); die();
+        $dd = GeneralHelpers::sendSms($number, 'test');
+        print_r($dd);
+        die();
     }
-
 
 
     /**
@@ -68,10 +69,66 @@ class AdController extends Controller
      */
     public function actionView($id)
     {
+//        $json = file_get_contents(Yii::getAlias('@common') . '/takamolat.json');
+//
+//        $json = json_decode($json);
+
+        $model = $this->findModel($id);
+
+        $adLicenseNumber = $model->adLicenseNumber;
+        $advertiserId = $model->adLicenseId;
+        $idType = $model->idType;
+
+        $takamolat = $this->getTakamolat($adLicenseNumber, $advertiserId, $idType);
+
+        if ($takamolat) {
+            $takamolat = json_decode(json_encode($takamolat));
+            $takamolat = $takamolat->Body;
+        }
+
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'takamolat' => $takamolat
         ]);
     }
+
+//    public function getTakamolat($adLicenseNumber, $advertiserId, $idType)
+//    {
+//        // Set headers
+//        $headers = [
+//            'X-IBM-Client-Id' => '784587cfd52fec53cad8a5c2c875cf61',
+//            'X-IBM-Client-Secret' => '0bfc97b8de1d7a22be964844b4995251',
+//            'Content-Type' => 'application/json'
+//        ];
+//
+////        $adLicenseNumber = '710004195';
+////        $advertiserId = '1010000001';
+////        $idType = '1';
+//
+//        $url = 'https://integration-gw.nhc.sa/nhc/prod/v1/brokerage/';
+//        $url .= 'AdvertisementValidator?adLicenseNumber=' . $adLicenseNumber . '&advertiserId=' . $advertiserId . '&idType=' . $idType;
+//        // $url .= '&clientIP='.urlencode($clientIP).'&protocol='.urlencode($protocol);
+//
+//        $httpClient = new \yii\httpclient\Client();
+//
+//        // Make the API request
+//        $response = $httpClient
+//            ->createRequest()
+//            ->setMethod('GET')
+//            ->setUrl($url)
+//            ->setHeaders($headers)
+//            ->setFormat(Client::FORMAT_JSON)
+//            ->send();
+//
+//        // Validate the response
+//        if ($response->isOk) {
+//            return $response->data; // Parsed JSON response
+//        } else {
+//            $errorMessage = $response->statusCode . ' ' . $response;
+//            return false;
+////            return $this->asJson(['success' => false, 'error' => $errorMessage]);
+//        }
+//    }
 
     /**
      * Creates a new Ad model.
@@ -82,8 +139,18 @@ class AdController extends Controller
     {
         $model = new Ad();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+
+            if (!$this->getTakamolat($model->adLicenseNumber, $model->adLicenseId, $model->idType)) {
+                Yii::$app->session->setFlash('error', Yii::t('app', 'بيانات الإعلان غير صحيحة.'));
+                return $this->redirect(['create', [
+                    'model' => $model,
+                ]]);
+            }
+
+            if ($model->save())
+                return $this->redirect(['view', 'id' => $model->id]);
+
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -122,10 +189,10 @@ class AdController extends Controller
 
         return $this->redirect(['index']);
     }
-	
-	public function actionDeleteFile($id , $attribute="image")
-    {        
-        return GeneralHelpers::deleteImages(Ad::class,$id ,$attribute);
+
+    public function actionDeleteFile($id, $attribute = "image")
+    {
+        return GeneralHelpers::deleteImages(Ad::class, $id, $attribute);
     }
 
     /**

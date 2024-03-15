@@ -91,7 +91,8 @@ class BuildingHousingUnit extends \yii\db\ActiveRecord
 		{
 			return [
 				//[['housing_unit_name', 'building_type_id', 'rent_price','using_for','floors_no', 'kitchen','pool', 'neighborhood_name', 'advertiser_name', 'advertiser_mobile'], 'required'],
-                [['housing_unit_name', 'building_type_id', /*'rent_price',*/ 'using_for','floors_no', 'kitchen','pool', 'space', 'rooms'/*,'width','length',*/ ,'room_type', 'ad_subtype','ad_publish_date', 'ad_expire_date','ad_status'], 'required'],
+//                [['housing_unit_name', 'building_type_id', /*'rent_price',*/ 'using_for','floors_no', 'kitchen','pool', 'space', 'rooms'/*,'width','length',*/ ,'room_type', 'ad_subtype','ad_publish_date', 'ad_expire_date','ad_status'], 'required'],
+                [['housing_unit_name', /*'room_type' 'rent_price', 'using_for', 'kitchen','pool','rooms','width','length', 'ad_subtype','ad_publish_date', 'ad_expire_date','ad_status'*/], 'required'],
 				[['building_id'], 'required','on'=>'create'],
 
 				//[['building_id', 'floors_no', 'building_type_id', 'rooms', 'entrances', 'has_parking', 'toilets', 'kitchen', 'conditioner_num', 'pool', 'using_for', 'status','lounge', 'space', 'number_of_rooms', 'limit_property', 'document_rights', 'ad_type', 'ad_subtype'], 'integer'],

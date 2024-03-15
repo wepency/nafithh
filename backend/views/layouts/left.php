@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 use mdm\admin\components\Helper;
 use yii\helpers\Html;
 use common\components\GeneralHelpers;
@@ -12,15 +13,18 @@ if($userInfo['userType']=='estate_officer' && yii::$app->user->identity->user_ty
         'target'=>'_blank',
     ]);
 
-    $myQR = Html::a('<i class="fa fa-download"></i>{label}</a>',['/export/download'], [
-        'target'=>'_blank',
+//    $myQR = Html::a('<i class="fa fa-download"></i>{label}</a>',['/export/download'], [
+//        'target'=>'_blank',
+//    ]);
+
+    $myQR = Html::a('<i class="fa fa-qrcode"></i>{label}</a>',['/qr-code/index'], [
+//        'target'=>'_blank',
     ]);
 
 }
 
-
 ?>
-<aside class="main-sidebar ">
+<aside class="main-sidebar">
 
     <section class="sidebar">
 <?php $menuItems = [
@@ -31,30 +35,36 @@ if($userInfo['userType']=='estate_officer' && yii::$app->user->identity->user_ty
         'url' => '#',
         'items' => [
             ['label' => \Yii::t('app','Cities'), 'icon'=> 'globe', 'url' => ['/city/'], 'active' => in_array($this->context->route,['city/index','city/create','city/update','city/view'])],
-			
+
 			['label' => \Yii::t('app','Districts'), 'icon'=> 'map-marker', 'url' => ['/district/'], 'active' => in_array($this->context->route,['district/index','district/create','district/update','district/view'])],
-			
+
 			['label' => \Yii::t('app','Nationalities'), 'icon'=> 'globe', 'url' => ['/nationality/'], 'active' => in_array($this->context->route,['nationality/index','nationality/create','nationality/update','nationality/view'])],
-			
+
 			// ['label' => \Yii::t('app','Housing Unit Types'), 'icon'=> 'columns', 'url' => ['/housing-unit-type/'], 'active' => in_array($this->context->route,['housing-unit-type/index','housing-unit-type/create','housing-unit-type/update','housing-unit-type/view'])],
-			
+
 			['label' => \Yii::t('app','Housing Using Types'), 'icon'=> 'columns', 'url' => ['/housing-using-type/'], 'active' => in_array($this->context->route,['housing-using-type/index','housing-using-type/create','housing-using-type/update','housing-using-type/view'])],
-			
+
 			['label' => \Yii::t('app','Identity Types'), 'icon'=> 'address-card', 'url' => ['/identity-type/'], 'active' => in_array($this->context->route,['identity-type/index','identity-type/create','identity-type/update','identity-type/view'])],
-			
-			
+
+
 			['label' => \Yii::t('app','Building Types'), 'icon'=> 'home', 'url' => ['/building-type/'], 'active' => in_array($this->context->route,['building-type/index','building-type/create','building-type/update','building-type/view'])],
-			
+
 			['label' => \Yii::t('app','Contract Forms'), 'icon'=> 'list-alt', 'url' => ['/contract-form/'], 'active' => in_array($this->context->route,['contract-form/index','contract-form/create','contract-form/update','contract-form/view'])],
-			
+
 			['label' => \Yii::t('app','Maintenance Types'), 'icon'=> 'cogs', 'url' => ['/maintenance-type/'], 'active' => in_array($this->context->route,['maintenance-type/index','maintenance-type/create','maintenance-type/update','maintenance-type/view'])],
-			
+
 			['label' => \Yii::t('app','Rent Periods'), 'icon'=> 'list-alt', 'url' => ['/rent-period/'], 'active' => in_array($this->context->route,['rent-period/index','rent-period/create','rent-period/update','rent-period/view'])],
 
 			['label' => \Yii::t('app','Contact Type'), 'icon'=> 'list-alt', 'url' => ['/contact-type/'], 'active' => in_array($this->context->route,['contact-type/index','contact-type/create','contact-type/update','contact-type/view'])],
-			
+
         ],
     ],
+
+//    [
+//        'label' => \Yii::t('app','Add new advertisement'),
+//        'icon'=> 'home', 'url' => ['/takamolat/'],
+//        'active' => in_array($this->context->route, ['takamolat/index','message-sms/view'])
+//    ],
     [
         'label' => \Yii::t('app','Manage Site'),
         'encode' => false,
@@ -68,16 +78,13 @@ if($userInfo['userType']=='estate_officer' && yii::$app->user->identity->user_ty
 			['label' => \Yii::t('app','Subscribers Order'), 'icon'=> 'users', 'url' => ['/subscribe/'], 'active' => in_array($this->context->route,['subscribe/index','subscribe/create','subscribe/update','subscribe/view'])],
 
 			['label' => \Yii::t('app','Slider'), 'icon'=> 'photo', 'url' => ['/slider/'], 'active' => in_array($this->context->route,['slider/index','slider/create','slider/update','slider/view'])],
-			
+
 			['label' => \Yii::t('app','Plan'), 'icon'=> 'tasks', 'url' => ['/plan/'], 'active' => in_array($this->context->route,['plan/index','plan/create','plan/update','plan/view'])],
 
         ],
     ],
 
-
-    
-
-	['label' => \Yii::t('app','System Expenses'), 'icon'=> 'money', 'url' => ['/system-expense/'], 'active' => in_array($this->context->route,['system-expense/index','system-expense/update','system-expense/create'])],
+    ['label' => \Yii::t('app','System Expenses'), 'icon'=> 'money', 'url' => ['/system-expense/'], 'active' => in_array($this->context->route,['system-expense/index','system-expense/update','system-expense/create'])],
 
 	['label' => \Yii::t('app','System Incomes'), 'icon'=> 'money', 'url' => ['/system-income/'], 'active' => in_array($this->context->route,['system-income/index','system-income/update','system-income/create'])],
 
@@ -85,7 +92,7 @@ if($userInfo['userType']=='estate_officer' && yii::$app->user->identity->user_ty
 	['label' => \Yii::t('app','Owners management'), 'icon'=> 'group', 'url' => ['/owner/index/'], 'active' => in_array($this->context->route,['owner/index','owner/update','owner/create'])],
 
 	['label' => \Yii::t('app','Buildings'), 'icon'=> 'columns', 'url' => ['/building/index'], 'active' => in_array($this->context->route,['building/index','building/create','building/update','building/view'])],
-	
+
 	['label' => \Yii::t('app','Housing units'), 'icon'=> 'home', 'url' => ['/building-housing-unit/index'], 'active' => in_array($this->context->route,['building-housing-unit/index','building-housing-unit/create','building-housing-unit/update','building-housing-unit/view'])],
 
 	['label' => \Yii::t('app','Renters management'), 'icon'=> 'group', 'url' => ['/renter/index/'], 'active' => in_array($this->context->route,['renter/index','renter/update','renter/create'])],
@@ -118,9 +125,9 @@ if($userInfo['userType']=='estate_officer' && yii::$app->user->identity->user_ty
 
 	['label' => \Yii::t('app','Order'), 'icon'=> 'users', 'url' => ['/order/'], 'active' => in_array($this->context->route,['order/index','order/create','order/update','order/view'])],
 
-				
+
 	['label' => \Yii::t('app','Notification Temp'), 'icon'=> 'bell', 'url' => ['/notif-temp/'], 'active' => in_array($this->context->route,['notif-temp/index','notif-temp/create','notif-temp/update','notif-temp/view'])],
-	
+
 	['label' => \Yii::t('app','Estate Offices'), 'icon'=> 'home', 'url' => ['/estate-office/'], 'active' => in_array($this->context->route,['estate-office/index','estate-office/create','estate-office/update','estate-office/view'])],
 
 	['label' => \Yii::t('app','Maintenance Offices'), 'icon'=> 'home', 'url' => ['/maintenance-office/'], 'active' => in_array($this->context->route,['maintenance-office/index','maintenance-office/create','maintenance-office/update','maintenance-office/view'])],
@@ -157,22 +164,20 @@ if($userInfo['userType']=='estate_officer' && yii::$app->user->identity->user_ty
 	/* end part for estate office  */
 
 
-	
-	
-	['label' => \Yii::t('app','Messages Sms'), 'icon'=> 'home', 'url' => ['/message-sms/'], 'active' => in_array($this->context->route,['message-sms/index','message-sms/create','message-sms/update','message-sms/view'])],
+    ['label' => \Yii::t('app','Messages Sms'), 'icon'=> 'home', 'url' => ['/message-sms/'], 'active' => in_array($this->context->route,['message-sms/index','message-sms/create','message-sms/update','message-sms/view'])],
 
 	['label' => \Yii::t('app','Messagess'), 'icon'=> 'home', 'url' => ['/chat/'], 'active' => in_array($this->context->route,['chat/index','chat/create','chat/update','chat/view'])],
-	
+
 
 	['label' => \Yii::t('app','Balance Contract'), 'icon'=> 'money', 'url' => ['/balance-contract/'], 'active' => in_array($this->context->route,['balance-contract/index','balance-contract/create','balance-contract/update','balance-contract/view'])],
-	
+
 	['label' => \Yii::t('app','Balance Sms'), 'icon'=> 'comments', 'url' => ['/balance-sms/'], 'active' => in_array($this->context->route,['balance-sms/index','balance-sms/create','balance-sms/update','balance-sms/view'])],
 
 	['label' => \Yii::t('app','SMS Provider'), 'icon'=> 'mobile', 'url' => ['sms-provider/update/1/'], 'active' => in_array($this->context->route,['sms-provider/index','sms-provider/create','sms-provider/update','sms-provider/view'])],
-   
-	
+
+
     ['label' => \Yii::t('app','Settings'), 'icon'=> 'cog', 'url' => ['setting/update/1/'], 'active' => in_array($this->context->route,['setting/index','setting/create','setting/update','setting/view'])],
-                             
+
     [
         'label' => \Yii::t('app','Administration'),
         'icon' => 'users',
@@ -183,28 +188,37 @@ if($userInfo['userType']=='estate_officer' && yii::$app->user->identity->user_ty
         ],
     ],
 	['label' => \Yii::t('app','My Information'), 'icon'=> 'user', 'url' => ['/user/profile'], 'active' => in_array($this->context->route,['/user/profile'])],
-  
+
     ['label' => \Yii::t('app','Nafithh gallery'), 'icon'=> 'building', 'url' => yii::$app->BaseUrl->baseUrl.'/gallery', 'template'=> '<a href="{url}" target="_blank"><i class="fa fa-building"></i>{label}</a>' ],
 
     ['label' => \Yii::t('app', 'My Offers'),'icon'=> 'building', 'url' => '', 'template'=> $myGallery ],
-    ['label' => \Yii::t('app', 'QR'),'icon'=> 'download', 'url' => '', 'template'=> $myQR ],
-  
+    ['label' => \Yii::t('app', 'QR Code'),'icon'=> 'qr-code', 'url' => '', 'template'=> $myQR ],
+
     ['label' => \Yii::t('app','Logout'),'icon' => 'sign-out', 'url' => ['site/logout'],'template'=>'<a href="{url}" data-method="post">{label}</a>'],
 ];
                 ?>
-                
+
         <?php
-        
-        
-        $menuItems = Helper::filter($menuItems);
-        
+
+$menuItems = Helper::filter($menuItems);
+
+if(in_array(yii::$app->user->identity->user_type,  ['estate_officer','owner_estate_officer'])){
+
+    array_unshift($menuItems, [
+        'label' => \Yii::t('app', 'Add new advertisement'),
+        'icon' => 'home', 'url' => ['/takamolat/'],
+        'active' => in_array($this->context->route, ['takamolat/index', 'message-sms/view'])
+    ]);
+}
+
+
         print dmstr\widgets\Menu::widget(
             [
                 'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
                 'items' => $menuItems,
             ]
         );
-        
+
         ?>
 
     </section>

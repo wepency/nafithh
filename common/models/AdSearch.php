@@ -39,9 +39,12 @@ class AdSearch extends Ad
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params, $query = null)
     {
-        $query = Ad::find();
+
+        if (is_null($query)){
+            $query = Ad::find();
+        }
 
         // add conditions that should always apply here
 

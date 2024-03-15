@@ -44,7 +44,7 @@ class Ad extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'name_en', 'status','page_name'], 'required'],
+            [['name', 'name_en', 'status','page_name', 'adLicenseNumber', 'adLicenseId', 'idType'], 'required'],
             [['status'], 'integer'],
             [['name', 'name_en', 'link', 'image'], 'string', 'max' => 255],
         ];

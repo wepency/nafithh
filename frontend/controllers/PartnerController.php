@@ -36,8 +36,6 @@ class PartnerController extends Controller
      */
     public function actionIndex()
     {
-        return Yii::$app->security->generatePasswordHash("123123123");
-
         $query = Partner::find()->where(['status'=>1])->orderby('id DESC');
 		$countQuery = clone $query;
 		$pages = new Pagination(['totalCount' => $countQuery->count(),'pageSize' => 12]);

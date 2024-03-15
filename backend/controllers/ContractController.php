@@ -173,10 +173,7 @@ class ContractController extends Controller
             *   Process for non-ajax request
             */
             return $this->redirect('create');
-
         }
-
-
     }
 
     public function actionCheckOrAddRenter($identity_id = '')
@@ -209,7 +206,6 @@ class ContractController extends Controller
                         'model' => $model,
                         'modelRenter' => $modelRenter,
                         'arrImages2' => $arrImages2,
-
                     ]),
                     'footer' => Html::button(yii::t('app', "Close"), ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"]) .
                         Html::button(yii::t('app', "Save"), ['class' => 'btn btn-primary', 'type' => "submit"])
@@ -373,18 +369,21 @@ class ContractController extends Controller
 
         return $this->render('index', [
             'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+            'dataProvider' => $dataProvider
         ]);
     }
 
     public function actionCreate()
     {
+
         $session = Yii::$app->session;
         $test = GeneralHelpers::testActiveEstateOffice();
 
         if ($test == false) {
+
             Yii::$app->session->setFlash('danger', Yii::t('app', 'You cannot add a contract due to the expiration of your subscription date or the expiration of the contract balance'));
             return $this->redirect('index');
+
         } else {
 
             return $this->render('create');
@@ -428,6 +427,7 @@ class ContractController extends Controller
         $renter = $model->renter;
         $housing = $model->housingUnit;
         $arrImages2 = GeneralHelpers::updateImages($model);
+
         if ($model->load($request->post()) && $model->validate()) {
 
             // إذا كان ات الوحدة تجارية يتم احتسا الضريبة من الاعدادات العامة

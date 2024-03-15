@@ -25,7 +25,7 @@ $setting = yii::$app->SiteSetting->info();
 </div>
 <?php 
 
-$this->registerJsFile('https://maps.googleapis.com/maps/api/js?libraries=places&key='.$setting->key_google_map,
+$this->registerJsFile('https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyBg-ick3BgA97MfR3EDax7psToQ8lK77Dg',
     ['depends' => [dmstr\web\AdminLteAsset::class]]);
 $this->registerJsFile('@web/js/locationpicker.js',
     ['depends' => [dmstr\web\AdminLteAsset::class]]);

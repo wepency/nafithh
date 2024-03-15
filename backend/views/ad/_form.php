@@ -27,8 +27,40 @@ use yii\helpers\Url;
 
 				<div class='col-sm-4'><?= $form->field($model, 'link')->textInput(['maxlength' => true])->label(false) ?></div>
 
-				 
             </div>
+
+            <div class='col-sm-12'>
+
+                <label for='' class='col-sm-2 control-label'><?= Yii::t('app', 'adLicenseNumber') ?></label>
+
+                <div class='col-sm-4'>
+                    <?= $form->field($model, 'adLicenseNumber')->textInput(['maxlength' => true])->label(false) ?>
+                </div>
+
+            </div>
+
+            <div class='col-sm-12'>
+
+                <label for='' class='col-sm-2 control-label'><?= Yii::t('app', 'advertiserId') ?></label>
+
+                <div class='col-sm-4'>
+                    <?= $form->field($model, 'adLicenseId')->textInput(['maxlength' => true])->label(false) ?>
+                </div>
+
+            </div>
+
+            <div class="col-sm-12">
+                <label for='' class='col-sm-2 control-label'><?= Yii::t('app', 'adType') ?></label>
+
+                <div class="col-sm-4">
+                    <?= $form->field($model, 'idType', ['options' => ['class' => 'form-group']])->label(false)->dropDownList([
+                        '1' => Yii::t('app', 'adTypeRent'),
+                        '2' => Yii::t('app', 'adTypeSale'),
+                    ], ['prompt' => Yii::t('app', 'Select an option'), 'class' => 'form-control']) ?>
+                </div>
+
+            </div>
+
 		    <div class='col-sm-12'>
 			<label for='' class='col-sm-2 control-label'><?= Yii::t('app', 'Image') ?> </label>
 				<div class='col-sm-10'>

@@ -64,6 +64,9 @@ return [
         // ],
     ],
     'params' => $params,
+    'as verificationControl' => [
+        'class' => \common\behaviors\NafathValidatedFilter::class,
+    ],
     'as beforeRequest' => [
         'class' => 'yii\filters\AccessControl',
         'except'=> ['site/login','site/error','site/request-password-reset','site/reset-password','site/verify-email','site/resend-verification-email','site/captcha','site/validate-signup','site/signup'],
@@ -87,6 +90,8 @@ return [
             'export/*',
             'attachment/*',
             'gridview/export/download',
+            'takamolat/*',
+            'qr-code/*',
             // 'gridview/export/*'
             // 'story/*',
             // 'news/*',
