@@ -135,9 +135,15 @@ class PlanController extends Controller
         $terminalId = 'nafithh';
         $password = 'nafithh@1122';
         $merchant_key = '80d187ca94aea3f8dc38e91ebda1ae05d60f66de644c90db2296d90b894154aa';
+
+//        $terminalId = 'nafithh';
+//        $password = 'nafithh@1122';
+//        $merchant_key = '80d187ca94aea3f8dc38e91ebda1ae05d60f66de644c90db2296d90b894154aa';
+
+
         $currencycode = 'SAR';
 
-        $amount = 50;
+        $amount = 99;
 
         $ipp = '197.59.109.30'; // You may use your function to get server IP if required
 
@@ -164,7 +170,7 @@ class PlanController extends Controller
 
         $data = json_encode($fields);
 
-        $httpClient = new Client(['baseUrl' => 'https://payments.urway-tech.com']);
+        $httpClient = new Client(['baseUrl' => 'https://payments-dev.urway-tech.com']);
         $response = $httpClient->createRequest()
             ->setMethod('post')
             ->setUrl('/URWAYPGService/transaction/jsonProcess/JSONrequest')
