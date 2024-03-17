@@ -3,7 +3,9 @@
 // print_r(yii::$app->user->identity); 
 // print_r($model->estateContract); 
 // die();
-// $this->registerJsFile("@web/js/jquery.fancybox.min.js");
+$this->registerJsFile('https://code.jquery.com/jquery-3.6.0.min.js', ['position' => \yii\web\View::POS_HEAD]);
+$this->registerJsFile('https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js', ['position' => \yii\web\View::POS_HEAD]);
+
 
 $searchType = Yii::$app->request->get('type',0);
 $this->title = Yii::t('app', 'Nafithh gallery').' - ' .$model->name;
@@ -401,6 +403,17 @@ $this->title = Yii::t('app', 'Nafithh gallery').' - ' .$model->name;
                         </div>
                     </div>
 
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+                        <div class="media building-info" style="height: initial !important;">
+                            <span class="icon"><i class="fa fa-qrcode"></i></span>
+
+                            <div class="media-body d-flex flex-column align-items-start">
+                                <h5 class="mt-0">رمز الإستجابة السريعة</h5>
+                                <div class="d-inline-block" id="qrcode"></div>
+                            </div>
+                        </div>
+                    </div>
+
 <!--                    <div class="col-lg-4 col-md-6 col-sm-6 col-12">-->
 <!--                        <div class="media building-info">-->
 <!--                            <img src="/images/icon1.png" class="ml-2" alt="...">-->
@@ -432,3 +445,20 @@ $this->title = Yii::t('app', 'Nafithh gallery').' - ' .$model->name;
     <!-- End Gallary Section -->
 </div>
 <!-- End Content -->
+
+<script>
+    jQuery(document).ready(function(){
+        // Dynamic link for the QR code
+        var dynamicLink = "<?= $model?->qrCodeUrl  ?>"; // Replace with your dynamic link
+
+        // Generate QR code with the specified color
+        var qrcode = new QRCode(document.getElementById("qrcode"), {
+            text: dynamicLink,
+            width: 128,
+            height: 128,
+            colorDark : "#035a36", // Dark color
+            colorLight : "#ffffff", // Light color
+            correctLevel : QRCode.CorrectLevel.H // Error correction level
+        });
+    });
+</script>

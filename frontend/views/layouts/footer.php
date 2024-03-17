@@ -2,60 +2,148 @@
 $siteSetting = yii::$app->SiteSetting->info();
 ?>
 
-<!-- Start Footer -->
-<footer class="footer">
+<footer class="footer-section">
     <div class="container">
-        <div class="row">
-            <div class="col-lg-4 col-md-4 col-sm-12 col-12 align-self-center">
-                <p class="copyrights">
-                    <?= $setting->_copyright ?>
-                </p>
+        <div class="footer-content pt-5 pb-5">
+            <div class="row">
+                <div class="col-xl-4 col-lg-4 mb-50">
+                    <div class="footer-widget">
+                        <div class="footer-logo">
+                            <a href="<?= Yii::$app->BaseUrl->baseUrl ?>"><img src="<?= $setting->logo ?>" class="img-fluid" alt="logo"></a>
+                        </div>
+
+                        <div class="footer-text">
+                            <p>شركة نافذة الرقمية ،، نظام ذكي ومتطور لإدارة الأملاك بأسلوب سهل وميسر</p>
+                        </div>
+
+                        <div class="footer-social-icon">
+
+                            <span>تابعنا على</span>
+
+                            <?php if ($setting->linkedin) { ?>
+                                <a href="<?= $setting->linkedin ?>"><i class="fab fa-linkedin linkedin-bg"></i></a>
+                            <?php }
+
+                            if ($setting->instagram) { ?>
+                                <a href="<?= $setting->instagram ?>"><i class="fab fa-instagram instagram-bg"></i></a>
+                            <?php }
+
+                            if ($setting->twitter) { ?>
+                                <a href="<?= $setting->twitter ?>"><i class="fab fa-twitter twitter-bg"></i></a>
+                            <?php }
+
+                            if ($setting->facebook) { ?>
+                                <a href="<?= $setting->facebook ?>"><i class="fab fa-facebook-f facebook-bg"></i></a>
+                            <?php } ?>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-6 mb-30">
+                    <div class="footer-widget">
+                        <div class="footer-widget-heading">
+                            <h3>روابط سريعة</h3>
+                        </div>
+
+                        <ul>
+                            <li><a href="<?= Yii::$app->homeUrl ?>"><?= yii::t('app', 'Home') ?></a></li>
+                            <li><a href="<?= Yii::$app->homeUrl ?>about"><?= yii::t('app', 'know Us') ?></a></li>
+                            <li><a href="<?= Yii::$app->homeUrl ?>service"><?= yii::t('app', 'Our Services') ?></a></li>
+                            <li><a href=<?= Yii::$app->homeUrl ?>gallery"><?= yii::t('app', 'Nafithh gallery') ?></a></li>
+                            <li><a href="<?= Yii::$app->homeUrl ?>plan"><?= yii::t('app', 'Plans') ?></a></li>
+                            <li><a href="<?= Yii::$app->homeUrl ?>partner"><?= yii::t('app', 'Our partners') ?></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-6 mb-50">
+                    <div class="footer-widget">
+
+                        <a href="https://eservicesredp.rega.gov.sa/auth/queries" target="_blank" style="display: flex;justify-content: center;margin-top: 25px;">
+                            <img src="<?= Yii::$app->homeUrl ?>images/license.svg" alt="raga license" />
+                        </a>
+
+<!--                         <img src="--><?php //= $setting->logo_footer ?><!--">-->
+                    </div>
+                </div>
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-12 col-12 align-self-center">
-                <nav class="nav footer-social-icons justify-content-center">
-                    <?php if ($setting->linkedin) { ?>
-                        <a class="nav-link pint-ico" target="_blank" href="<?= $setting->linkedin ?>"><i
-                                    class="fab fa-linkedin"></i></a>
-                    <?php }
-                    if ($setting->instagram) { ?>
-                        <a class="nav-link inst-ico" target="_blank" href="<?= $setting->instagram ?>"><i
-                                    class="fab fa-instagram"></i></a>
-                    <?php }
-                    if ($setting->twitter) { ?>
-                        <a class="nav-link twet-ico" target="_blank" href="<?= $setting->twitter ?>"><i
-                                    class="fab fa-twitter"></i></a>
-                    <?php }
-                    if ($setting->facebook) { ?>
-                        <a class="nav-link fb-ic" target="_blank" href="<?= $setting->facebook ?>"><i
-                                    class="fab fa-facebook-f"></i></a>
-                    <?php } ?>
-                </nav>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-12 col-12 text-left align-self-center">
-                <span onclick="event.preventDefault();document.getElementById('id01').style.display='block'"
-                   style='color:#fff;text-decoration:underline;cursor: pointer' data-toggle='modal'
-                   data-target='#myModal'><?= yii::t('app', 'Terms and Conditions'); ?></span> &nbsp;&nbsp;<span
-                        style="color:#fff;">|</span>&nbsp;&nbsp;
+        </div>
+    </div>
+    <div class="copyright-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 text-center text-lg-left">
+                    <div class="copyright-text">
+                        <p>جميع الحقوق محفوظة &copy; <a href="<?= Yii::$app->homeUrl ?>">لشركة نافذة </a> 2024</p>
+                    </div>
+                </div>
 
-                <span type="button" onclick="document.getElementById('id02').style.display='block'"
-                   style='color:#fff; text-decoration:underline;cursor: pointer' data-toggle='modal'
-                        data-target='#myModal'><?= yii::t('app', 'Privacy Policy'); ?></span> &nbsp;&nbsp;<span
-                        style="color:#fff;">|</span>&nbsp;&nbsp;
-
-                <span onclick="event.preventDefault();document.getElementById('id03').style.display='block'"
-                      style='color:#fff;text-decoration:underline;cursor: pointer' data-toggle='modal'
-                      data-target='#myModal'><?= yii::t('app', 'Ownership rights header'); ?></span>
-
-                <div class="footer-logo">
-                    <img src="https://www.nafithh.sa/images/License.png" width="100px" alt=""/>
-
-
-                    <!-- <img src="<?= $setting->logo_footer ?>"> -->
+                <div class="col-xl-6 col-lg-6 d-none d-lg-block text-right">
+                    <div class="footer-menu">
+                        <ul>
+                            <li><a data-target='#myModal' onclick="event.preventDefault();document.getElementById('id01').style.display='block'" href="#"><?= yii::t('app', 'Terms and Conditions'); ?></a></li>
+                            <li><a data-target='#myModal' onclick="event.preventDefault();document.getElementById('id02').style.display='block'" href="#"><?= yii::t('app', 'Privacy Policy'); ?></a></li>
+                            <li><a data-target='#myModal' onclick="event.preventDefault();document.getElementById('id03').style.display='block'" href="#"><?= yii::t('app', 'Ownership rights header'); ?></a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </footer>
+
+<!-- Start Footer -->
+<!--<footer class="footer">-->
+<!--    <div class="container">-->
+<!--        <div class="row">-->
+<!--            <div class="col-lg-4 col-md-4 col-sm-12 col-12 align-self-center">-->
+<!--                <p class="copyrights">-->
+<!--                    --><?php //= $setting->_copyright ?>
+<!--                </p>-->
+<!--            </div>-->
+<!--            <div class="col-lg-4 col-md-4 col-sm-12 col-12 align-self-center">-->
+<!--                <nav class="nav footer-social-icons justify-content-center">-->
+<!--                    --><?php //if ($setting->linkedin) { ?>
+<!--                        <a class="nav-link pint-ico" target="_blank" href="--><?php //= $setting->linkedin ?><!--"><i-->
+<!--                                    class="fab fa-linkedin"></i></a>-->
+<!--                    --><?php //}
+//                    if ($setting->instagram) { ?>
+<!--                        <a class="nav-link inst-ico" target="_blank" href="--><?php //= $setting->instagram ?><!--"><i-->
+<!--                                    class="fab fa-instagram"></i></a>-->
+<!--                    --><?php //}
+//                    if ($setting->twitter) { ?>
+<!--                        <a class="nav-link twet-ico" target="_blank" href="--><?php //= $setting->twitter ?><!--"><i-->
+<!--                                    class="fab fa-twitter"></i></a>-->
+<!--                    --><?php //}
+//                    if ($setting->facebook) { ?>
+<!--                        <a class="nav-link fb-ic" target="_blank" href="--><?php //= $setting->facebook ?><!--"><i-->
+<!--                                    class="fab fa-facebook-f"></i></a>-->
+<!--                    --><?php //} ?>
+<!--                </nav>-->
+<!--            </div>-->
+<!--            <div class="col-lg-4 col-md-4 col-sm-12 col-12 text-left align-self-center">-->
+<!--                <span onclick="event.preventDefault();document.getElementById('id01').style.display='block'"-->
+<!--                   style='color:#fff;text-decoration:underline;cursor: pointer' data-toggle='modal'-->
+<!--                   data-target='#myModal'>--><?php //= yii::t('app', 'Terms and Conditions'); ?><!--</span> &nbsp;&nbsp;<span-->
+<!--                        style="color:#fff;">|</span>&nbsp;&nbsp;-->
+<!---->
+<!--                <span type="button" onclick="document.getElementById('id02').style.display='block'"-->
+<!--                   style='color:#fff; text-decoration:underline;cursor: pointer' data-toggle='modal'-->
+<!--                        data-target='#myModal'>--><?php //= yii::t('app', 'Privacy Policy'); ?><!--</span> &nbsp;&nbsp;<span-->
+<!--                        style="color:#fff;">|</span>&nbsp;&nbsp;-->
+<!---->
+<!--                <span onclick="event.preventDefault();document.getElementById('id03').style.display='block'"-->
+<!--                      style='color:#fff;text-decoration:underline;cursor: pointer' data-toggle='modal'-->
+<!--                      data-target='#myModal'>--><?php //= yii::t('app', 'Ownership rights header'); ?><!--</span>-->
+<!---->
+<!--                <div class="footer-logo">-->
+<!--                    <img src="https://www.nafithh.sa/images/License.png" width="100px" alt=""/>-->
+<!---->
+<!---->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</footer>-->
 
 
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">

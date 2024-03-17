@@ -39,7 +39,7 @@ class PlanController extends Controller
 
     public function actionOrder($plan_id)
     {
-        return $this->payment();
+//        return $this->payment();
 
         $plan = $this::findModel($plan_id);
         $model = new Order();
@@ -164,7 +164,7 @@ class PlanController extends Controller
 
         $data = json_encode($fields);
 
-        $httpClient = new Client(['baseUrl' => 'https://payments.urway-tech.com']);
+        $httpClient = new Client(['baseUrl' => 'https://payments-dev.urway-tech.com']);
         $response = $httpClient->createRequest()
             ->setMethod('post')
             ->setUrl('/URWAYPGService/transaction/jsonProcess/JSONrequest')
