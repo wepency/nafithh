@@ -19,6 +19,87 @@ $background = ['pic-01.png','pic-02.png','pic-03.png'];
 	throw new \yii\web\NotFoundHttpException(Yii::t('app', 'Sorry, there are no results!'));
 } ?>
 
+<style>
+    :root {
+        --white: white;
+        --gray: #999;
+        --lightgray: whitesmoke;
+        --darkgreen: #2a9d8f;
+        --popular: #ffdd40;
+        --starter: #f73859;
+        --essential: #00aeef;
+        --professional: #ff7f45;
+    }
+    /* SWITCH STYLES
+    –––––––––––––––––––––––––––––––––––––––––––––––––– */
+    .switch-wrapper {
+        position: relative;
+        display: inline-flex;
+        padding: 4px;
+        border: 1px solid lightgrey;
+        margin-bottom: 40px;
+        border-radius: 30px;
+        background: var(--white);
+        direction: ltr;
+    }
+
+    .switch-wrapper [type="radio"] {
+        display: none;
+    }
+
+    .switch-wrapper [type="radio"]:checked#monthly ~ label[for="monthly"],
+    .switch-wrapper [type="radio"]:checked#yearly ~ label[for="yearly"] {
+        color: var(--white);
+    }
+
+    .switch-wrapper [type="radio"]:checked#monthly ~ label[for="monthly"]:hover,
+    .switch-wrapper [type="radio"]:checked#yearly ~ label[for="yearly"]:hover {
+        background: transparent;
+    }
+
+    .switch-wrapper
+    [type="radio"]:checked#monthly
+    + label[for="yearly"]
+    ~ .highlighter {
+        transform: none;
+    }
+
+    .switch-wrapper
+    [type="radio"]:checked#yearly
+    + label[for="monthly"]
+    ~ .highlighter {
+        transform: translateX(100%);
+    }
+
+    .switch-wrapper label {
+        font-size: 16px;
+        z-index: 1;
+        min-width: 100px;
+        line-height: 32px;
+        cursor: pointer;
+        border-radius: 30px;
+        transition: color 0.25s ease-in-out;
+        -webkit-transition: color 0.25s ease-in-out;
+        -moz-transition: color 0.25s ease-in-out;
+        text-align: center;
+    }
+    .switch-wrapper .highlighter {
+        position: absolute;
+        top: 4px;
+        left: 4px;
+        width: calc(50% - 4px);
+        height: calc(100% - 8px);
+        border-radius: 30px;
+        background: #ce9c2b;
+        transition: transform 0.25s ease-in-out;
+    }
+</style>
+
+
+<script>
+
+</script>
+
 <div class="site-content padt-50">
     <section class="gray-sec">
         <div class="container">
@@ -32,6 +113,19 @@ $background = ['pic-01.png','pic-02.png','pic-03.png'];
                     </div>
                 </div>
             </div>
+
+            <div class="row">
+                <div class="col-12 text-center">
+                    <div class="switch-wrapper">
+                        <input id="monthly" type="radio" name="switch" checked />
+                        <input id="yearly" type="radio" name="switch" />
+                        <label for="monthly">شهري</label>
+                        <label for="yearly">سنوي</label>
+                        <span class="highlighter"></span>
+                    </div>
+                </div>
+            </div>
+
             <div class="row">
             	<?php foreach ($model as $row) { ?>
 		            <div class="col-lg-4 col-md-4 col-sm-12 col-12 mb-5">

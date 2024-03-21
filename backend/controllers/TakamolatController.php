@@ -246,6 +246,9 @@ class TakamolatController extends Controller
             return ['success' => false, 'error' => Yii::t('app', 'takamolat data bad')];
         }
 
+        if(!(bool)$takamolat->result->isValid)
+            return ['success' => false, 'error' => $takamolat?->result?->message];
+
         $viewContent = $this->renderPartial('_takamolat_data', [
             'takamolat' => $takamolat, // Pass any data needed for the view
         ]);
