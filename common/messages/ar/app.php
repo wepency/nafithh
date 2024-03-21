@@ -518,6 +518,7 @@ return [
     'Order Maintenance Information' => 'معلومات طلب الصيانة',
     'Order Maintenances' => 'طلبات الصيانة',
     'Order Now' => 'اطلب الان',
+    'Subscribe Now' => 'اشترك الان',
     'Order Saved As Draft.' => 'حفظ الطلب كمسودة',
     'Order Saved successful.' => 'تم حفظ الطلب بنجاح',
     'Orders' => 'الطلبات',

@@ -50,7 +50,7 @@ $background = ['pic-01.png','pic-02.png','pic-03.png'];
 		                            <?php } ?>
 	                            </ul>
 	                        </div>
-	                        <?= Html::a(Yii::t('app', 'Order Now'), ['/plan/order','plan_id' => $row->id], [
+	                        <?= Html::a(Yii::t('app', 'Subscribe Now'), ['/plan/order','plan_id' => $row->id], [
 		                        'class' => 'btn btn-light black-btn',
 		                        'type' => 'button',
 		                    ]) ?>
