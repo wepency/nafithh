@@ -32,7 +32,7 @@ class Order extends \yii\db\ActiveRecord
     // const EVENT_NEW_CUSTOMER = 'eventNewCustomer';
 
     public function init(){
-        $this->on(self::EVENT_NEW, [$this, self::EVENT_NEW]);
+//        $this->on(self::EVENT_NEW, [$this, self::EVENT_NEW]);
         // $this->on(self::EVENT_NEW_CUSTOMER, [$this, self::EVENT_NEW_CUSTOMER]);
         parent::init(); // DON'T Forget to call the parent method.
     }
@@ -142,9 +142,9 @@ class Order extends \yii\db\ActiveRecord
     public function afterSave($insert, $changedAttributes)
     {
         // assign role after saving/creating the record:
-        if ( $insert ){
-            $this->trigger(self::EVENT_NEW);
-        }
+//        if ( $insert ){
+//            $this->trigger(self::EVENT_NEW);
+//        }
         parent::afterSave($insert, $changedAttributes);
     }
 

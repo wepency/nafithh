@@ -1,7 +1,8 @@
 <?php
 $this->title = Yii::t('app', 'Subscribe Plans');
 use yii\helpers\StringHelper; 
-use yii\helpers\Html; 
+use yii\helpers\Html;
+use common\components\GeneralHelpers;
 
 \Yii::$app->view->registerMetaTag([
     'name' => 'twitter:title',
@@ -134,9 +135,12 @@ $background = ['pic-01.png','pic-02.png','pic-03.png'];
 	                            <span><?=$row->_title?></span>
 	                        </div>
 	                        <img class="package-ico" src="<?=$row->image?>" alt="<?=$row->_title?>" >
+
 	                        <div class="package-price" style="background-image:<?=Yii::$app->homeUrl.'/images/'.array_rand($background)?> ;">
-	                            <p><span class="price"><?=$row->price?></span> <?=Yii::$app->params['currency'][Yii::$app->language][$row->currency]; ?> / <?=Yii::$app->params['period'][Yii::$app->language][$row->period]; ?></p>
-	                        </div>
+	                            <p class="mb-0"><span class="price"><?=$row->price + (float)GeneralHelpers::taxes($row->price)?></span> <?=Yii::$app->params['currency'][Yii::$app->language][$row->currency]; ?> / <?=Yii::$app->params['period'][Yii::$app->language][$row->period]; ?></p>
+                                <h5 class="text-muted text-sm mt-0 mb-4" style="font-size:1rem;">السعر شامل الضريبة</h5>
+                            </div>
+
 	                        <div class="package-desc">
 	                            <ul>
 	                            	<?php foreach ($row->planItems as $item) { ?>
@@ -144,7 +148,8 @@ $background = ['pic-01.png','pic-02.png','pic-03.png'];
 		                            <?php } ?>
 	                            </ul>
 	                        </div>
-	                        <?= Html::a(Yii::t('app', 'Order Now'), ['/plan/order','plan_id' => $row->id], [
+
+	                        <?= Html::a(Yii::t('app', 'Subscribe Now'), ['/plan/order','plan_id' => $row->id], [
 		                        'class' => 'btn btn-light black-btn',
 		                        'type' => 'button',
 		                    ]) ?>

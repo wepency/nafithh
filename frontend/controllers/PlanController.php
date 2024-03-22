@@ -40,6 +40,7 @@ class PlanController extends Controller
     public function actionOrder($plan_id)
     {
 //        return $this->payment();
+<<<<<<< HEAD
 
 //        // Check if the user is logged in
         if (!Yii::$app->user->isGuest) {
@@ -53,46 +54,61 @@ class PlanController extends Controller
             // User is not logged in, redirect to the login page
             return $this->redirect(['admin/site/login']);
         }
+=======
+>>>>>>> 34298e755ceea99b5ca1d34242cb463b64a9d2c8
 
-        $plan = $this::findModel($plan_id);
-        $model = new Order();
-        $model->plan_id = $plan->id;
-        $request = Yii::$app->request;
-        $model->detail_field = ArrayHelper::merge($model->detail_field, Yii::$app->request->post('DetailPayField', []));
+        // Save data to session
+        Yii::$app->session->set('paymentPlan', $plan_id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-
-            $model->name = Html::encode($model->name);
-            $model->email = Html::encode($model->email);
-            $model->mobile = Html::encode($model->mobile);
-            $model->company_name = Html::encode($model->company_name);
-            $model->status = 0;
-
-            if ($model->save()) {
-                Yii::$app->session->setFlash('success', yii::t('app', "Your Order has been Sent Successfully,and We Will Contact You Soon"));
-            } else {
-                Yii::$app->session->setFlash('error', 'There was an error sending your message.');
-            }
-
-            if (Yii::$app->request->isAjax) {
-                \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-                // $model = New Order();
-                return $this->renderAjax('order', [
-                    'model' => $model,
-                ]);
-            } else {
-                return $this->redirect(['order', 'plan_id' => $plan_id]);
-            }
-        }
-
-        if (Yii::$app->request->isAjax) {
-            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-            return $this->renderAjax('order', [
-                'model' => $model,
-            ]);
+//        // Check if the user is logged in
+        if (!Yii::$app->user->isGuest) {
+            // User is logged in, proceed with payment processing
+            // Your payment processing logic goes here
+            return $this->redirect('/payment/overview');
         } else {
-            return $this->render('order', ['model' => $model]);
+            // User is not logged in, redirect to the login page
+            return $this->redirect(['admin/site/login']);
         }
+
+//        $plan = $this::findModel($plan_id);
+//        $model = new Order();
+//        $model->plan_id = $plan->id;
+//        $request = Yii::$app->request;
+//        $model->detail_field = ArrayHelper::merge($model->detail_field, Yii::$app->request->post('DetailPayField', []));
+//
+//        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+//
+//            $model->name = Html::encode($model->name);
+//            $model->email = Html::encode($model->email);
+//            $model->mobile = Html::encode($model->mobile);
+//            $model->company_name = Html::encode($model->company_name);
+//            $model->status = 0;
+//
+//            if ($model->save()) {
+//                Yii::$app->session->setFlash('success', yii::t('app', "Your Order has been Sent Successfully,and We Will Contact You Soon"));
+//            } else {
+//                Yii::$app->session->setFlash('error', 'There was an error sending your message.');
+//            }
+//
+//            if (Yii::$app->request->isAjax) {
+//                \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+//                // $model = New Order();
+//                return $this->renderAjax('order', [
+//                    'model' => $model,
+//                ]);
+//            } else {
+//                return $this->redirect(['order', 'plan_id' => $plan_id]);
+//            }
+//        }
+//
+//        if (Yii::$app->request->isAjax) {
+//            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+//            return $this->renderAjax('order', [
+//                'model' => $model,
+//            ]);
+//        } else {
+//            return $this->render('order', ['model' => $model]);
+//        }
 
 
         // if($request->isAjax){
