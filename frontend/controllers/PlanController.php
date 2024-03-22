@@ -41,45 +41,58 @@ class PlanController extends Controller
     {
 //        return $this->payment();
 
-        $plan = $this::findModel($plan_id);
-        $model = new Order();
-        $model->plan_id = $plan->id;
-        $request = Yii::$app->request;
-        $model->detail_field = ArrayHelper::merge($model->detail_field, Yii::$app->request->post('DetailPayField', []));
+        // Save data to session
+        Yii::$app->session->set('paymentPlan', $plan_id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-
-            $model->name = Html::encode($model->name);
-            $model->email = Html::encode($model->email);
-            $model->mobile = Html::encode($model->mobile);
-            $model->company_name = Html::encode($model->company_name);
-            $model->status = 0;
-
-            if ($model->save()) {
-                Yii::$app->session->setFlash('success', yii::t('app', "Your Order has been Sent Successfully,and We Will Contact You Soon"));
-            } else {
-                Yii::$app->session->setFlash('error', 'There was an error sending your message.');
-            }
-
-            if (Yii::$app->request->isAjax) {
-                \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-                // $model = New Order();
-                return $this->renderAjax('order', [
-                    'model' => $model,
-                ]);
-            } else {
-                return $this->redirect(['order', 'plan_id' => $plan_id]);
-            }
-        }
-
-        if (Yii::$app->request->isAjax) {
-            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-            return $this->renderAjax('order', [
-                'model' => $model,
-            ]);
+//        // Check if the user is logged in
+        if (!Yii::$app->user->isGuest) {
+            // User is logged in, proceed with payment processing
+            // Your payment processing logic goes here
+            return $this->redirect('/payment/overview');
         } else {
-            return $this->render('order', ['model' => $model]);
+            // User is not logged in, redirect to the login page
+            return $this->redirect(['admin/site/login']);
         }
+
+//        $plan = $this::findModel($plan_id);
+//        $model = new Order();
+//        $model->plan_id = $plan->id;
+//        $request = Yii::$app->request;
+//        $model->detail_field = ArrayHelper::merge($model->detail_field, Yii::$app->request->post('DetailPayField', []));
+//
+//        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+//
+//            $model->name = Html::encode($model->name);
+//            $model->email = Html::encode($model->email);
+//            $model->mobile = Html::encode($model->mobile);
+//            $model->company_name = Html::encode($model->company_name);
+//            $model->status = 0;
+//
+//            if ($model->save()) {
+//                Yii::$app->session->setFlash('success', yii::t('app', "Your Order has been Sent Successfully,and We Will Contact You Soon"));
+//            } else {
+//                Yii::$app->session->setFlash('error', 'There was an error sending your message.');
+//            }
+//
+//            if (Yii::$app->request->isAjax) {
+//                \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+//                // $model = New Order();
+//                return $this->renderAjax('order', [
+//                    'model' => $model,
+//                ]);
+//            } else {
+//                return $this->redirect(['order', 'plan_id' => $plan_id]);
+//            }
+//        }
+//
+//        if (Yii::$app->request->isAjax) {
+//            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+//            return $this->renderAjax('order', [
+//                'model' => $model,
+//            ]);
+//        } else {
+//            return $this->render('order', ['model' => $model]);
+//        }
 
 
         // if($request->isAjax){
@@ -125,80 +138,5 @@ class PlanController extends Controller
         }
 
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
-    }
-
-    protected function payment()
-    {
-
-        $idorder = 111000;
-
-        $terminalId = 'nafithh';
-        $password = 'nafithh@1122';
-        $merchant_key = '80d187ca94aea3f8dc38e91ebda1ae05d60f66de644c90db2296d90b894154aa';
-
-//        $terminalId = 'nafithh';
-//        $password = 'nafithh@1122';
-//        $merchant_key = '80d187ca94aea3f8dc38e91ebda1ae05d60f66de644c90db2296d90b894154aa';
-
-
-        $currencycode = 'SAR';
-
-        $amount = 99;
-
-        $ipp = '197.59.109.30'; // You may use your function to get server IP if required
-
-        $txn_details = "$idorder|$terminalId|$password|$merchant_key|$amount|$currencycode";
-        $hash = hash('sha256', $txn_details);
-
-        $fields = [
-            'trackid' => $idorder,
-            'terminalId' => $terminalId,
-            'customerEmail' => 'customer@email.com',
-            'action' => "1",
-            'merchantIp' => $ipp,
-            'password' => $password,
-            'currency' => $currencycode,
-            'country' => "SA",
-            'amount' => $amount,
-            "udf1" => "Test1",
-            "udf2" => 'http://google.com',
-            "udf3" => "",
-            "udf4" => "",
-            "udf5" => "Test5",
-            'requestHash' => $hash
-        ];
-
-        $data = json_encode($fields);
-
-        $httpClient = new Client(['baseUrl' => 'https://payments-dev.urway-tech.com']);
-        $response = $httpClient->createRequest()
-            ->setMethod('post')
-            ->setUrl('/URWAYPGService/transaction/jsonProcess/JSONrequest')
-            ->setHeaders([
-                'Content-Type' => 'application/json',
-                'Content-Length' => strlen($data)
-            ])
-            ->setContent($data)
-            ->send();
-
-        if ($response->isOk) {
-            $result = $response->getData();
-            if (!empty($result['payid']) && !empty($result['targetUrl'])) {
-                $url = $result['targetUrl'] . '?paymentid=' . $result['payid'];
-                return Yii::$app->getResponse()->redirect($url);
-            } else {
-                // Handle error condition
-                Yii::error($result, 'Payment error');
-                // Debugging information
-                var_dump($result);
-                die();
-            }
-        } else {
-            // Handle HTTP request error
-            Yii::error($response->getContent(), 'HTTP request error');
-            // Debugging information
-            var_dump($response->getContent());
-            die();
-        }
     }
 }

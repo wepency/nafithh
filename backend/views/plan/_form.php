@@ -47,11 +47,14 @@ use yii\helpers\Url;
                         ])->label(false);  ?>
                 </div>
 
-
-
-                <label for='' class='col-sm-2 control-label'><?=Yii::t('app', 'Price')?></label>
+                <label for='' class='col-sm-2 control-label'>السعر الشهري</label>
                 <div class='col-sm-4'>
                 <?= $form->field($model, 'price')->textInput(['maxlength' => true])->label(false) ?>
+                </div>
+
+                <label for='price_yearly' class='col-sm-2 control-label'>السعر السنوي</label>
+                <div class='col-sm-4'>
+                    <?= $form->field($model, 'price_yearly')->textInput(['maxlength' => true])->label(false) ?>
                 </div>
 
                 <div class='clearfix'></div>
@@ -86,6 +89,20 @@ use yii\helpers\Url;
                 <label for='' class='col-sm-2 control-label'><?=Yii::t('app','Plan Features')?></label>
                 <div class='col-sm-10'>
                     <?=Yii::$app->view->renderFile('@backend/views/plan-item/_plan_items_widget.php',['models'=>$modelsPlanItem,'form'=>$form]);?>
+                </div>
+
+                <div class='clearfix'></div>
+                <label for='contracts_count' class='col-sm-2 control-label'>عدد العقود</label>
+
+                <div class='col-sm-10'>
+                    <?= $form->field($model, 'contracts_count')->textInput(['maxlength' => true])->label(false) ?>
+                </div>
+
+                <div class='clearfix'></div>
+                <label for='sms_count' class='col-sm-2 control-label'>عدد الرسائل</label>
+
+                <div class='col-sm-10'>
+                    <?= $form->field($model, 'sms_count')->textInput(['maxlength' => true])->label(false) ?>
                 </div>
 			</div>
 		</fieldset>

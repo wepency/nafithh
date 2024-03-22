@@ -1,5 +1,6 @@
 <?php
 $siteSetting = yii::$app->SiteSetting->info();
+Yii::$app->cache->flush();
 ?>
 
 <footer class="footer-section">

@@ -312,6 +312,7 @@ class SiteController extends Controller
         }
 
         $model = new LoginForm();
+
         if ($model->load(Yii::$app->request->post())) {
             if ($model->login()) {
                 $user = Yii::$app->user->identity;
@@ -320,6 +321,10 @@ class SiteController extends Controller
     				$session = Yii::$app->session;
     				$session['estate_office_id'] = $user_estate->estate_office_id;
     			}
+
+                if (Yii::$app->session->has('paymentPlan'))
+                    return $this->redirect('/payment/overview');
+
                 return $this->goBack();
             }else{
                 if(isset($model->getErrors()['agreeTerm'])){

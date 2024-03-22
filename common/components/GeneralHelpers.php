@@ -807,7 +807,16 @@ function getElapsedTime ($t){
     public static function urlMyOffer()
     {
         $estate_office_id = self::getEstateOfficeId();
-        $url = yii::$app->BaseUrl->baseUrl.'/gallery?office_id='.$estate_office_id;
-        return  $url;
+        return yii::$app->BaseUrl->baseUrl.'/gallery?office_id='.$estate_office_id;
+    }
+
+    public static function taxes($amount)
+    {
+        return number_format(($amount*15)/100, 2);
+    }
+
+    public static function currency($amount, $currency = 1)
+    {
+        return number_format($amount, 2) . ' ' .Yii::$app->params['currency'][Yii::$app->language][$currency];
     }
 }
