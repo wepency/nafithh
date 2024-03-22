@@ -2,28 +2,18 @@
 
 namespace frontend\controllers;
 
-<<<<<<< HEAD
 use common\models\Order;
 use common\models\Plan;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
-=======
 use common\components\GeneralHelpers;
 use common\models\Coupon;
-use common\models\Order;
-use common\models\Plan;
 use yii\filters\VerbFilter;
 use yii\web\Response;
->>>>>>> 34298e755ceea99b5ca1d34242cb463b64a9d2c8
 use yii\web\Controller;
 use yii\httpclient\Client;
 use Yii;
 use yii\web\NotFoundHttpException;
-<<<<<<< HEAD
-
-class PaymentController extends Controller
-{
-=======
 use yii\helpers\Url;
 
 class PaymentController extends Controller
@@ -41,7 +31,6 @@ class PaymentController extends Controller
         ];
     }
 
->>>>>>> 34298e755ceea99b5ca1d34242cb463b64a9d2c8
     public function actionOverview()
     {
         $planId = Yii::$app->session->get('paymentPlan') ?? Yii::$app->session->get('paymentFinal');
@@ -60,18 +49,6 @@ class PaymentController extends Controller
 
     public function actionDoPay()
     {
-<<<<<<< HEAD
-        $planId = Yii::$app->request->get('paramName');
-
-        return $this->AddOrder($planId);
-        return $this->payment();
-    }
-
-    protected function payment()
-    {
-
-        $idorder = 111000;
-=======
         $planId = Yii::$app->request->post('planId');
         $couponCode = Yii::$app->request->post('couponCode');
 
@@ -80,11 +57,11 @@ class PaymentController extends Controller
         return $this->payment($order);
     }
 
+
     protected function payment($order)
     {
 
         $idorder = $order['code'];
->>>>>>> 34298e755ceea99b5ca1d34242cb463b64a9d2c8
 
         $terminalId = 'nafithh';
         $password = 'nafithh@1122';
@@ -93,11 +70,7 @@ class PaymentController extends Controller
 
         $currencycode = 'SAR';
 
-<<<<<<< HEAD
-        $amount = 99;
-=======
-        $amount = $order['total'];
->>>>>>> 34298e755ceea99b5ca1d34242cb463b64a9d2c8
+        $amount = number_format($order['total'], 2);
 
         $ipp = '197.59.109.30'; // You may use your function to get server IP if required
 
@@ -107,11 +80,7 @@ class PaymentController extends Controller
         $fields = [
             'trackid' => $idorder,
             'terminalId' => $terminalId,
-<<<<<<< HEAD
-            'customerEmail' => 'customer@email.com',
-=======
             'customerEmail' => $order['email'] ?? 'customer@email.com',
->>>>>>> 34298e755ceea99b5ca1d34242cb463b64a9d2c8
             'action' => "1",
             'merchantIp' => $ipp,
             'password' => $password,
@@ -119,11 +88,7 @@ class PaymentController extends Controller
             'country' => "SA",
             'amount' => $amount,
             "udf1" => "Test1",
-<<<<<<< HEAD
-            "udf2" => 'http://google.com',
-=======
             "udf2" => Yii::$app->BaseUrl->baseUrl.'/payment/validate',
->>>>>>> 34298e755ceea99b5ca1d34242cb463b64a9d2c8
             "udf3" => "",
             "udf4" => "",
             "udf5" => "Test5",
@@ -164,19 +129,10 @@ class PaymentController extends Controller
         }
     }
 
-<<<<<<< HEAD
-    private function AddOrder($planId)
-    {
-        $plan = $this::findModel($planId);
-        $model = new Order();
-        $model->plan_id = $plan->id;
-        $request = Yii::$app->request;
-
-        return $model->save();
-=======
     private function addOrder($planId, $coupon)
     {
         $request = Yii::$app->request;
+
         $plan = $this::findModel($planId);
 
         $user = Yii::$app->user->identity;
@@ -264,7 +220,6 @@ class PaymentController extends Controller
         $order = Order::find()->where(['code' => $trackId])->one();
 
         return $this->render('validate', ['order' => $order]);
->>>>>>> 34298e755ceea99b5ca1d34242cb463b64a9d2c8
     }
 
     /**

@@ -39,23 +39,6 @@ class PlanController extends Controller
 
     public function actionOrder($plan_id)
     {
-//        return $this->payment();
-<<<<<<< HEAD
-
-//        // Check if the user is logged in
-        if (!Yii::$app->user->isGuest) {
-            // User is logged in, proceed with payment processing
-            // Your payment processing logic goes here
-//            return $this->render('paymentSuccess');
-        } else {
-            // Save data to session
-            Yii::$app->session->set('paymentPlan', $plan_id);
-
-            // User is not logged in, redirect to the login page
-            return $this->redirect(['admin/site/login']);
-        }
-=======
->>>>>>> 34298e755ceea99b5ca1d34242cb463b64a9d2c8
 
         // Save data to session
         Yii::$app->session->set('paymentPlan', $plan_id);

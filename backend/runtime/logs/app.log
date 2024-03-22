@@ -17482,3 +17482,197 @@ $_SERVER = [
     'REQUEST_TIME' => 1711071194
 >>>>>>> 34298e755ceea99b5ca1d34242cb463b64a9d2c8
 ]
+2024-03-23 01:09:32 [::1][2][-][warning][yii\log\Dispatcher::dispatch] Unable to send log via yii\debug\LogTarget: PHP Notice 'yii\base\ErrorException' with message 'unserialize(): Error at offset 0 of 30406 bytes' 
+
+in C:\xampp\htdocs\nafithh\vendor\yiisoft\yii2-debug\src\LogTarget.php:152
+
+Stack trace:
+#0 [internal function]: yii\base\ErrorHandler->handleError(8, 'unserialize(): ...', 'C:\\xampp\\htdocs...', 152)
+#1 C:\xampp\htdocs\nafithh\vendor\yiisoft\yii2-debug\src\LogTarget.php(152): unserialize('<<<<<<< HEAD\r\na...')
+#2 C:\xampp\htdocs\nafithh\vendor\yiisoft\yii2-debug\src\LogTarget.php(80): yii\debug\LogTarget->updateIndexFile('C:\\xampp\\htdocs...', Array)
+#3 C:\xampp\htdocs\nafithh\vendor\yiisoft\yii2-debug\src\LogTarget.php(183): yii\debug\LogTarget->export()
+#4 C:\xampp\htdocs\nafithh\vendor\yiisoft\yii2\log\Dispatcher.php(194): yii\debug\LogTarget->collect(Array, true)
+#5 C:\xampp\htdocs\nafithh\vendor\yiisoft\yii2\log\Logger.php(226): yii\log\Dispatcher->dispatch(Array, true)
+#6 [internal function]: yii\log\Logger->flush(true)
+#7 {main}
+2024-03-23 01:09:32 [::1][2][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_identity-backend' => '2507f46fb277d60ac27fdda9262a39982fa1fa1edec26b203d54211de3aa9324a:2:{i:0;s:17:\"_identity-backend\";i:1;s:46:\"[2,\"5RU91wflLOKpMYAexqcr8xxKCnaJB_hL\",2592000]\";}'
+    'advanced-backend' => 'rcb5tlcgko9bb6osikjb5n3vme'
+]
+
+$_SESSION = [
+    '__flash' => []
+    'paymentPlan' => '11'
+    '__id' => 2
+    '__authKey' => '5RU91wflLOKpMYAexqcr8xxKCnaJB_hL'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => 'C:\\xampp\\htdocs\\nafithh\\web'
+    'REMOTE_ADDR' => '::1'
+    'REMOTE_PORT' => '53626'
+    'SERVER_SOFTWARE' => 'PHP 8.2.12 Development Server'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_PORT' => '8080'
+    'REQUEST_URI' => '/admin/site/login'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/admin/index.php'
+    'SCRIPT_FILENAME' => 'C:\\xampp\\htdocs\\nafithh\\web\\admin\\index.php'
+    'PATH_INFO' => '/site/login'
+    'PHP_SELF' => '/admin/index.php/site/login'
+    'HTTP_HOST' => 'localhost:8080'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_FETCH_MODE' => 'navigate'
+    'HTTP_SEC_FETCH_USER' => '?1'
+    'HTTP_SEC_FETCH_DEST' => 'document'
+    'HTTP_SEC_CH_UA' => '\"Google Chrome\";v=\"123\", \"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"123\"'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"Windows\"'
+    'HTTP_REFERER' => 'http://localhost:8080/plan'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br'
+    'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.9,ar;q=0.8'
+    'HTTP_COOKIE' => '_identity-backend=2507f46fb277d60ac27fdda9262a39982fa1fa1edec26b203d54211de3aa9324a%3A2%3A%7Bi%3A0%3Bs%3A17%3A%22_identity-backend%22%3Bi%3A1%3Bs%3A46%3A%22%5B2%2C%225RU91wflLOKpMYAexqcr8xxKCnaJB_hL%22%2C2592000%5D%22%3B%7D; advanced-backend=rcb5tlcgko9bb6osikjb5n3vme'
+    'REQUEST_TIME_FLOAT' => 1711145372.1347
+    'REQUEST_TIME' => 1711145372
+]
+2024-03-23 01:09:32 [::1][2][-][warning][yii\log\Dispatcher::dispatch] Unable to send log via yii\debug\LogTarget: PHP Notice 'yii\base\ErrorException' with message 'unserialize(): Error at offset 0 of 30406 bytes' 
+
+in C:\xampp\htdocs\nafithh\vendor\yiisoft\yii2-debug\src\LogTarget.php:152
+
+Stack trace:
+#0 [internal function]: yii\base\ErrorHandler->handleError(8, 'unserialize(): ...', 'C:\\xampp\\htdocs...', 152)
+#1 C:\xampp\htdocs\nafithh\vendor\yiisoft\yii2-debug\src\LogTarget.php(152): unserialize('<<<<<<< HEAD\r\na...')
+#2 C:\xampp\htdocs\nafithh\vendor\yiisoft\yii2-debug\src\LogTarget.php(80): yii\debug\LogTarget->updateIndexFile('C:\\xampp\\htdocs...', Array)
+#3 C:\xampp\htdocs\nafithh\vendor\yiisoft\yii2-debug\src\LogTarget.php(183): yii\debug\LogTarget->export()
+#4 C:\xampp\htdocs\nafithh\vendor\yiisoft\yii2\log\Dispatcher.php(194): yii\debug\LogTarget->collect(Array, true)
+#5 C:\xampp\htdocs\nafithh\vendor\yiisoft\yii2\log\Logger.php(226): yii\log\Dispatcher->dispatch(Array, true)
+#6 [internal function]: yii\log\Logger->flush(true)
+#7 {main}
+2024-03-23 01:09:32 [::1][2][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_identity-backend' => '2507f46fb277d60ac27fdda9262a39982fa1fa1edec26b203d54211de3aa9324a:2:{i:0;s:17:\"_identity-backend\";i:1;s:46:\"[2,\"5RU91wflLOKpMYAexqcr8xxKCnaJB_hL\",2592000]\";}'
+    'advanced-backend' => '0cjmqjgfilmdg913jtfibio0js'
+]
+
+$_SESSION = [
+    '__flash' => []
+    'paymentPlan' => '11'
+    '__id' => 2
+    '__authKey' => '5RU91wflLOKpMYAexqcr8xxKCnaJB_hL'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => 'C:\\xampp\\htdocs\\nafithh\\web'
+    'REMOTE_ADDR' => '::1'
+    'REMOTE_PORT' => '53628'
+    'SERVER_SOFTWARE' => 'PHP 8.2.12 Development Server'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_PORT' => '8080'
+    'REQUEST_URI' => '/admin/'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/admin/index.php'
+    'SCRIPT_FILENAME' => 'C:\\xampp\\htdocs\\nafithh\\web\\admin\\index.php'
+    'PHP_SELF' => '/admin/index.php'
+    'HTTP_HOST' => 'localhost:8080'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_FETCH_MODE' => 'navigate'
+    'HTTP_SEC_FETCH_USER' => '?1'
+    'HTTP_SEC_FETCH_DEST' => 'document'
+    'HTTP_SEC_CH_UA' => '\"Google Chrome\";v=\"123\", \"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"123\"'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"Windows\"'
+    'HTTP_REFERER' => 'http://localhost:8080/plan'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br'
+    'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.9,ar;q=0.8'
+    'HTTP_COOKIE' => '_identity-backend=2507f46fb277d60ac27fdda9262a39982fa1fa1edec26b203d54211de3aa9324a%3A2%3A%7Bi%3A0%3Bs%3A17%3A%22_identity-backend%22%3Bi%3A1%3Bs%3A46%3A%22%5B2%2C%225RU91wflLOKpMYAexqcr8xxKCnaJB_hL%22%2C2592000%5D%22%3B%7D; advanced-backend=0cjmqjgfilmdg913jtfibio0js'
+    'REQUEST_TIME_FLOAT' => 1711145372.3521
+    'REQUEST_TIME' => 1711145372
+]
+2024-03-23 01:09:33 [::1][2][0cjmqjgfilmdg913jtfibio0js][error][yii\web\HttpException:403] yii\web\ForbiddenHttpException: غير مصرح لك القيام بهذا العمل in C:\xampp\htdocs\nafithh\vendor\mdmsoft\yii2-admin\components\AccessControl.php:88
+Stack trace:
+#0 C:\xampp\htdocs\nafithh\vendor\mdmsoft\yii2-admin\components\AccessControl.php(73): mdm\admin\components\AccessControl->denyAccess(Object(yii\web\User))
+#1 C:\xampp\htdocs\nafithh\vendor\yiisoft\yii2\base\ActionFilter.php(77): mdm\admin\components\AccessControl->beforeAction(Object(yii\base\InlineAction))
+#2 [internal function]: yii\base\ActionFilter->beforeFilter(Object(yii\base\ActionEvent))
+#3 C:\xampp\htdocs\nafithh\vendor\yiisoft\yii2\base\Component.php(633): call_user_func(Array, Object(yii\base\ActionEvent))
+#4 C:\xampp\htdocs\nafithh\vendor\yiisoft\yii2\base\Module.php(724): yii\base\Component->trigger('beforeAction', Object(yii\base\ActionEvent))
+#5 C:\xampp\htdocs\nafithh\vendor\yiisoft\yii2\base\Controller.php(166): yii\base\Module->beforeAction(Object(yii\base\InlineAction))
+#6 C:\xampp\htdocs\nafithh\vendor\yiisoft\yii2\base\Module.php(552): yii\base\Controller->runAction('toolbar', Array)
+#7 C:\xampp\htdocs\nafithh\vendor\yiisoft\yii2\web\Application.php(103): yii\base\Module->runAction('debug/default/t...', Array)
+#8 C:\xampp\htdocs\nafithh\vendor\yiisoft\yii2\base\Application.php(384): yii\web\Application->handleRequest(Object(yii\web\Request))
+#9 C:\xampp\htdocs\nafithh\web\admin\index.php(18): yii\base\Application->run()
+#10 {main}
+2024-03-23 01:09:33 [::1][2][0cjmqjgfilmdg913jtfibio0js][info][application] $_GET = [
+    'tag' => '65fe019c6a85d'
+]
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_identity-backend' => '2507f46fb277d60ac27fdda9262a39982fa1fa1edec26b203d54211de3aa9324a:2:{i:0;s:17:\"_identity-backend\";i:1;s:46:\"[2,\"5RU91wflLOKpMYAexqcr8xxKCnaJB_hL\",2592000]\";}'
+    'advanced-backend' => '0cjmqjgfilmdg913jtfibio0js'
+    '_csrf-backend' => '6bbe374ba0b49183c28eab7aac19f3ba9700be2499097def9d91e421ccfaca8fa:2:{i:0;s:13:\"_csrf-backend\";i:1;s:32:\"Syi0smy-TzXRa38ftMZhWA3aPGzJe6gv\";}'
+]
+
+$_SESSION = [
+    '__flash' => []
+    'paymentPlan' => '11'
+    '__id' => 2
+    '__authKey' => '5RU91wflLOKpMYAexqcr8xxKCnaJB_hL'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => 'C:\\xampp\\htdocs\\nafithh\\web'
+    'REMOTE_ADDR' => '::1'
+    'REMOTE_PORT' => '53650'
+    'SERVER_SOFTWARE' => 'PHP 8.2.12 Development Server'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_PORT' => '8080'
+    'REQUEST_URI' => '/admin/debug/default/toolbar?tag=65fe019c6a85d'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/admin/index.php'
+    'SCRIPT_FILENAME' => 'C:\\xampp\\htdocs\\nafithh\\web\\admin\\index.php'
+    'PATH_INFO' => '/debug/default/toolbar'
+    'PHP_SELF' => '/admin/index.php/debug/default/toolbar'
+    'QUERY_STRING' => 'tag=65fe019c6a85d'
+    'HTTP_HOST' => 'localhost:8080'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_SEC_CH_UA' => '\"Google Chrome\";v=\"123\", \"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"123\"'
+    'HTTP_ACCEPT' => 'text/html'
+    'HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"Windows\"'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_REFERER' => 'http://localhost:8080/admin/'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br'
+    'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.9,ar;q=0.8'
+    'HTTP_COOKIE' => '_identity-backend=2507f46fb277d60ac27fdda9262a39982fa1fa1edec26b203d54211de3aa9324a%3A2%3A%7Bi%3A0%3Bs%3A17%3A%22_identity-backend%22%3Bi%3A1%3Bs%3A46%3A%22%5B2%2C%225RU91wflLOKpMYAexqcr8xxKCnaJB_hL%22%2C2592000%5D%22%3B%7D; advanced-backend=0cjmqjgfilmdg913jtfibio0js; _csrf-backend=6bbe374ba0b49183c28eab7aac19f3ba9700be2499097def9d91e421ccfaca8fa%3A2%3A%7Bi%3A0%3Bs%3A13%3A%22_csrf-backend%22%3Bi%3A1%3Bs%3A32%3A%22Syi0smy-TzXRa38ftMZhWA3aPGzJe6gv%22%3B%7D'
+    'REQUEST_TIME_FLOAT' => 1711145373.4428
+    'REQUEST_TIME' => 1711145373
+]
