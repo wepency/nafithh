@@ -52,15 +52,13 @@ class PaymentController extends Controller
 
         $order = $this->addOrder($planId, $couponCode);
 
-        dd($order);
-
         return $this->payment($order);
     }
 
     protected function payment($order)
     {
 
-        $idorder = $order->code;
+        $idorder = $order['code'];
 
         $terminalId = 'nafithh';
         $password = 'nafithh@1122';
@@ -69,7 +67,7 @@ class PaymentController extends Controller
 
         $currencycode = 'SAR';
 
-        $amount = $order->total;
+        $amount = $order['total'];
 
         $ipp = '197.59.109.30'; // You may use your function to get server IP if required
 
@@ -79,7 +77,7 @@ class PaymentController extends Controller
         $fields = [
             'trackid' => $idorder,
             'terminalId' => $terminalId,
-            'customerEmail' => $order->email ?? 'customer@email.com',
+            'customerEmail' => $order['email'] ?? 'customer@email.com',
             'action' => "1",
             'merchantIp' => $ipp,
             'password' => $password,
@@ -158,14 +156,14 @@ class PaymentController extends Controller
         $model->email = $user->email;
         $model->mobile = $user->mobile;
 
-        $model->code = 'code';
+        $model->code = $this->generateOrderCode();
 //
-//        $model->subtotal = $finaPrice;
-//        $model->total = $finaPrice - $discount;
+        $model->subtotal = $finaPrice;
+        $model->total = $finaPrice - $discount;
 //
-//        $model->discount = $discount ?? null;
-//        $model->coupon = $coupon?->coupon ?? null;
-//        $model->coupon_id = $coupon->id ?? null;
+        $model->discount = $discount ?? null;
+        $model->coupon = $coupon?->coupon ?? null;
+        $model->coupon_id = $coupon->id ?? null;
 
         if ($model->validate()) {
             if($model->save()){
@@ -214,7 +212,10 @@ class PaymentController extends Controller
     }
 
     public function actionValidate() {
+        $trackId = Yii::$app->request->get('TrackId');
+        $order = Order::find()->where(['code' => $trackId])->one();
 
+        return $this->render('validate', ['order' => $order]);
     }
 
     /**
