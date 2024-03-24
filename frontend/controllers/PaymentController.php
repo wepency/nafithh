@@ -18,6 +18,13 @@ use yii\helpers\Url;
 
 class PaymentController extends Controller
 {
+    private string $baseUrl = 'https://payments-dev.urway-tech.com';
+    private string $terminalId = 'nafithh';
+    private string $password = 'nafithh@1122';
+    private string $merchantKey = '80d187ca94aea3f8dc38e91ebda1ae05d60f66de644c90db2296d90b894154aa';
+    private string $currencyCode = 'SAR';
+    private string $country = 'SA';
+
     public function behaviors()
     {
         return [
@@ -63,18 +70,18 @@ class PaymentController extends Controller
 
         $idorder = $order['code'];
 
-        $terminalId = 'nafithh';
-        $password = 'nafithh@1122';
-        $merchant_key = '80d187ca94aea3f8dc38e91ebda1ae05d60f66de644c90db2296d90b894154aa';
+        $terminalId = $this->terminalId;
+        $password = $this->password;
+        $merchantKey = $this->merchantKey;
 
-
-        $currencycode = 'SAR';
+        $currencyCode = $this->currencyCode;
+        $country = $this->country;
 
         $amount = number_format($order['total'], 2);
 
         $ipp = '197.59.109.30'; // You may use your function to get server IP if required
 
-        $txn_details = "$idorder|$terminalId|$password|$merchant_key|$amount|$currencycode";
+        $txn_details = "$idorder|$terminalId|$password|$merchantKey|$amount|$currencyCode";
         $hash = hash('sha256', $txn_details);
 
         $fields = [
@@ -84,8 +91,8 @@ class PaymentController extends Controller
             'action' => "1",
             'merchantIp' => $ipp,
             'password' => $password,
-            'currency' => $currencycode,
-            'country' => "SA",
+            'currency' => $currencyCode,
+            'country' => $country,
             'amount' => $amount,
             "udf1" => "Test1",
             "udf2" => Yii::$app->BaseUrl->baseUrl.'/payment/validate',
@@ -97,7 +104,7 @@ class PaymentController extends Controller
 
         $data = json_encode($fields);
 
-        $httpClient = new Client(['baseUrl' => 'https://payments-dev.urway-tech.com']);
+        $httpClient = new Client(['baseUrl' => $this->baseUrl]);
         $response = $httpClient->createRequest()
             ->setMethod('post')
             ->setUrl('/URWAYPGService/transaction/jsonProcess/JSONrequest')
@@ -161,10 +168,10 @@ class PaymentController extends Controller
         $model->mobile = $user->mobile;
 
         $model->code = $this->generateOrderCode();
-//
+
         $model->subtotal = $finaPrice;
         $model->total = $finaPrice - $discount;
-//
+
         $model->discount = $discount ?? null;
         $model->coupon = $coupon?->coupon ?? null;
         $model->coupon_id = $coupon->id ?? null;
@@ -218,9 +225,100 @@ class PaymentController extends Controller
     public function actionValidate() {
         $trackId = Yii::$app->request->get('TrackId');
         $order = Order::find()->where(['code' => $trackId])->one();
+        $request = Yii::$app->request;
+
+        if ($this->checkStatusOfPayment($request)) {
+            $order->payment_status = 1;
+            $order->save();
+        }
 
         return $this->render('validate', ['order' => $order]);
     }
+
+    private function checkStatusOfPayment($request) {
+        // Credentials
+        $terminalId = $this->terminalId;
+        $password = $this->password;
+        $merchantKey = $this->merchantKey;
+
+        // Build request hash
+        $requestHash = implode('|', [
+            $request->get('TranId'),
+            $merchantKey,
+            $request->get('ResponseCode'),
+            $request->get('amount')
+        ]);
+
+        $hash = hash('sha256', $requestHash);
+
+        // Validate hash
+        if ($hash !== $_GET['responseHash']) {
+            return false;
+        }
+
+        // Build transaction details
+        $txn_details = implode('|', [
+            $request->get('TrackId'),
+            $terminalId,
+            $password,
+            $merchantKey,
+            $request->get('amount'),
+            $this->currencyCode
+        ]);
+        $requestHash1 = hash('sha256', $txn_details);
+
+        // Prepare API fields
+        $apifields = [
+            'trackid' => $_GET['TrackId'],
+            'terminalId' => $terminalId,
+            'action' => '10',
+            'merchantIp' => '',
+            'password' => $password,
+            'currency' => 'SAR',
+            'transid' => $_GET['TranId'],
+            'amount' => $_GET['amount'],
+            'udf5' => '',
+            'udf3' => '',
+            'udf4' => '',
+            'udf1' => '',
+            'udf2' => '',
+            'requestHash' => $requestHash1
+        ];
+        $apifields_string = json_encode($apifields);
+
+        // Send API request
+        $url = "{$this->baseUrl}/URWAYPGService/transaction/jsonProcess/JSONrequest";
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $apifields_string);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Content-Type: application/json',
+            'Content-Length: ' . strlen($apifields_string)
+        ]);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+
+        // Execute API request
+        $apiresult = curl_exec($ch);
+        curl_close($ch);
+
+        // Parse API response
+        $urldecodeapi = json_decode($apiresult, true);
+        $inquiryResponsecode = $urldecodeapi['responseCode'];
+        $inquirystatus = $urldecodeapi['result'];
+
+        // Check payment status
+        if ($_GET['Result'] === 'Successful' && $_GET['ResponseCode'] === '000' &&
+            ($inquirystatus === 'Successful' || $inquiryResponsecode === '000')) {
+            // Update contract status or perform other actions
+            // Contract::where('code', $request->get('TrackId'))->update(['status' => 1]);
+            return true;
+        }
+
+        return false;
+    }
+
 
     /**
      * Finds the Plan model based on its primary key value.

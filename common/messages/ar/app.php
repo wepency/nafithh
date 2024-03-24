@@ -984,4 +984,13 @@ return [
 
     'takamolat Already exists' => 'رقم ترخيص الاعلان موجود بالفعل.',
     'takamolat data bad' => 'بيانات الاعلان غير صحيحة.',
+
+    'Coupons' => 'أكواد الخصم',
+    'Coupon' => 'كود الخصم',
+    'discount' => 'نسبة الخصم',
+    'Create Coupon' => 'انشاء كود خصم',
+    'Update Coupon' => 'تعديل كوبون الخصم',
+    'Coupon added successfully' => 'تم اضافة كود الخصم بنجاح.',
+    'Coupon updated successfully' => 'تم تعديل كوبون الخصم بنجاح.',
+    'Coupon Uses' => 'تم استخدام الكوبون في: '
 ];

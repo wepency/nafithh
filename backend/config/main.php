@@ -91,6 +91,7 @@ return [
             'attachment/*',
             'gridview/export/download',
             'takamolat/*',
+            'coupons/*',
             'qr-code/*',
             // 'gridview/export/*'
             // 'story/*',

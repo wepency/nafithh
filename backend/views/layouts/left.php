@@ -211,6 +211,15 @@ if(in_array(yii::$app->user->identity->user_type,  ['estate_officer','owner_esta
     ]);
 }
 
+if(yii::$app->user->identity->user_type == 'admin'){
+
+    array_unshift($menuItems, [
+        'label' => \Yii::t('app', 'Coupons'),
+        'icon' => 'home', 'url' => ['/coupons/'],
+        'active' => in_array($this->context->route, ['coupons/index', 'coupons/view'])
+    ]);
+}
+
 
         print dmstr\widgets\Menu::widget(
             [

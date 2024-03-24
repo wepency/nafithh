@@ -125,7 +125,6 @@ class Order extends \yii\db\ActiveRecord
             'response_by' => Yii::t('app', 'Response By'),
             'payment_status' => Yii::t('app', 'Payment Status'),
             'created_date' => Yii::t('app', 'Created Date'),
-
         ];
     }
 
