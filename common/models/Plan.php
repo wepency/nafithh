@@ -51,7 +51,7 @@ class Plan extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'title_en', 'period', 'currency', 'status', 'contracts', 'sms'], 'required'],
+            [['title', 'title_en', 'period', 'currency', 'status', 'contracts', 'sms', 'price'], 'required'],
             [['period', 'currency', 'status', 'views'], 'integer'],
             [['created_date'], 'safe'],
             [['sort_at'], 'integer'],

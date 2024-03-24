@@ -38,6 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'name',
             //'content:ntext',
+            'code',
             'mobile',
             'email:email',
             // 'company_name',

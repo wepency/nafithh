@@ -103,12 +103,12 @@ class CouponsController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = new Coupon;
+        $model = $this->findModel($id);
 
         if ($model->load(\Yii::$app->request->post()) && $model->validate()) {
             if ($model->save()){
                 \Yii::$app->session->setFlash('success', \Yii::t('app', 'Coupon updated successfully'));
-                return $this->redirect('index');
+                return $this->redirect('/admin/coupons/index');
             }
 
             \Yii::$app->session->setFlash('error', \Yii::t('app', 'Error'));
