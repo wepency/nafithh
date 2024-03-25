@@ -105,7 +105,8 @@ return [
         ],
         'BaseUrl' => [
             'class' => 'yii\web\UrlManager',
-            'baseUrl' => 'https://nafithh.sa/web',
+//            'baseUrl' => 'https://nafithh.sa/web',
+            'baseUrl' => 'http://localhost:8080',
             'enablePrettyUrl' => true,
             'showScriptName' => false,
         ],

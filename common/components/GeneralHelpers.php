@@ -812,7 +812,7 @@ function getElapsedTime ($t){
 
     public static function taxes($amount)
     {
-        return number_format(($amount*15)/100, 2);
+        return number_format(((float)$amount*15)/100, 2);
     }
 
     public static function currency($amount, $currency = 1)

@@ -2,6 +2,7 @@
 namespace backend\controllers;
 
 use Yii;
+use yii\helpers\Url;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
@@ -323,7 +324,7 @@ class SiteController extends Controller
     			}
 
                 if (Yii::$app->session->has('paymentPlan'))
-                    return $this->redirect('/payment/overview');
+                    return $this->redirect(Yii::$app->BaseUrl->baseUrl.'/payment/overview');
 
                 return $this->goBack();
             }else{

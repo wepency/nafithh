@@ -2,10 +2,11 @@
 
 namespace frontend\controllers;
 
+use common\models\BalanceContract;
+use common\models\BalanceSms;
+use common\models\EstateOffice;
 use common\models\Order;
 use common\models\Plan;
-use yii\helpers\ArrayHelper;
-use yii\helpers\Html;
 use common\components\GeneralHelpers;
 use common\models\Coupon;
 use yii\filters\VerbFilter;
@@ -14,7 +15,6 @@ use yii\web\Controller;
 use yii\httpclient\Client;
 use Yii;
 use yii\web\NotFoundHttpException;
-use yii\helpers\Url;
 
 class PaymentController extends Controller
 {
@@ -42,6 +42,17 @@ class PaymentController extends Controller
     {
         $planId = Yii::$app->session->get('paymentPlan') ?? Yii::$app->session->get('paymentFinal');
 
+        $allowedUserTypes = ['estate_officer', 'owner'];
+
+        $userType = Yii::$app->user->identity->user_type;
+
+
+        $error = '';
+
+        if (!in_array($userType, $allowedUserTypes)) {
+            $error = Yii::t('app', 'Sorry, this is only for estate officers and owners');
+        }
+
         if (Yii::$app->session->has('paymentPlan')) {
             Yii::$app->session->set('paymentFinal', $planId);
             Yii::$app->session->remove('paymentPlan');
@@ -50,7 +61,8 @@ class PaymentController extends Controller
         $model = Plan::find()->where(['id' => $planId])->one();
 
         return $this->render('overview', [
-            'model' => $model
+            'model' => $model,
+            'error' => $error
         ]);
     }
 
@@ -164,13 +176,17 @@ class PaymentController extends Controller
         $model->company_type = 1;
 
         $model->name = $user->name;
+        $model->admin_id = $user->id;
         $model->email = $user->email;
         $model->mobile = $user->mobile;
 
         $model->code = $this->generateOrderCode();
 
-        $model->subtotal = $finaPrice;
-        $model->total = $finaPrice - $discount;
+        $model->subtotal = $finaPrice-$planPriceTax;
+
+        $model->taxes = ($finaPrice - $discount) * .15;
+
+        $model->total = $finaPrice - $discount - $model->taxes;
 
         $model->discount = $discount ?? null;
         $model->coupon = $coupon?->coupon ?? null;
@@ -224,12 +240,42 @@ class PaymentController extends Controller
 
     public function actionValidate() {
         $trackId = Yii::$app->request->get('TrackId');
-        $order = Order::find()->where(['code' => $trackId])->one();
+        $order = Order::find()->where(['code' => $trackId, 'payment_status' => 0])->one();
         $request = Yii::$app->request;
 
-        if ($this->checkStatusOfPayment($request)) {
-            $order->payment_status = 1;
-            $order->save();
+        if ($order) {
+            if ($this->checkStatusOfPayment($request)) {
+                $order->payment_status = 1;
+                $order->save();
+
+                $adminId = $order->admin_id;
+
+                $estateOffice = EstateOffice::findOne(['admin_id' => $order->admin_id]);
+
+                // Add SMS Balance
+                $balanceSMS = new BalanceSms();
+
+                $balanceSMS->estate_office_id = $estateOffice->id;
+                $balanceSMS->user_id = $adminId;
+                $balanceSMS->amount = $order->plan->sms;
+                $balanceSMS->price = $order->total;
+
+                $balanceSMS->save();
+
+                GeneralHelpers::balanceChange($balanceSMS,'add');
+
+                // Add Contracts Balance
+                $balanceContract = new BalanceContract();
+
+                $balanceContract->estate_office_id = $estateOffice->id;
+                $balanceContract->user_id = $adminId;
+                $balanceContract->amount = $order->plan->contracts;
+                $balanceContract->price = $order->total;
+
+                $balanceContract->save();
+
+                GeneralHelpers::balanceChange($balanceContract,'add');
+            }
         }
 
         return $this->render('validate', ['order' => $order]);
@@ -269,14 +315,14 @@ class PaymentController extends Controller
 
         // Prepare API fields
         $apifields = [
-            'trackid' => $_GET['TrackId'],
+            'trackid' => $request->get('TrackId'),
             'terminalId' => $terminalId,
             'action' => '10',
             'merchantIp' => '',
             'password' => $password,
             'currency' => 'SAR',
-            'transid' => $_GET['TranId'],
-            'amount' => $_GET['amount'],
+            'transid' => $request->get('TranId'),
+            'amount' => $request->get('amount'),
             'udf5' => '',
             'udf3' => '',
             'udf4' => '',

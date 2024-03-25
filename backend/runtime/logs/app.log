@@ -27144,3 +27144,140 @@ $_SERVER = [
     'REQUEST_TIME_FLOAT' => 1711253588.1453
     'REQUEST_TIME' => 1711253588
 ]
+2024-03-25 00:59:57 [::1][2][2u4lu1asahs7ed9vkkt196fhhd][error][yii\web\HttpException:403] yii\web\ForbiddenHttpException: غير مصرح لك القيام بهذا العمل in C:\xampp\htdocs\nafithh\vendor\mdmsoft\yii2-admin\components\AccessControl.php:88
+Stack trace:
+#0 C:\xampp\htdocs\nafithh\vendor\mdmsoft\yii2-admin\components\AccessControl.php(73): mdm\admin\components\AccessControl->denyAccess(Object(yii\web\User))
+#1 C:\xampp\htdocs\nafithh\vendor\yiisoft\yii2\base\ActionFilter.php(77): mdm\admin\components\AccessControl->beforeAction(Object(yii\base\InlineAction))
+#2 [internal function]: yii\base\ActionFilter->beforeFilter(Object(yii\base\ActionEvent))
+#3 C:\xampp\htdocs\nafithh\vendor\yiisoft\yii2\base\Component.php(633): call_user_func(Array, Object(yii\base\ActionEvent))
+#4 C:\xampp\htdocs\nafithh\vendor\yiisoft\yii2\base\Module.php(724): yii\base\Component->trigger('beforeAction', Object(yii\base\ActionEvent))
+#5 C:\xampp\htdocs\nafithh\vendor\yiisoft\yii2\base\Controller.php(166): yii\base\Module->beforeAction(Object(yii\base\InlineAction))
+#6 C:\xampp\htdocs\nafithh\vendor\yiisoft\yii2\base\Module.php(552): yii\base\Controller->runAction('toolbar', Array)
+#7 C:\xampp\htdocs\nafithh\vendor\yiisoft\yii2\web\Application.php(103): yii\base\Module->runAction('debug/default/t...', Array)
+#8 C:\xampp\htdocs\nafithh\vendor\yiisoft\yii2\base\Application.php(384): yii\web\Application->handleRequest(Object(yii\web\Request))
+#9 C:\xampp\htdocs\nafithh\web\admin\index.php(18): yii\base\Application->run()
+#10 {main}
+2024-03-25 00:59:56 [::1][2][2u4lu1asahs7ed9vkkt196fhhd][info][application] $_GET = [
+    'tag' => '6600a258914b3'
+]
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_identity-backend' => '2507f46fb277d60ac27fdda9262a39982fa1fa1edec26b203d54211de3aa9324a:2:{i:0;s:17:\"_identity-backend\";i:1;s:46:\"[2,\"5RU91wflLOKpMYAexqcr8xxKCnaJB_hL\",2592000]\";}'
+    '_csrf-backend' => '6bbe374ba0b49183c28eab7aac19f3ba9700be2499097def9d91e421ccfaca8fa:2:{i:0;s:13:\"_csrf-backend\";i:1;s:32:\"Syi0smy-TzXRa38ftMZhWA3aPGzJe6gv\";}'
+    '_csrf-frontend' => '6cd40d60e1fb5041b50ab615fc80e34836de8fcf1ef784592ef90a99f2263c77a:2:{i:0;s:14:\"_csrf-frontend\";i:1;s:32:\"wlG5Iw-pNOUaDo1xnzgyw0Y0FrmXAZQn\";}'
+    'advanced-backend' => '2u4lu1asahs7ed9vkkt196fhhd'
+]
+
+$_SESSION = [
+    '__flash' => []
+    '__id' => 2
+    '__authKey' => '5RU91wflLOKpMYAexqcr8xxKCnaJB_hL'
+    'paymentFinal' => '11'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => 'C:\\xampp\\htdocs\\nafithh\\web'
+    'REMOTE_ADDR' => '::1'
+    'REMOTE_PORT' => '54125'
+    'SERVER_SOFTWARE' => 'PHP 8.2.12 Development Server'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_PORT' => '8080'
+    'REQUEST_URI' => '/admin/debug/default/toolbar?tag=6600a258914b3'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/admin/index.php'
+    'SCRIPT_FILENAME' => 'C:\\xampp\\htdocs\\nafithh\\web\\admin\\index.php'
+    'PATH_INFO' => '/debug/default/toolbar'
+    'PHP_SELF' => '/admin/index.php/debug/default/toolbar'
+    'QUERY_STRING' => 'tag=6600a258914b3'
+    'HTTP_HOST' => 'localhost:8080'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_SEC_CH_UA' => '\"Google Chrome\";v=\"123\", \"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"123\"'
+    'HTTP_ACCEPT' => 'text/html'
+    'HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"Windows\"'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_REFERER' => 'http://localhost:8080/admin'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br'
+    'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.9,ar;q=0.8'
+    'HTTP_COOKIE' => '_identity-backend=2507f46fb277d60ac27fdda9262a39982fa1fa1edec26b203d54211de3aa9324a%3A2%3A%7Bi%3A0%3Bs%3A17%3A%22_identity-backend%22%3Bi%3A1%3Bs%3A46%3A%22%5B2%2C%225RU91wflLOKpMYAexqcr8xxKCnaJB_hL%22%2C2592000%5D%22%3B%7D; _csrf-backend=6bbe374ba0b49183c28eab7aac19f3ba9700be2499097def9d91e421ccfaca8fa%3A2%3A%7Bi%3A0%3Bs%3A13%3A%22_csrf-backend%22%3Bi%3A1%3Bs%3A32%3A%22Syi0smy-TzXRa38ftMZhWA3aPGzJe6gv%22%3B%7D; _csrf-frontend=6cd40d60e1fb5041b50ab615fc80e34836de8fcf1ef784592ef90a99f2263c77a%3A2%3A%7Bi%3A0%3Bs%3A14%3A%22_csrf-frontend%22%3Bi%3A1%3Bs%3A32%3A%22wlG5Iw-pNOUaDo1xnzgyw0Y0FrmXAZQn%22%3B%7D; advanced-backend=2u4lu1asahs7ed9vkkt196fhhd'
+    'REQUEST_TIME_FLOAT' => 1711317596.118
+    'REQUEST_TIME' => 1711317596
+]
+2024-03-25 05:07:57 [::1][94][l4sp33gr7h8sqspn0pp4hrop0j][error][yii\web\HttpException:403] yii\web\ForbiddenHttpException: غير مصرح لك القيام بهذا العمل in C:\xampp\htdocs\nafithh\vendor\mdmsoft\yii2-admin\components\AccessControl.php:88
+Stack trace:
+#0 C:\xampp\htdocs\nafithh\vendor\mdmsoft\yii2-admin\components\AccessControl.php(73): mdm\admin\components\AccessControl->denyAccess(Object(yii\web\User))
+#1 C:\xampp\htdocs\nafithh\vendor\yiisoft\yii2\base\ActionFilter.php(77): mdm\admin\components\AccessControl->beforeAction(Object(yii\base\InlineAction))
+#2 [internal function]: yii\base\ActionFilter->beforeFilter(Object(yii\base\ActionEvent))
+#3 C:\xampp\htdocs\nafithh\vendor\yiisoft\yii2\base\Component.php(633): call_user_func(Array, Object(yii\base\ActionEvent))
+#4 C:\xampp\htdocs\nafithh\vendor\yiisoft\yii2\base\Module.php(724): yii\base\Component->trigger('beforeAction', Object(yii\base\ActionEvent))
+#5 C:\xampp\htdocs\nafithh\vendor\yiisoft\yii2\base\Controller.php(166): yii\base\Module->beforeAction(Object(yii\base\InlineAction))
+#6 C:\xampp\htdocs\nafithh\vendor\yiisoft\yii2\base\Module.php(552): yii\base\Controller->runAction('toolbar', Array)
+#7 C:\xampp\htdocs\nafithh\vendor\yiisoft\yii2\web\Application.php(103): yii\base\Module->runAction('debug/default/t...', Array)
+#8 C:\xampp\htdocs\nafithh\vendor\yiisoft\yii2\base\Application.php(384): yii\web\Application->handleRequest(Object(yii\web\Request))
+#9 C:\xampp\htdocs\nafithh\web\admin\index.php(18): yii\base\Application->run()
+#10 {main}
+2024-03-25 05:07:57 [::1][94][l4sp33gr7h8sqspn0pp4hrop0j][info][application] $_GET = [
+    'tag' => '6600dc7cc8850'
+]
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf-frontend' => '6cd40d60e1fb5041b50ab615fc80e34836de8fcf1ef784592ef90a99f2263c77a:2:{i:0;s:14:\"_csrf-frontend\";i:1;s:32:\"wlG5Iw-pNOUaDo1xnzgyw0Y0FrmXAZQn\";}'
+    'advanced-backend' => 'l4sp33gr7h8sqspn0pp4hrop0j'
+    '_identity-backend' => '98aa642ec5ce1a39e05de95fc2512ba68e60690d4a058cbc1c3d389c2b44217ca:2:{i:0;s:17:\"_identity-backend\";i:1;s:47:\"[94,\"FPMu2WKk-wMLbw_FFn16xh_lQD-KupqV\",2592000]\";}'
+    '_csrf-backend' => '76f6a5114fe12ccb4ff829e6a65758dfa2c8c50cdfba76e31ffa73e41910bcd2a:2:{i:0;s:13:\"_csrf-backend\";i:1;s:32:\"psgVOnT3w4EIiZIj6LipQ1jG-rqyU4Hw\";}'
+]
+
+$_SESSION = [
+    '__flash' => []
+    'paymentPlan' => '11'
+    '__id' => 94
+    '__authKey' => 'FPMu2WKk-wMLbw_FFn16xh_lQD-KupqV'
+    'estate_office_id' => 31
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => 'C:\\xampp\\htdocs\\nafithh\\web'
+    'REMOTE_ADDR' => '::1'
+    'REMOTE_PORT' => '61871'
+    'SERVER_SOFTWARE' => 'PHP 8.2.12 Development Server'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_PORT' => '8080'
+    'REQUEST_URI' => '/admin/debug/default/toolbar?tag=6600dc7cc8850'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/admin/index.php'
+    'SCRIPT_FILENAME' => 'C:\\xampp\\htdocs\\nafithh\\web\\admin\\index.php'
+    'PATH_INFO' => '/debug/default/toolbar'
+    'PHP_SELF' => '/admin/index.php/debug/default/toolbar'
+    'QUERY_STRING' => 'tag=6600dc7cc8850'
+    'HTTP_HOST' => 'localhost:8080'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_SEC_CH_UA' => '\"Google Chrome\";v=\"123\", \"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"123\"'
+    'HTTP_ACCEPT' => 'text/html'
+    'HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"Windows\"'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_REFERER' => 'http://localhost:8080/admin/'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br'
+    'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.9,ar;q=0.8'
+    'HTTP_COOKIE' => '_csrf-frontend=6cd40d60e1fb5041b50ab615fc80e34836de8fcf1ef784592ef90a99f2263c77a%3A2%3A%7Bi%3A0%3Bs%3A14%3A%22_csrf-frontend%22%3Bi%3A1%3Bs%3A32%3A%22wlG5Iw-pNOUaDo1xnzgyw0Y0FrmXAZQn%22%3B%7D; advanced-backend=l4sp33gr7h8sqspn0pp4hrop0j; _identity-backend=98aa642ec5ce1a39e05de95fc2512ba68e60690d4a058cbc1c3d389c2b44217ca%3A2%3A%7Bi%3A0%3Bs%3A17%3A%22_identity-backend%22%3Bi%3A1%3Bs%3A47%3A%22%5B94%2C%22FPMu2WKk-wMLbw_FFn16xh_lQD-KupqV%22%2C2592000%5D%22%3B%7D; _csrf-backend=76f6a5114fe12ccb4ff829e6a65758dfa2c8c50cdfba76e31ffa73e41910bcd2a%3A2%3A%7Bi%3A0%3Bs%3A13%3A%22_csrf-backend%22%3Bi%3A1%3Bs%3A32%3A%22psgVOnT3w4EIiZIj6LipQ1jG-rqyU4Hw%22%3B%7D'
+    'REQUEST_TIME_FLOAT' => 1711332477.3092
+    'REQUEST_TIME' => 1711332477
+]

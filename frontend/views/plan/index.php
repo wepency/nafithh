@@ -137,7 +137,7 @@ $background = ['pic-01.png','pic-02.png','pic-03.png'];
 	                        <img class="package-ico" src="<?=$row->image?>" alt="<?=$row->_title?>" >
 
 	                        <div class="package-price" style="background-image:<?=Yii::$app->homeUrl.'/images/'.array_rand($background)?> ;">
-	                            <p class="mb-0"><span class="price"><?=$row->price + (float)GeneralHelpers::taxes($row->price)?></span> <?=Yii::$app->params['currency'][Yii::$app->language][$row->currency]; ?> / <?=Yii::$app->params['period'][Yii::$app->language][$row->period]; ?></p>
+	                            <p class="mb-0"><span class="price"><?=(float)$row->price + (float)GeneralHelpers::taxes($row->price)?></span> <?=Yii::$app->params['currency'][Yii::$app->language][$row->currency]; ?> / <?=Yii::$app->params['period'][Yii::$app->language][$row->period]; ?></p>
                                 <h5 class="text-muted text-sm mt-0 mb-4" style="font-size:1rem;">السعر شامل الضريبة</h5>
                             </div>
 

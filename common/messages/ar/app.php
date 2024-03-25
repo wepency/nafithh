@@ -992,5 +992,7 @@ return [
     'Update Coupon' => 'تعديل كوبون الخصم',
     'Coupon added successfully' => 'تم اضافة كود الخصم بنجاح.',
     'Coupon updated successfully' => 'تم تعديل كوبون الخصم بنجاح.',
-    'Coupon Uses' => 'تم استخدام الكوبون في: '
+    'Coupon Uses' => 'تم استخدام الكوبون في: ',
+
+    'Sorry, this is only for estate officers and owners' => 'عفوا لا يمكنك الاشتراك في الباقة حيث تلك الباقة مخصصة فقط لمكاتب العقار وملاك العقارات.'
 ];
