@@ -263,11 +263,8 @@ class TakamolatController extends Controller
 
     private function getTakamolatCorrrectValue($adLicenseNumber, $advertiserId)
     {
-        $takamolat = $this->getTakamolat($adLicenseNumber, $advertiserId);
-
-        if (!$takamolat) {
-            $takamolat = $this->getTakamolat($adLicenseNumber, $advertiserId, 2);
-        }
+        $idType = str_starts_with($advertiserId, '7') ? 2 : 1;
+        $takamolat = $this->getTakamolat($adLicenseNumber, $advertiserId, $idType);
 
         if (YII_ENV == 'dev') {
             $json = file_get_contents(Yii::getAlias('@common') . '/takamolat.json');
