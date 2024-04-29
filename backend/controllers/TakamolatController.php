@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use common\components\GeneralHelpers;
 use common\models\Gallery;
+use Gregwar\Image\Image;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -121,11 +122,8 @@ class TakamolatController extends Controller
         $model = new Gallery;
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-
             $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
-
             return $this->updateOrCreateGallery($postRequest, $model);
-
         }
 
         return $this->render('create', [
@@ -186,7 +184,7 @@ class TakamolatController extends Controller
                     $model->{$keyNameInDB} = $item;
                 }
 
-                if (in_array($key, ['propertyUsages', 'propertyUtilities'])) {
+                if (in_array($key, ['propertyUsages', 'propertyUtilities', 'borders', 'theBordersAndLengthsOfTheProperty'])) {
                     $item = serialize($item);
                 }
 
@@ -216,8 +214,9 @@ class TakamolatController extends Controller
             $model->created_at = Date('Y-m-d H:i:s');
 
             if ($model->save()) {
-                GeneralHelpers::setImages($model);
-                // Model saved successfully, redirect or do further actions
+//                GeneralHelpers::setImages($model);
+                GeneralHelpers::setImagesWithWatemark($model);
+                // Model saved successfully, redirect or do further action
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }

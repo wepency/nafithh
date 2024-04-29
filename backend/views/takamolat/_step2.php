@@ -197,8 +197,15 @@ function myMap() {
         myMap();
         addMarker(lat, lng)
     }
+JS;
 
-    getLocation();
+if (!$model->lat && !$model->lng) {
+    $script .= <<<JS
+        getLocation();
+    JS;
+}
+
+$script .= <<<JS
 
     // Add marker
     function addMarker(lat, lon) {

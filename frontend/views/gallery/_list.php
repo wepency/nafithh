@@ -49,7 +49,7 @@ $styleView = Yii::$app->request->get('style_view', 'gride');
 
                             <!--                            <img src="https://nafithh.com/uploads/attachment/cU-uWU9ioeLczsMWBAi0F_Q73nrtBxVT1.jpeg">-->
 
-                            <span class="badge badge-primary red-bage"><?= $row->advertisementType ?></span>
+                            <span class="badge badge-primary <?= $row->advertisementType == 'إيجار' ? 'green-bage' : 'red-bage' ?>"><?= $row->advertisementType ?></span>
 
                             <span class="add-time">
                                     <img src="<?= Yii::$app->homeUrl ?>images/clock-five.svg">

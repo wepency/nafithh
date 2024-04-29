@@ -145,8 +145,8 @@ $(document).ready(function(){
 
 function getTakamolatData(adLicenseNumber, adLicenseId, btn = null, isUpdate = false) {
     $.ajax({
-            // url: '/admin/takamolat/post-request',
-            url: '/web/admin/takamolat/post-request',
+            url: '/admin/takamolat/post-request',
+            // url: '/web/admin/takamolat/post-request',
             type: 'POST',
             data: {
                 'adLicenseNumber': adLicenseNumber,
@@ -154,6 +154,7 @@ function getTakamolatData(adLicenseNumber, adLicenseId, btn = null, isUpdate = f
                 isUpdate: isUpdate
             },
             success: function (data) {
+                
                 $('#smartwizard').smartWizard("loader", "hide");
                 // $('#smartwizard').smartWizard("content", data);
                 
@@ -172,9 +173,10 @@ function getTakamolatData(adLicenseNumber, adLicenseId, btn = null, isUpdate = f
                 if (btn) {
                     btn.attr('disabled', false).removeClass('loading').find('span').remove()
                 }
+                
             },
             fail: function (data) {
-                enableButton(btn)
+                enableButton(btn)   
             }
         })
 }

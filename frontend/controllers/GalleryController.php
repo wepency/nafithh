@@ -147,7 +147,7 @@ class GalleryController extends Controller
 
         // Ad description
         if (isset($data['ad_description']) && $data['ad_description'] != '') {
-            $models->andFilterWhere(['like', 'description', $data['ad_description']]);
+            $models->andFilterWhere(['like', 'name', $data['ad_description']]);
         }
 
         // Min price

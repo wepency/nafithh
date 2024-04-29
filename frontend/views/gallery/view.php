@@ -3,8 +3,11 @@
 // print_r(yii::$app->user->identity); 
 // print_r($model->estateContract); 
 // die();
+$this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.css', ['position' => \yii\web\View::POS_HEAD]);
+
 $this->registerJsFile('https://code.jquery.com/jquery-3.6.0.min.js', ['position' => \yii\web\View::POS_HEAD]);
 $this->registerJsFile('https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js', ['position' => \yii\web\View::POS_HEAD]);
+$this->registerJsFile('https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js', ['position' => \yii\web\View::POS_HEAD]);
 
 
 $searchType = Yii::$app->request->get('type',0);

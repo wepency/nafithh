@@ -67,7 +67,7 @@ class Gallery extends \yii\db\ActiveRecord
         return [
             [['adLicenseNumber', 'adLicenseId', 'propertyPrice', 'name', 'description', 'address', 'lat', 'lng'], 'required'],
             [['adLicenseNumber'], 'unique', 'skipOnEmpty' => false, 'on' => 'insert'],
-            [['imageFiles'], 'file', 'extensions' => 'png, jpg, jpeg, gif', 'maxFiles' => 10]
+            [['imageFiles'], 'file', 'extensions' => 'png, jpg, jpeg, gif', 'maxFiles' => 25]
         ];
     }
 
