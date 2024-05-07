@@ -31,17 +31,21 @@ CrudAsset::register($this);
                                 <?php } ?>
                             </div>
                         </div>
-                        <!-- /new -->
-                        <div class="login-frm-div">
-                            <div class="title mb-4">
-                                <h4>
-                                    <img src="<?=Yii::$app->homeUrl?>images/pin.png">
-                                   <?= yii::t('app','Login')?>
-                                </h4>
-                            </div>
-                            <?php $form = ActiveForm::begin([/*'action'=>['login'],*/
-                                'options' => ['method' => 'post','class'=>'form-group'],
-                            ]); ?> 
+
+                        <?php
+                        if (Yii::$app->user->isGuest):
+                            ?>
+                            <!-- /new -->
+                            <div class="login-frm-div">
+                                <div class="title mb-4">
+                                    <h4>
+                                        <img src="<?=Yii::$app->homeUrl?>images/pin.png">
+                                        <?= yii::t('app','Login')?>
+                                    </h4>
+                                </div>
+                                <?php $form = ActiveForm::begin([/*'action'=>['login'],*/
+                                    'options' => ['method' => 'post','class'=>'form-group'],
+                                ]); ?>
                                 <div class="form-group">
                                     <label><?= yii::t('app','User Name')?></label>
                                     <?= $form->field($model, 'username')->textInput(['placeholder'=>Yii::t('app','User Name'),'class'=>'form-control'])->label(false) ?>
@@ -54,12 +58,12 @@ CrudAsset::register($this);
                                 <div class="row mb-25">
                                     <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                                         <div class="custom-control custom-checkbox">
-                                            <?= $form->field($model, 'rememberMe')->checkbox(['class' =>'custom-control-input' ])->label('<label class="custom-control-label" for='.Html::getInputId($model,"rememberMe").'>'.yii::t("app","Remember My Account Info").'</label>') ?> 
-                                           
-                                        </div>  
+                                            <?= $form->field($model, 'rememberMe')->checkbox(['class' =>'custom-control-input' ])->label('<label class="custom-control-label" for='.Html::getInputId($model,"rememberMe").'>'.yii::t("app","Remember My Account Info").'</label>') ?>
+
+                                        </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-12 col-12 text-left">
-                                        <a href="<?=Yii::$app->homeUrl?>site/request-password-reset" class="forget-pass"><?= yii::t('app','Did You Forget Your Password ?')?></a>   
+                                        <a href="<?=Yii::$app->homeUrl?>site/request-password-reset" class="forget-pass"><?= yii::t('app','Did You Forget Your Password ?')?></a>
                                     </div>
                                 </div>
                                 <?php Modal::begin([
@@ -72,13 +76,15 @@ CrudAsset::register($this);
                                 <?php Modal::end(); ?>
                                 <?=Html::activeHiddenInput($model, "agreeTerm"); ?>
                                 <div class="text-center mt-5">
-                                <?= Html::submitButton(yii::t('app','Login'), ['class' => 'btn btn-light custom-btn']) ?>
+                                    <?= Html::submitButton(yii::t('app','Login'), ['class' => 'btn btn-light custom-btn']) ?>
                                 </div>
                                 <div class="text-center mt-4">
                                     <p class="small yellow-color text-center"> <a href="<?=Yii::$app->homeUrl?>site/signup"><?= yii::t('app','Create New Account')?></a></p>
                                 </div>
-                            <?php ActiveForm::end(); ?>
-                        </div>
+                                <?php ActiveForm::end(); ?>
+                            </div>
+                                <?php endif; ?>
+
                     </div>
                     <div class="col-lg-6 col-md-12 col-sm-12 col-12 mp-0">
                         <!-- Start slider -->

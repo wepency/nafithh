@@ -22,7 +22,6 @@ class PlanController extends Controller
      */
     public function actionIndex()
     {
-
         $models = Plan::find()->where(['status' => 1])->orderBy('sort_at ASC')->all();
 
         return $this->render('index', [

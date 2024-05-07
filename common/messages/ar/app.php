@@ -992,5 +992,7 @@ return [
     'Update Coupon' => 'تعديل كوبون الخصم',
     'Coupon added successfully' => 'تم اضافة كود الخصم بنجاح.',
     'Coupon updated successfully' => 'تم تعديل كوبون الخصم بنجاح.',
-    'Coupon Uses' => 'تم استخدام الكوبون في: '
+    'Coupon Uses' => 'تم استخدام الكوبون في: ',
+
+    'You are already subscribed' => 'انت مشترك في الباقة بالفعل',
 ];

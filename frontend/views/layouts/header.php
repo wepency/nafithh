@@ -59,6 +59,21 @@ $action_id = Yii::$app->controller->action->id;
                                     </div>
                                 </div>
                             </li>
+
+                            <li class="nav-item">
+                                <div class="media">
+                                    <div class="icon-photo align-self-center ml-3">
+                                        <img src="<?= Yii::$app->homeUrl ?>images/whatsappline.png">
+                                    </div>
+                                    <div class="media-body align-self-center text-right">
+                                        <a class="" target="_blank"
+                                           href="https://api.whatsapp.com/send?phone=+966<?= $setting->mobile ?>;">
+                                            <h5 class="mt-0"><?= yii::t('app', 'For inquiries') ?></h5>
+                                            <p class="mb-0"><?= $setting->mobile ?></p>
+                                        </a>
+                                    </div>
+                                </div>
+                            </li>
                         </ul>
                     </div>
                     <nav class="navbar navbar-expand-lg navbar-light header-menu">
@@ -145,6 +160,7 @@ $action_id = Yii::$app->controller->action->id;
                                 <a class="nav-link"
                                    href="https://api.whatsapp.com/send?phone=+966<?= $setting->mobile ?>;"><?= $setting->mobile ?></a>
                             </li>
+
                         </ul>
                     </div>
                     <div class="body-menu-mobile">
