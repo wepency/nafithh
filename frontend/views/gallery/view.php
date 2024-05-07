@@ -3,8 +3,11 @@
 // print_r(yii::$app->user->identity); 
 // print_r($model->estateContract); 
 // die();
+$this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.css', ['position' => \yii\web\View::POS_HEAD]);
+
 $this->registerJsFile('https://code.jquery.com/jquery-3.6.0.min.js', ['position' => \yii\web\View::POS_HEAD]);
 $this->registerJsFile('https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js', ['position' => \yii\web\View::POS_HEAD]);
+$this->registerJsFile('https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js', ['position' => \yii\web\View::POS_HEAD]);
 
 
 $searchType = Yii::$app->request->get('type',0);
@@ -27,6 +30,10 @@ $this->title = Yii::t('app', 'Nafithh gallery').' - ' .$model->name;
     .media.building-info {
         background-color: #f7f7f7;
         border-radius: 10px;
+    }
+    .text-small {
+        font-size: 14px;
+        width: 60%;
     }
 </style>
 <!-- Start Content -->
@@ -79,7 +86,7 @@ $this->title = Yii::t('app', 'Nafithh gallery').' - ' .$model->name;
                         <div class="info">
                             <div class="info-title">
                                 <span><?= yii::t('app','Estate Price') ?></span>
-                                <h4><?= number_format($model->propertyPrice) ?> SR</h4>
+                                <h4><?= number_format($model->propertyPrice, '2') ?> SR</h4>
                             </div>
 
                             <div class="owner-info">
@@ -181,7 +188,7 @@ $this->title = Yii::t('app', 'Nafithh gallery').' - ' .$model->name;
 
                             <div class="media-body clearfix align-self-center">
                                 <h5 class="mt-0"><?= yii::t('app','Real Estate Interface') ?></h5>
-                                <span class="mr-auto"><?=$model?->propertyFace ?? 'لا يوجد'?></span>
+                                <span class="mr-auto"><?=$model?->propertyFace ?: 'لا يوجد'?></span>
                             </div>
                         </div>
                     </div>
@@ -194,7 +201,7 @@ $this->title = Yii::t('app', 'Nafithh gallery').' - ' .$model->name;
 
                             <div class="media-body clearfix align-self-center">
                                 <h5 class="mt-0"><?= yii::t('app','Street Width') ?></h5>
-                                <span class="mr-auto"><?=$model?->streetWidth;?></span>
+                                <span class="mr-auto"><?=$model->streetWidth ?: 'غير محدد'?></span>
                             </div>
                         </div>
                     </div>
@@ -215,7 +222,7 @@ $this->title = Yii::t('app', 'Nafithh gallery').' - ' .$model->name;
 
                             <div class="media-body clearfix align-self-center">
                                 <h5 class="mt-0"><?= yii::t('app','Space') ?></h5>
-                                <span class="mr-auto"><?=$model?->propertyArea?></span>
+                                <span class="mr-auto"><?=number_format($model?->propertyArea, 2)?></span>
                             </div>
                         </div>
                     </div>
@@ -223,8 +230,6 @@ $this->title = Yii::t('app', 'Nafithh gallery').' - ' .$model->name;
 <!--                    --><?php //if ($model?->numberOfRooms): ?>
                     <div class="col-lg-4 col-md-6 col-sm-6 col-12">
                         <div class="media building-info">
-<!--                            <img src="--><?php //=Yii::$app->homeUrl?><!--images/icon1.png" class="ml-2" alt="...">-->
-
                             <span class="icon"><i class="fa fa-th-large"></i></span>
 
                             <div class="media-body clearfix align-self-center">
@@ -333,7 +338,7 @@ $this->title = Yii::t('app', 'Nafithh gallery').' - ' .$model->name;
 
                             <div class="media-body clearfix align-self-center">
                                 <h5 class="mt-0">مؤثث (مفروش)</h5>
-                                <span class="mr-auto"><?= $model->furniture ? 'نعم' : 'لا' ?></span>
+                                <span class="mr-auto"><?=Yii::$app->params['yesNo'][Yii::$app->language][(bool)$model?->furniture]?></span>
                             </div>
                         </div>
                     </div>
@@ -344,8 +349,7 @@ $this->title = Yii::t('app', 'Nafithh gallery').' - ' .$model->name;
 
                             <div class="media-body clearfix align-self-center">
                                 <h5 class="mt-0">التكييف</h5>
-<!--                                <span class="mr-auto">--><?php //= $model->airConditioning ? 'نعم' : 'لا' ?><!--</span>-->
-                                <span class="mr-auto">لا</span>
+                                <span class="mr-auto"><?=Yii::$app->params['yesNo'][Yii::$app->language][(bool)$model?->ac]?></span>
                             </div>
                         </div>
                     </div>
@@ -356,7 +360,7 @@ $this->title = Yii::t('app', 'Nafithh gallery').' - ' .$model->name;
 
                             <div class="media-body clearfix align-self-center">
                                 <h5 class="mt-0">توافر المصاعد</h5>
-                                <span class="mr-auto"><?=Yii::$app->params['yesNo'][Yii::$app->language][!is_null($model?->elevator)]?></span>
+                                <span class="mr-auto"><?=Yii::$app->params['yesNo'][Yii::$app->language][(bool)$model?->elevator]?></span>
                             </div>
                         </div>
                     </div>
@@ -383,22 +387,22 @@ $this->title = Yii::t('app', 'Nafithh gallery').' - ' .$model->name;
 
                     <div class="col-lg-4 col-md-6 col-sm-6 col-12">
                         <div class="media building-info">
-                            <img src="/images/icon1.png" class="ml-2" alt="...">
-                            <div class="media-body clearfix align-self-center">
-                                <h5 class="mt-0">هل يوجد الرهن أو القيد الذي يمنع او يحد من التصرف او الانتفاع من العقار؟</h5>
+                            <span class="icon"><i class="fa fa-lock"></i></span>
 
-                                <span class="mr-auto"><?=Yii::$app->params['yesNo'][Yii::$app->language][!is_null($model?->obligations)]?></span>
+                            <div class="media-body clearfix align-self-center">
+                                <h5 class="mt-0 text-small">الحقوق والالتزامات على العقار (وفق وزارة العدل/السجل العقاري)</h5>
+                                <span class="mr-auto"><?=$model?->guarantees ?: "لا يوجد"?></span>
                             </div>
                         </div>
                     </div>
 
                     <div class="col-lg-4 col-md-6 col-sm-6 col-12">
                         <div class="media building-info">
-                            <img src="<?=Yii::$app->homeUrl?>images/icon1.png" class="ml-2" alt="...">
+                            <span class="icon"><i class="fa fa-lock-open"></i></span>
 
                             <div class="media-body clearfix align-self-center">
-                                <h5 class="mt-0"><?= yii::t('app','Rights and obligations over real estate not documented in the real estate document') ?></h5>
-                                <span class="mr-auto"><?=Yii::$app->params['yesNo'][Yii::$app->language][!is_null($model?->obligations)]?></span>
+                                <h5 class="mt-0 text-small">الالتزامات الآخرى على العقار</h5>
+                                <span class="mr-auto"><?=$model?->obligations ?? "لا يوجد"?></span>
                             </div>
                         </div>
                     </div>

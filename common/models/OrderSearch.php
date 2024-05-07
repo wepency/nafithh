@@ -40,7 +40,7 @@ class OrderSearch extends Order
      */
     public function search($params)
     {
-        $query = Order::find();
+        $query = Order::find()->where(['payment_status' => 1]);
 
         // add conditions that should always apply here
 

@@ -41,7 +41,7 @@ Modal::begin([
     <div class="box-body table-responsive">
         <?php
 
-        $link = isset($model->id) ? 'update/'.$model?->id : 'create';
+        $link = isset($model->id) ? 'update/' . $model?->id : 'create';
         $form = ActiveForm::begin(['method' => 'post', 'action' => ["/takamolat/{$link}"], 'options' => ['class' => "form_check_owner", 'id' => 'form_takamolat']]);
 
         ?>
@@ -344,7 +344,6 @@ Modal::begin([
 
         $('#submit_form').on('click', function (e) {
             e.preventDefault();
-
             $(this).parents('form').submit();
         });
     });

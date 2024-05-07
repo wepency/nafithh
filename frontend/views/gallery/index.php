@@ -20,7 +20,7 @@ Yii::$app->assetManager->bundles = [
 // print_r(count($gallery)); die();
 
 
-$adSubType = Yii::$app->request->get('ad_subtype', 'بيع');
+$adSubType = Yii::$app->request->get('ad_subtype', '');
 $styleView = Yii::$app->request->get('style_view', 'gride');
 $listOffice = ArrayHelper::map(
     EstateOffice::find()->where(['>', 'estate_office.id', 0])->joinWith(['admin'], false)
@@ -62,6 +62,13 @@ $listOffice = ArrayHelper::map(
                         </div>
                         */ ?>
                             <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link <?= $adSubType == '' ? 'active' : '' ?>"
+                                            id="pills-home-tab" data-toggle="pill" data-target="#pills-home"
+                                            type="button" role="tab" value='' aria-controls="pills-home"
+                                            aria-selected="true">الكل</button>
+                                </li>
+
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link <?= $adSubType == 'بيع' ? 'active' : '' ?>"
                                             id="pills-home-tab" data-toggle="pill" data-target="#pills-home"

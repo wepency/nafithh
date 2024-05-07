@@ -4,12 +4,9 @@ namespace frontend\controllers;
 
 use Yii;
 use common\models\Plan;
-use common\models\Order;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\helpers\Html;
-use yii\helpers\ArrayHelper;
-use yii\httpclient\Client;
+use yii\helpers\Url;
 
 /**
  * PlanController implements the CRUD actions for Plan model.
@@ -46,10 +43,10 @@ class PlanController extends Controller
         if (!Yii::$app->user->isGuest) {
             // User is logged in, proceed with payment processing
             // Your payment processing logic goes here
-            return $this->redirect('/payment/overview');
+            return $this->redirect(Url::to(['/payment/overview'], true));
         } else {
             // User is not logged in, redirect to the login page
-            return $this->redirect(['admin/site/login']);
+            return $this->redirect(Url::to(['/admin/site/login'], true));
         }
 
 //        $plan = $this::findModel($plan_id);
