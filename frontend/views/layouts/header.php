@@ -61,18 +61,20 @@ $action_id = Yii::$app->controller->action->id;
                             </li>
 
                             <li class="nav-item">
-                                <div class="media">
+                                <a href="/admin" class="media">
                                     <div class="icon-photo align-self-center ml-3">
-                                        <img src="<?= Yii::$app->homeUrl ?>images/whatsappline.png">
+                                        <img src="<?= Yii::$app->homeUrl ?>images/user-account.png">
                                     </div>
                                     <div class="media-body align-self-center text-right">
-                                        <a class="" target="_blank"
-                                           href="https://api.whatsapp.com/send?phone=+966<?= $setting->mobile ?>;">
-                                            <h5 class="mt-0"><?= yii::t('app', 'For inquiries') ?></h5>
-                                            <p class="mb-0"><?= $setting->mobile ?></p>
-                                        </a>
+                                        <?php if (Yii::$app->user->isGuest): ?>
+                                            <h5 class="mt-0"><?= yii::t('app', 'login or register') ?></h5>
+                                            <p class="mb-0"><?= Yii::t('app', 'login header subtitle') ?></p>
+                                        <?php else: ?>
+                                            <h5 class="mt-0"><?= yii::t('app', 'enter dashboard') ?></h5>
+                                            <p class="mb-0"><?= Yii::t('app', 'click to visit dashboard') ?></p>
+                                        <?php endif; ?>
                                     </div>
-                                </div>
+                                </a>
                             </li>
                         </ul>
                     </div>
@@ -156,9 +158,14 @@ $action_id = Yii::$app->controller->action->id;
                             <li class="nav-item">
                                 <a class="nav-link" href="javascript:;"><?= $setting->email ?></a>
                             </li>
+
                             <li class="nav-item mr-auto">
                                 <a class="nav-link"
                                    href="https://api.whatsapp.com/send?phone=+966<?= $setting->mobile ?>;"><?= $setting->mobile ?></a>
+                            </li>
+
+                            <li class="nav-item mr-auto">
+                                <a class="nav-link" href="/admin"><?= Yii::t('app', Yii::$app->user->isGuest ? 'login or register' : 'enter dashboard') ?></a>
                             </li>
 
                         </ul>

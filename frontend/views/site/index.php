@@ -33,7 +33,7 @@ CrudAsset::register($this);
                         </div>
 
                         <?php
-                        if (Yii::$app->user->isGuest):
+                        if (Yii::$app->user->isGuest && 5 == 7):
                             ?>
                             <!-- /new -->
                             <div class="login-frm-div">

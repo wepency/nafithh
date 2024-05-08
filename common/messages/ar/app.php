@@ -998,4 +998,11 @@ return [
     'Sorry, this is only for estate officers and owners' => 'عفوا لا يمكنك الاشتراك في الباقة حيث تلك الباقة مخصصة فقط لمكاتب العقار وملاك العقارات.',
 
     'You are already subscribed' => 'لقد قمت بالاشتراك في هذه الباقة.',
+
+    'login or register' => 'الدخول او التسجيل',
+
+    'login header subtitle' => 'يمكنك الدخول الى حسابكم',
+
+    'enter dashboard' => 'لوحة التحكم',
+    'click to visit dashboard' => 'اضغط هنا للدخول الى لوحة التحكم'
 ];
