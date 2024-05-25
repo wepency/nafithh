@@ -6,7 +6,7 @@ use Yii;
 use common\models\Building;
 use common\models\BuildingHousingUnit;
 
-use backend\models\Request;
+use backend\models\Requist;
 use backend\models\Setting;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;

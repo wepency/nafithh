@@ -326,19 +326,37 @@ class EstateOffice extends \yii\db\ActiveRecord
     // type [email or sms]
     public function checkAvalibalBalance($type = 'email')
     {
-        if ($type === 'email') {
+        if ($type === 'email' && !is_null($this->contract_expire_date)) {
             if (
                 $this->contract_default_type === 1 ||
                 ($this->contract_balance > 0 && strtotime($this->contract_expire_date) > time())
             )
                 return true;
-        } elseif ($type === 'sms') {
+        } elseif ($type === 'sms' && !is_null($this->sms_expire_date)) {
             if (
                 $this->sms_default_type === 1 ||
                 ($this->sms_balance > 0 && strtotime($this->sms_expire_date) > time())
             )
                 return true;
         }
+        return false;
+    }
+
+    public function getAvailableBalance($type = 'email')
+    {
+        if ($type === 'email') {
+            if (is_null($this->contract_expire_date))
+                return 0;
+
+            if (strtotime($this->contract_expire_date) < time()) {
+                return 0;
+            }
+
+            return $this->contract_expire_date;
+        } elseif ($type === 'sms') {
+            return $this->sms_balance;
+        }
+
         return false;
     }
 

@@ -304,8 +304,8 @@ class Installment extends \yii\db\ActiveRecord
                 $trans->reference_id = $receiptCatch->id;
                 $trans->setDetail('receipt_catch',['amount'=> $amount,'receipt_catch_id'=>$receiptCatch->id]);
                 $trans->save();
-            }else {
-                // إذا كانت عمولة المكتب أقل من أو يساوي مجموع القيود بمعنى تم سداد عمولة المكتب بشكل كامل
+            }else{
+                // إذا كانت عمولة المكتب أقل من أو يساوي مجموع القيودبمعنى تم سداد عمولة المكتب بشكل كامل
             }
 
             $amount = 0;

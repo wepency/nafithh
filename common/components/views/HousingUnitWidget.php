@@ -17,6 +17,7 @@ use yii\redactor\widgets\Redactor;
         <h4><i class="glyphicon glyphicon-envelope"></i> <?= Yii::t('app','Housing Units')?></h4>
     </div>
 
+
     <div class="panel-body">
          <?php DynamicFormWidget::begin([
             'widgetContainer' => 'dynamicform_wrapperHo', // required: only alphanumeric characters plus "_" [A-Za-z0-9_]

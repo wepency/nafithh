@@ -10,6 +10,7 @@ use johnitvn\ajaxcrud\CrudAsset;
 use yii\bootstrap\Modal;
 
 CrudAsset::register($this);
+$setting = yii::$app->SiteSetting->info();
 
 $this->registerCssFile('@web/css/custome.css', ['depends' => [airani\AdminLteRtlAsset::class]]);
 
@@ -28,8 +29,9 @@ $fieldOptions2 = [
 <div class="login-box">
     
   <div class="login-logo">
-    <a href="#"><b>AQAR</b></a>
+    <img src="<?= $setting->logo ?>" alt="Site Logo" style="max-width: 150px" />
   </div>
+
   <!-- /.login-logo -->
   <div class="login-box-body">
      <fieldset>

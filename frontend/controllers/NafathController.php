@@ -4,11 +4,11 @@ namespace frontend\controllers;
 
 use common\models\User;
 use frontend\models\NafathForm;
-use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use yii\filters\VerbFilter;
 use yii\helpers\Html;
 use yii\web\Controller;
+use GuzzleHttp\Client;
 
 /**
  * NafathController implements the CRUD actions for City model.
@@ -39,7 +39,7 @@ class NafathController extends Controller
 
         if ($model->load(\Yii::$app->request->post()) && $model->validate()) {
             $nationalId = Html::encode($model->nationalId);
-            return $this->redirect(['nafath/send?n_id=' . $nationalId]);
+            return $this->redirect(['nafath/send?n_id='.$nationalId]);
         }
 
         return $this->render('create', ['model' => $model]);
@@ -54,6 +54,7 @@ class NafathController extends Controller
 
         if (is_null($_GET['n_id']))
             $this->render('error');
+
 
         // URL on which we have to post data
         $url = "https://nafath.api.elm.sa/api/v1/mfa/request?local=ar&requestId=4d736d59-fe13-4105-9406-b79f8b5eb854";
@@ -97,6 +98,7 @@ class NafathController extends Controller
 
         } catch (GuzzleException $e) {
             return $this->render('error');
+            return $e->getMessage();
         }
     }
 

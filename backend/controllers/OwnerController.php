@@ -89,7 +89,6 @@ class OwnerController extends UserController
             GeneralHelpers::setImages($model);
 
             Yii::$app->session->setFlash('success', Yii::t('app','New Owner Add successfully.'));
-
             return $this->redirect(['create']); 
         } else {
             return $this->render('create', [

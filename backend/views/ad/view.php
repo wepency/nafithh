@@ -3734,8 +3734,6 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 </div>
 
-<?php if ($takamolat): ?>
-
 <div class="order-index  box box-primary">
 
     <?php /* if(yii::$app->user->can('/order/create')){ ?>
@@ -4153,5 +4151,3 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 </div>
-
-<?php endif; ?>

@@ -14,7 +14,6 @@ use common\components\GeneralHelpers;
  * @property int $amount
  * @property float $price
  * @property string $created_at
- * @property string $created_at
  */
 class BalanceSms extends \yii\db\ActiveRecord
 {

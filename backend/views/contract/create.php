@@ -118,7 +118,6 @@ yii::$app->assetManager->bundles['yii\web\JqueryAsset'] = false;
          checkOrAdd = function(){
             $(".loadMainContent").on("click", function(event ){
                 $('#smartwizard').smartWizard("loader", "show");
-
                 var form = $( this ).parent().parent();
                 var formData = form.serialize();
                 $.ajax({

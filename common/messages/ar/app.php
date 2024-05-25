@@ -513,7 +513,7 @@ return [
     'Opened Contracts' => 'العقود المفتوحة',
     'Opened Order Maintenance' => 'طلبات الصيانة المفتوحة',
     'Opened Orders' => 'الطلبات المفتوحة',
-    'Order' => 'طلب',
+    'Order' => 'الطلبات',
     'Order Info' => 'بيانات طلب الصيانة',
     'Order Infos' => 'بيانات طلبات الصيانة',
     'Order Maintenance Information' => 'معلومات طلب الصيانة',
@@ -1004,5 +1004,12 @@ return [
     'login header subtitle' => 'يمكنك الدخول الى حسابكم',
 
     'enter dashboard' => 'لوحة التحكم',
-    'click to visit dashboard' => 'اضغط هنا للدخول الى لوحة التحكم'
+    'click to visit dashboard' => 'اضغط هنا للدخول الى لوحة التحكم',
+
+    'Your quota is about to finish, you can {upgradeLink} now.' => 'الباقة تقترب من النفاذ، يمكنك {upgradeLink} الآن.',
+    'upgrade' => 'الترقية',
+    'Subscriptions' => 'الاشتراكات',
+    'Your are on trial plan, {upgradeLink} now to get more sms and contracts.' => 'انت على الباقة التجريبية، يمكنك {upgradeLink} الآن للحصول على المزيد من الرسائل النصية والعقود.',
+    'Contracts balance' => 'رصيد العقود',
+    'SMS balance' => 'رصيد ال SMS',
 ];

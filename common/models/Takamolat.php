@@ -6,11 +6,15 @@ use Yii;
 use yii\base\Model;
 
 /**
- * This is the model class for table "takamolat".
+ * This is the model class for table "ad".
  *
- * @property int $adLicenseNumber
- * @property int $advertiserId
- * @property int $adType
+ * @property int $id
+ * @property string $name
+ * @property string $name_en
+ * @property string $link
+ * @property string $image
+ * @property string $page_name
+ * @property int $status
  */
 
 class Takamolat extends Model

@@ -59,7 +59,7 @@ class ChatController extends Controller
         $modelhistory->chat_id = $model->id;
 
         if ($modelhistory->load(Yii::$app->request->post()) && $modelhistory->save()){
-//            $modelhistory->trigger(ChatHistory::EVENT_NEW);
+//            $modelhistory->trigger(ChatHistory::EVENT_NEW); 
             Yii::$app->session->setFlash('success',Yii::t('app','Updates are done successfully.'));
             return $this->redirect(['view', 'id' => $model->id]);
         }

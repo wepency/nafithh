@@ -23,7 +23,7 @@ $label = isset($label)? $label : Yii::t('app','Date');
                         'attribute2' =>'endDate',
                     // 'value2' => '27-Feb-2020',
                     // 'options2' => ['placeholder' => yii::t('app','To Date')],
-//                        'attribute2' =>'endDate',
+                        'attribute2' =>'endDate',
                         'type' => DatePicker::TYPE_RANGE,
                         'options' => ['placeholder' => yii::t('app','From Date')],
                         'options2' => ['placeholder' => yii::t('app','To Date')],
@@ -35,7 +35,7 @@ $label = isset($label)? $label : Yii::t('app','Date');
                             'format' => 'yyyy-mm-dd'
                         ]
                     ])->label(false); ?>
-
+    
 
         <?php // echo $form->field($model, 'price') ?>
 

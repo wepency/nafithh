@@ -90,6 +90,7 @@ return [
             'export/*',
             'attachment/*',
             'gridview/export/download',
+            'subscriptions/*',
             'takamolat/*',
             'coupons/*',
             'qr-code/*',

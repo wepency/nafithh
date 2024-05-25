@@ -81,6 +81,8 @@ use yii\helpers\Html;
 
 <div class="box-footer">
     <div class="form-group">
-        <?= Html::button(($model === null ? Yii::t('app', 'Add Ad') : Yii::t('app', 'Edit Ad')) . '<i class="glyphicon glyphicon-check"></i> ', ['class' => 'button button-primary', 'id' => 'submit_form', 'type' => 'submit']) ?>
+<!--        --><?php //= Html::submitButton(Yii::t('app', 'Submit'), ['class' => 'btn btn-primary']) ?>
+
+        <?= Html::submitButton(($model === null ? Yii::t('app', 'Add Ad') : Yii::t('app', 'Edit Ad')) . '<i class="glyphicon glyphicon-check"></i> ', ['class' => 'button button-primary', 'id' => 'submit_form']) ?>
     </div>
 </div>

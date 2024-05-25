@@ -26,6 +26,7 @@ class Plan extends \yii\db\ActiveRecord
 {
 
     public $_title;
+    public $_plan_for;
 
     public function behaviors()
     {

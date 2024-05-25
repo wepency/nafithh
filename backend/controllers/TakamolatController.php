@@ -214,8 +214,8 @@ class TakamolatController extends Controller
             $model->created_at = Date('Y-m-d H:i:s');
 
             if ($model->save()) {
-//                GeneralHelpers::setImages($model);
-                GeneralHelpers::setImagesWithWatemark($model);
+                GeneralHelpers::setImages($model);
+//                return GeneralHelpers::setImagesWithWatemark($model);
                 // Model saved successfully, redirect or do further action
                 return $this->redirect(['view', 'id' => $model->id]);
             }
@@ -240,6 +240,10 @@ class TakamolatController extends Controller
 
         if ($takamolat) {
             $takamolat = json_decode(json_encode($takamolat));
+
+            if (is_string($takamolat))
+                return ['success' => false, 'error' => 'رقم الهوية أو السجل التجاري لا يرتبط بترخيص الإعلان برجاء التأكد من الرقم.'];
+
             $takamolat = $takamolat->Body;
         } else {
             return ['success' => false, 'error' => Yii::t('app', 'takamolat data bad')];
@@ -301,8 +305,7 @@ class TakamolatController extends Controller
         if ($response->isOk) {
             return $response->data; // Parsed JSON response
         } else {
-            $errorMessage = $response->statusCode . ' ' . $response;
-            return false;
+            return $response->statusCode . ' ' . $response;
 //            return $this->asJson(['success' => false, 'error' => $errorMessage]);
         }
     }

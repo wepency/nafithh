@@ -81,54 +81,51 @@ class AdController extends Controller
 
         $takamolat = $this->getTakamolat($adLicenseNumber, $advertiserId, $idType);
 
-        if ($takamolat) {
-            $takamolat = json_decode(json_encode($takamolat));
-            $takamolat = $takamolat->Body;
-        }
+        $takamolat = json_decode(json_encode($takamolat));
 
         return $this->render('view', [
             'model' => $this->findModel($id),
-            'takamolat' => $takamolat
+            'takamolat' => $takamolat->Body
         ]);
     }
 
-//    public function getTakamolat($adLicenseNumber, $advertiserId, $idType)
-//    {
-//        // Set headers
-//        $headers = [
-//            'X-IBM-Client-Id' => '784587cfd52fec53cad8a5c2c875cf61',
-//            'X-IBM-Client-Secret' => '0bfc97b8de1d7a22be964844b4995251',
-//            'Content-Type' => 'application/json'
-//        ];
-//
-////        $adLicenseNumber = '710004195';
-////        $advertiserId = '1010000001';
-////        $idType = '1';
-//
-//        $url = 'https://integration-gw.nhc.sa/nhc/prod/v1/brokerage/';
-//        $url .= 'AdvertisementValidator?adLicenseNumber=' . $adLicenseNumber . '&advertiserId=' . $advertiserId . '&idType=' . $idType;
-//        // $url .= '&clientIP='.urlencode($clientIP).'&protocol='.urlencode($protocol);
-//
-//        $httpClient = new \yii\httpclient\Client();
-//
-//        // Make the API request
-//        $response = $httpClient
-//            ->createRequest()
-//            ->setMethod('GET')
-//            ->setUrl($url)
-//            ->setHeaders($headers)
-//            ->setFormat(Client::FORMAT_JSON)
-//            ->send();
-//
-//        // Validate the response
-//        if ($response->isOk) {
-//            return $response->data; // Parsed JSON response
-//        } else {
-//            $errorMessage = $response->statusCode . ' ' . $response;
-//            return false;
-////            return $this->asJson(['success' => false, 'error' => $errorMessage]);
-//        }
-//    }
+    public function getTakamolat($adLicenseNumber, $advertiserId, $idType)
+    {
+        // Set headers
+        $headers = [
+            'X-IBM-Client-Id' => '784587cfd52fec53cad8a5c2c875cf61',
+            'X-IBM-Client-Secret' => '0bfc97b8de1d7a22be964844b4995251',
+            'Content-Type' => 'application/json'
+        ];
+
+//        $adLicenseNumber = '710004195';
+//        $advertiserId = '1010000001';
+//        $idType = '1';
+
+        $url = 'https://integration-gw.nhc.sa/nhc/prod/v1/brokerage/';
+        $url .= 'AdvertisementValidator?adLicenseNumber=' . $adLicenseNumber . '&advertiserId=' . $advertiserId . '&idType=' . $idType;
+        // $url .= '&clientIP='.urlencode($clientIP).'&protocol='.urlencode($protocol);
+
+        $httpClient = new \yii\httpclient\Client();
+
+        // Make the API request
+        $response = $httpClient
+            ->createRequest()
+            ->setMethod('GET')
+            ->setUrl($url)
+            ->setHeaders($headers)
+            ->setFormat(Client::FORMAT_JSON)
+            ->send();
+
+        // Validate the response
+        if ($response->isOk) {
+            return $response->data; // Parsed JSON response
+        } else {
+            $errorMessage = $response->statusCode . ' ' . $response;
+            return false;
+//            return $this->asJson(['success' => false, 'error' => $errorMessage]);
+        }
+    }
 
     /**
      * Creates a new Ad model.

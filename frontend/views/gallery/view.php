@@ -3,11 +3,8 @@
 // print_r(yii::$app->user->identity); 
 // print_r($model->estateContract); 
 // die();
-$this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.css', ['position' => \yii\web\View::POS_HEAD]);
-
 $this->registerJsFile('https://code.jquery.com/jquery-3.6.0.min.js', ['position' => \yii\web\View::POS_HEAD]);
 $this->registerJsFile('https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js', ['position' => \yii\web\View::POS_HEAD]);
-$this->registerJsFile('https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js', ['position' => \yii\web\View::POS_HEAD]);
 
 
 $searchType = Yii::$app->request->get('type',0);
@@ -230,6 +227,8 @@ $this->title = Yii::t('app', 'Nafithh gallery').' - ' .$model->name;
 <!--                    --><?php //if ($model?->numberOfRooms): ?>
                     <div class="col-lg-4 col-md-6 col-sm-6 col-12">
                         <div class="media building-info">
+<!--                            <img src="--><?php //=Yii::$app->homeUrl?><!--images/icon1.png" class="ml-2" alt="...">-->
+
                             <span class="icon"><i class="fa fa-th-large"></i></span>
 
                             <div class="media-body clearfix align-self-center">

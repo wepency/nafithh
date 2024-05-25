@@ -567,3 +567,17 @@ html[lang=ar] .select2-container--krajee-bs3 .select2-selection--single .select2
     left: 11px;
     right: auto;
 }
+
+.header-alert {
+    margin-right: 230px;
+
+    transition: all .25s ease-in;
+    -webkit-transition: all .25s ease-in;
+    -moz-transition: all .25s ease-in;
+    -o-transition: all .25s ease-in;
+}
+
+.sidebar-collapse .header-alert {
+    margin-right: 50px;
+}
+

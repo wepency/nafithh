@@ -41,7 +41,8 @@
         "kartik-v/yii2-grid": "@dev",
         "yiisoft/mailer": "^5.0",
         "symfony/mailer": "^6.3",
-        "yiisoft/yii2-httpclient": "^2.0"
+        "yiisoft/yii2-httpclient": "^2.0",
+        "intervention/image": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

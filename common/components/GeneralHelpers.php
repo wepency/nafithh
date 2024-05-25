@@ -2,6 +2,8 @@
 
 namespace common\components;
 
+use common\models\Order;
+use common\models\Plan;
 use yii;
 use common\models\Purview;
 use common\models\Project;
@@ -45,7 +47,6 @@ class GeneralHelpers
     {
         $notifTemp = self::getTemp($notifTempId, $estateOfficeId);
 
-
         $favLang = self::getFavLang($params['re_id'], $params['re_type']);
         if ($favLang == 'ar') {
             $msgEmail = \Yii::t('app', $notifTemp->body_email, $params);
@@ -56,7 +57,6 @@ class GeneralHelpers
             $msgTitleEmaile = \Yii::t('app', $notifTemp->title_email_en, $params);
             $msgSms = \Yii::t('app', $notifTemp->body_sms_en, $params);
         }
-
 
         if ($notifTemp->enable_sms) {
             // سيتم إرسال رسالة إذا كان الاشعار غير مرتبط بمكتب أو إذا كان مرتبط بمكتب ولديه رصيد كافي للإرسال
@@ -81,26 +81,27 @@ class GeneralHelpers
                 }
             }
 
-            $log = new \common\models\LogMessage();
-            if ($estateOfficeId) {
-                $log->sender_id = (int)$estateOfficeId;
-                $log->sender_type = 'estate_officer';
-            } else {
-                $log->sender_id = 0;
-                $log->sender_type = 'admin';
-            }
-            $log->notif_temp_id = (int)$notifTempId;
-            $log->receiver_id = (int)$params['re_id'];
-            $log->receiver_type = $params['re_type'];
-            $log->contact_mobile = isset($params['mobile']) ? $params['mobile'] : '';
-            $log->contact_email = '';
-            $log->message = $msgSms;
-            $log->status = $statusSend['message'];
-            $log->save();
-
+//            $log = new \common\models\LogMessage();
+//
+//            if ($estateOfficeId) {
+//                $log->sender_id = (int)$estateOfficeId;
+//                $log->sender_type = 'estate_officer';
+//            } else {
+//                $log->sender_id = 0;
+//                $log->sender_type = 'admin';
+//            }
+//            $log->notif_temp_id = (int)$notifTempId;
+//            $log->receiver_id = (int)$params['re_id'];
+//            $log->receiver_type = $params['re_type'];
+//            $log->contact_mobile = isset($params['mobile']) ? $params['mobile'] : '';
+//            $log->contact_email = '';
+//            $log->message = $msgSms;
+//            $log->status = $statusSend['message'];
+//            $log->save();
         }
 
         if ($notifTemp->enable_email && $params['email']) {
+
             $attach = isset($params['attach']) ? $params['attach'] : null;
 
             $statusSend = self::sendEmail($params['email'], $msgTitleEmaile, $msgEmail, '', '', $attach);
@@ -115,22 +116,22 @@ class GeneralHelpers
                 }
             }
 
-            $log = new \common\models\LogMessage();
-            if ($estateOfficeId) {
-                $log->sender_id = (int)$estateOfficeId;
-                $log->sender_type = 'estate_officer';
-            } else {
-                $log->sender_id = 0;
-                $log->sender_type = 'admin';
-            }
-            $log->notif_temp_id = (int)$notifTempId;
-            $log->receiver_id = (int)$params['re_id'];
-            $log->receiver_type = $params['re_type'];
-            $log->contact_mobile = '';
-            $log->contact_email = isset($params['email']) ? $params['email'] : '';
-            $log->message = $msgEmail;
-            $log->status = $statusSend['message'];
-            $log->save();
+//            $log = new \common\models\LogMessage();
+//            if ($estateOfficeId) {
+//                $log->sender_id = (int)$estateOfficeId;
+//                $log->sender_type = 'estate_officer';
+//            } else {
+//                $log->sender_id = 0;
+//                $log->sender_type = 'admin';
+//            }
+//            $log->notif_temp_id = (int)$notifTempId;
+//            $log->receiver_id = (int)$params['re_id'];
+//            $log->receiver_type = $params['re_type'];
+//            $log->contact_mobile = '';
+//            $log->contact_email = isset($params['email']) ? $params['email'] : '';
+//            $log->message = $msgEmail;
+//            $log->status = $statusSend['message'];
+//            $log->save();
 
         }
 
@@ -144,7 +145,6 @@ class GeneralHelpers
 
     public static function sendEmail($to_email, $subject, $message, $from = '', $fileView = null, $file_attachment = null)
     {
-        return ['status' => true, 'message' => "Send Successfully"];
 
         if (isset($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] === 'localhost') {
             return ['status' => true, 'message' => "Send Successfully"];
@@ -270,9 +270,9 @@ class GeneralHelpers
      */
     public static function sendSms($to, $message)
     {
-        if (isset($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] === 'localhost') {
-            return ['status' => true, 'message' => "Send Successfully"];
-        }
+//        if (isset($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] === 'localhost') {
+//            return ['status' => true, 'message' => "Send Successfully"];
+//        }
 
         //get variables from admin settings
 
@@ -282,11 +282,10 @@ class GeneralHelpers
         $password_msg = $settingSms->password;
         $sender_msg = $settingSms->sender;
 
-
         $msg = urlencode($message);
         //للإظهار jop_id والرصيد المخصوم والرصيد المتبقي
         $infos = "YES";
-        //للإظهار نتيجة الإرسال على شكل XML 
+        //للإظهار نتيجة الإرسال على شكل XML
         $xml = "XML";
         $to = '00966' . $to;
 
@@ -312,12 +311,12 @@ class GeneralHelpers
                 return ['status' => true, 'message' => "Send Successfully ,JOB_ID : " . $ResultSending->JOB_ID];
 
             } else {
-                return ['status' => false, 'message' => "errore profiver code:$code"];
+                return ['status' => false, 'message' => "error profiver code:$code"];
 
             }
 
         } else
-            return ['status' => false, 'message' => "errore data profiver $result"];
+            return ['status' => false, 'message' => "error data profiver $result"];
     }
 
     public static function SendMsgSms($UserName, $UserPassword, $Numbers, $Originator, $Message, $infos = "", $xml = "")
@@ -524,9 +523,9 @@ function getElapsedTime ($t){
                     // watemark
                     $image = Image::open($imageFile->tempName);
                     $watermark = Image::open(Yii::getAlias("@upload/watermark.png"));
-//                    $watermark->resize((int)$image->width() / 7, (int)$image->height() / 7, 'transparent', true);
+                    $watermark->resize((int)$image->width() / 7, (int)$image->height() / 7, 'transparent', true);
 
-                    $image->merge($watermark, $image->width() / 1.5, $image->height() / 1.5, $image->width() / 10, $image->height() / 10);
+//                    $image->merge($watermark, $image->width() / 1.5, $image->height() / 1.5, $image->width() / 10, $image->height() / 10);
                     $image->save(Yii::getAlias("@upload/$folder/{$fileName}"), $imageFile->extension);
 
                     $jj++;
@@ -705,6 +704,7 @@ function getElapsedTime ($t){
     public static function testActiveEstateOffice()
     {
         $estate_office_id = GeneralHelpers::getEstateOfficeId();
+
         // check Office
         if (($estateOffice = EstateOffice::findOne($estate_office_id)) !== null) {
             //check balance Contract && check Expire date office
@@ -712,8 +712,49 @@ function getElapsedTime ($t){
                 return true;
             }
 
+
         }
         return false;
+    }
+
+    public static function checkAvalibalBalance($type = 'email')
+    {
+        $estate_office_id = GeneralHelpers::getEstateOfficeId();
+
+        // check Office
+        if (($estateOffice = EstateOffice::findOne($estate_office_id)) !== null) {
+            //check balance Contract && check Expire date office
+            if ($estateOffice->checkAvalibalBalance($type) > 0 && strtotime($estateOffice->expire_date) > time()) {
+                return true;
+            }
+
+
+        }
+        return false;
+    }
+
+    public static function getAvailableBalance($type = 'email')
+    {
+        $estate_office_id = GeneralHelpers::getEstateOfficeId();
+
+        // check Office
+        if (($estateOffice = EstateOffice::findOne($estate_office_id)) !== null) {
+            //check balance Contract && check Expire date office
+            return $estateOffice->getAvailableBalance($type);
+        }
+
+        return false;
+    }
+
+    public static function checkIfOfficeOnTrialPlan($type = 'email')
+    {
+// Fetch the estate_office_id from the Plan model
+        $lastPlan = Order::find()
+            ->where(['admin_id' => Yii::$app->user->identity]) // Assuming $userId contains the ID for the condition
+            ->orderBy(['id' => SORT_DESC]) // Order by 'id' in descending order
+            ->one()?->plan; // Fetch only one record
+
+        return (bool)$lastPlan->price == 0;
     }
 
 
@@ -811,7 +852,7 @@ function getElapsedTime ($t){
 
     public static function taxes($amount)
     {
-        return number_format(((float)$amount * 15) / 100, 2);
+        return number_format(((float)$amount * 15) / 100, 2, '.', '');
     }
 
     public static function currency($amount, $currency = 1)

@@ -75,7 +75,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'filter' => false,
                     'value' => function ($model) {
                         return Yii::$app->params['userType'][Yii::$app->language][$model->sender_type] . ' - ' .
-                            $model->sender->name;
+                            $model?->sender?->name;
                     }
                 ],
                 [

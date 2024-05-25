@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use common\components\GeneralHelpers;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -71,7 +72,6 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
-        return 'Hello';
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }

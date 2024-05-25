@@ -22,7 +22,6 @@ class ContactUsController extends Controller
     {
 
         $model = New ContactUs();
-
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
 
             $model->name = Html::encode($model->name);

@@ -18,10 +18,17 @@ use yii\web\NotFoundHttpException;
 
 class PaymentController extends Controller
 {
-    private string $baseUrl = 'https://payments-dev.urway-tech.com';
+    // Test Credentials
+//    private string $baseUrl = 'https://payments-dev.urway-tech.com';
+//    private string $terminalId = 'nafithh';
+//    private string $password = 'nafithh@1122';
+//    private string $merchantKey = '80d187ca94aea3f8dc38e91ebda1ae05d60f66de644c90db2296d90b894154aa';
+
+    // Live Credentials
+    private string $baseUrl = 'https://payments.urway-tech.com';
     private string $terminalId = 'nafithh';
-    private string $password = 'nafithh@1122';
-    private string $merchantKey = '80d187ca94aea3f8dc38e91ebda1ae05d60f66de644c90db2296d90b894154aa';
+    private string $password = 'na_1212@URWAY';
+    private string $merchantKey = '58b0a3ca037429f127657d9925dbfe7fa8e191ebf1a2727f0f00c8aa8984e84d';
     private string $currencyCode = 'SAR';
     private string $country = 'SA';
 
@@ -89,7 +96,7 @@ class PaymentController extends Controller
         $currencyCode = $this->currencyCode;
         $country = $this->country;
 
-        $amount = number_format($order['total'], 2);
+        $amount = number_format($order['total'], 2, '.', '');
 
         $ipp = '197.59.109.30'; // You may use your function to get server IP if required
 
@@ -136,7 +143,7 @@ class PaymentController extends Controller
                 // Handle error condition
                 Yii::error($result, 'Payment error');
                 // Debugging information
-                var_dump($result);
+                dd($result);
                 die();
             }
         } else {
@@ -158,7 +165,7 @@ class PaymentController extends Controller
 
         $planPrice = (float)$plan->price;
         $planPriceTax = (float)GeneralHelpers::taxes($planPrice);
-        $finaPrice = $planPrice+$planPriceTax;
+
         $discount = 0;
 
         if (!is_null($coupon)) {
@@ -182,11 +189,11 @@ class PaymentController extends Controller
 
         $model->code = $this->generateOrderCode();
 
-        $model->subtotal = $finaPrice-$planPriceTax;
+        $model->subtotal = $planPrice;
 
-        $model->taxes = ($finaPrice - $discount) * .15;
+        $model->taxes = ($planPrice - $discount) * .15;
 
-        $model->total = $finaPrice - $discount - $model->taxes;
+        $model->total = $planPrice - $discount + $model->taxes;
 
         $model->discount = $discount ?? null;
         $model->coupon = $coupon?->coupon ?? null;

@@ -72,7 +72,6 @@ class SystemIncomeSearch extends SystemIncome
             ->andFilterWhere(['like', 'details', $this->details]);
             
             $this->filterByDate($query,'pay_date');
-
         return $dataProvider;
     }
 }

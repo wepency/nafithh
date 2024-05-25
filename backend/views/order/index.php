@@ -38,7 +38,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'name',
             //'content:ntext',
-            'code',
             'mobile',
             'email:email',
             // 'company_name',
@@ -77,7 +76,7 @@ $this->params['breadcrumbs'][] = $this->title;
                'attribute'=>'response_by',
                'filter'=> false,
                'value'=> function($model) {
-                    return $model->responseBy?->name;
+                    return $model->responseBy->name;
                 }
             ],
             // 'responseBy.name',

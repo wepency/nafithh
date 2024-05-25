@@ -78,6 +78,7 @@ $action_id = Yii::$app->controller->action->id;
                             </li>
                         </ul>
                     </div>
+
                     <nav class="navbar navbar-expand-lg navbar-light header-menu">
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav main-menu">

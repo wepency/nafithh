@@ -144,7 +144,7 @@ Modal::begin([
             // Add any other options or callbacks you need
         });
 
-        $('body').on('click', '.button', function () {
+        $('body').on('click', '.button:not(#submit_form)', function () {
             disableButton($(this));
             // $(this).attr('disabled', true).addClass('loading').append('<span class="loading-wrap""><svg class="spinner" fill="#333" viewBox="0 0 50 50"><circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle></svg></span>')
         })
@@ -342,9 +342,9 @@ Modal::begin([
             return isValid;
         }
 
-        $('#submit_form').on('click', function (e) {
-            e.preventDefault();
-            $(this).parents('form').submit();
-        });
+        // $('#submit_form').on('click', function (e) {
+        //     e.preventDefault();
+        //     $(this).parents('form').submit();
+        // });
     });
 </script>
