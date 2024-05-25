@@ -58,22 +58,23 @@ class GeneralHelpers
             $msgSms = \Yii::t('app', $notifTemp->body_sms_en, $params);
         }
 
-        if ($notifTemp->enable_sms) {
+        if ($notifTemp->enable_sms = 1) {
+
             // سيتم إرسال رسالة إذا كان الاشعار غير مرتبط بمكتب أو إذا كان مرتبط بمكتب ولديه رصيد كافي للإرسال
             $estatOffice = EstateOffice::findOne($estateOfficeId);
-            if (!$estateOfficeId || ($estatOffice !== null && $estatOffice->checkAvalibalBalance('sms'))) {
+//            if (!$estateOfficeId || ($estatOffice !== null && $estatOffice->checkAvalibalBalance('sms'))) {
                 $statusSend = self::sendSms($params['mobile'], $msgSms);
-            } else {
-                $statusSend = ['status' => false, 'message' => 'You cannot Send Messages sms  due to the expiration of the SMS balance'];
-            }
+//            } else {
+//                $statusSend = ['status' => false, 'message' => 'You cannot Send Messages sms  due to the expiration of the SMS balance'];
+//            }
 
-            if ($statusSend['status'] == true) {
+            if ($statusSend['status'] = true) {
                 if ($estatOffice) {
                     $estatOffice->sms_balance = $estatOffice->sms_balance - 1;
                     $estatOffice->save(false);
                 }
                 if (Yii::$app instanceof \yii\web\Application) {
-                    Yii::$app->session->setFlash('success', Yii::t('app', $statusSend['message']));
+                    Yii::$app->session->setFlash('success', Yii::t('app', 'Hekki'));
                 }
             } else {
                 if (Yii::$app instanceof \yii\web\Application) {
