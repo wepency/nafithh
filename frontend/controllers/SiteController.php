@@ -5,6 +5,8 @@ use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
 use yii\base\InvalidArgumentException;
+use yii\base\InvalidConfigException;
+use yii\httpclient\Client;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -185,10 +187,32 @@ class SiteController extends Controller
      * Signs user up.
      *
      * @return mixed
+     * @throws InvalidConfigException
      */
 
     public function actionSignup()
     {
+
+//        $url = "https://mobile.net.sa/sms/gw/";
+//
+//        $client = new Client([
+//            'transport' => CurlTransport::class,  // Use CurlTransport instead of StreamTransport
+//        ]);
+//
+//        $response = $client->createRequest()
+//            ->setMethod('POST')
+//            ->setUrl($url)
+//            ->setData([
+//                'userName' => '0557257776',
+//                'userPassword' => '50959793',
+//                'userSender' => 'Nafithh',
+//                'numbers' => '00966547869735',
+//                'msg' => 'Hello client '.rand(1111,9999),
+//                'By' => "standard"
+//            ])
+//            ->send();
+//
+//        return $response->getContent();
 
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post()) && $model->Validate() && $model->signup() ) {

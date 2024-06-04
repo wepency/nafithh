@@ -88,6 +88,7 @@ class Signup extends Model
         $model->activation_code = $value;
         $model->save(false);
         $assign = \common\components\PermissionUser::assignToUser($model);
+
         $model->trigger(User::EVENT_NEW);
 
         self::createRelation($model);

@@ -62,19 +62,19 @@ class GeneralHelpers
 
             // سيتم إرسال رسالة إذا كان الاشعار غير مرتبط بمكتب أو إذا كان مرتبط بمكتب ولديه رصيد كافي للإرسال
             $estatOffice = EstateOffice::findOne($estateOfficeId);
-//            if (!$estateOfficeId || ($estatOffice !== null && $estatOffice->checkAvalibalBalance('sms'))) {
+            if (!$estateOfficeId || ($estatOffice !== null && $estatOffice->checkAvalibalBalance('sms'))) {
                 $statusSend = self::sendSms($params['mobile'], $msgSms);
-//            } else {
-//                $statusSend = ['status' => false, 'message' => 'You cannot Send Messages sms  due to the expiration of the SMS balance'];
-//            }
+            } else {
+                $statusSend = ['status' => false, 'message' => 'You cannot Send Messages sms  due to the expiration of the SMS balance'];
+            }
 
-            if ($statusSend['status'] = true) {
+            if ($statusSend['status']) {
                 if ($estatOffice) {
                     $estatOffice->sms_balance = $estatOffice->sms_balance - 1;
                     $estatOffice->save(false);
                 }
                 if (Yii::$app instanceof \yii\web\Application) {
-                    Yii::$app->session->setFlash('success', Yii::t('app', 'Hekki'));
+                    Yii::$app->session->setFlash('success', Yii::t('app', $statusSend['message']));
                 }
             } else {
                 if (Yii::$app instanceof \yii\web\Application) {
@@ -101,40 +101,40 @@ class GeneralHelpers
 //            $log->save();
         }
 
-        if ($notifTemp->enable_email && $params['email']) {
-
-            $attach = isset($params['attach']) ? $params['attach'] : null;
-
-            $statusSend = self::sendEmail($params['email'], $msgTitleEmaile, $msgEmail, '', '', $attach);
-
-            if ($statusSend['status'] == true) {
-                if (Yii::$app instanceof \yii\web\Application) {
-                    Yii::$app->session->setFlash('success', Yii::t('app', $statusSend['message']));
-                }
-            } else {
-                if (Yii::$app instanceof \yii\web\Application) {
-                    Yii::$app->session->setFlash('dangur', Yii::t('app', $statusSend['message']));
-                }
-            }
-
-//            $log = new \common\models\LogMessage();
-//            if ($estateOfficeId) {
-//                $log->sender_id = (int)$estateOfficeId;
-//                $log->sender_type = 'estate_officer';
+//        if ($notifTemp->enable_email && $params['email']) {
+//
+//            $attach = isset($params['attach']) ? $params['attach'] : null;
+//
+//            $statusSend = self::sendEmail($params['email'], $msgTitleEmaile, $msgEmail, '', '', $attach);
+//
+//            if ($statusSend['status'] == true) {
+//                if (Yii::$app instanceof \yii\web\Application) {
+//                    Yii::$app->session->setFlash('success', Yii::t('app', $statusSend['message']));
+//                }
 //            } else {
-//                $log->sender_id = 0;
-//                $log->sender_type = 'admin';
+//                if (Yii::$app instanceof \yii\web\Application) {
+//                    Yii::$app->session->setFlash('dangur', Yii::t('app', $statusSend['message']));
+//                }
 //            }
-//            $log->notif_temp_id = (int)$notifTempId;
-//            $log->receiver_id = (int)$params['re_id'];
-//            $log->receiver_type = $params['re_type'];
-//            $log->contact_mobile = '';
-//            $log->contact_email = isset($params['email']) ? $params['email'] : '';
-//            $log->message = $msgEmail;
-//            $log->status = $statusSend['message'];
-//            $log->save();
-
-        }
+//
+////            $log = new \common\models\LogMessage();
+////            if ($estateOfficeId) {
+////                $log->sender_id = (int)$estateOfficeId;
+////                $log->sender_type = 'estate_officer';
+////            } else {
+////                $log->sender_id = 0;
+////                $log->sender_type = 'admin';
+////            }
+////            $log->notif_temp_id = (int)$notifTempId;
+////            $log->receiver_id = (int)$params['re_id'];
+////            $log->receiver_type = $params['re_type'];
+////            $log->contact_mobile = '';
+////            $log->contact_email = isset($params['email']) ? $params['email'] : '';
+////            $log->message = $msgEmail;
+////            $log->status = $statusSend['message'];
+////            $log->save();
+//
+//        }
 
         if ($notifTemp->enable_system) {
             $params['content'] = $msgEmail;
@@ -283,7 +283,7 @@ class GeneralHelpers
         $password_msg = $settingSms->password;
         $sender_msg = $settingSms->sender;
 
-        $msg = urlencode($message);
+        $msg = urlencode($message).' - '.rand(1111,9999);
         //للإظهار jop_id والرصيد المخصوم والرصيد المتبقي
         $infos = "YES";
         //للإظهار نتيجة الإرسال على شكل XML
@@ -293,7 +293,6 @@ class GeneralHelpers
         if ($host_msg != NULL && $user_msg != NULL && $password_msg != NULL) {
             if ($sender_msg != NULL) {
                 $SendingResult = self::SendMsgSms($user_msg, $password_msg, $to, $sender_msg, $msg, $infos, $xml);
-
             } else {
                 $SendingResult = self::SendMsgSms($user_msg, $password_msg, $to, '', $msg, $infos, $xml);
             }

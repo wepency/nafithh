@@ -61,7 +61,7 @@ $this->params['breadcrumbs'][] = $this->title;
               'attribute' =>'user_receipt_id',
               'filter' => false,
               'value'=> function($model){
-                return $model->userReceipt->name;
+                return $model?->userReceipt?->name;
               }
             ],
             [
