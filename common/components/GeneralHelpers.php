@@ -283,7 +283,8 @@ class GeneralHelpers
         $password_msg = $settingSms->password;
         $sender_msg = $settingSms->sender;
 
-        $msg = urlencode($message).' - '.rand(1111,9999);
+        $msg = urlencode($message);
+//        $msg = urlencode($message).' - '.rand(1111,9999);
         //للإظهار jop_id والرصيد المخصوم والرصيد المتبقي
         $infos = "YES";
         //للإظهار نتيجة الإرسال على شكل XML

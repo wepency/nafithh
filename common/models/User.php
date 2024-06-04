@@ -559,7 +559,8 @@ class User extends ActiveRecord implements IdentityInterface
             'email' => $this->email,
             
             'name' => $this->name,
-            'username' => $this->username,
+//            'username' => $this->username,
+            'username' => $this->identity_id,
             'password' => $this->password,
             'url' => Yii::$app->BaseUrl->baseUrl,
         ];
