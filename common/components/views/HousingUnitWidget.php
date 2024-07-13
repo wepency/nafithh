@@ -62,8 +62,8 @@ use yii\redactor\widgets\Redactor;
                     <div class="panel-heading">
                         <h3 class="panel-title pull-left"><?= Yii::t('app','Housing Unit')?></h3>
                         <div class="pull-right">
-                            <button type="button" class="add-itemHo btn bg-green-active btn-xs"><i class="glyphicon glyphicon-plus"></i></button>
-                            <button type="button" class="remove-itemHo btn btn-danger btn-xs"><i class="glyphicon glyphicon-minus"></i></button>
+<!--                            <button type="button" class="add-itemHo btn bg-green-active btn-xs"><i class="glyphicon glyphicon-plus"></i></button>-->
+<!--                            <button type="button" class="remove-itemHo btn btn-danger btn-xs"><i class="glyphicon glyphicon-minus"></i></button>-->
                         </div>
                         <div class="clearfix"></div>
                     </div>
@@ -170,8 +170,9 @@ use yii\redactor\widgets\Redactor;
                                 <div class='col-sm-4'><?= $form->field($modelHousing, "[{$i}]sale_price")->textInput(['maxlength' => true]) ?></div>
                                 <div class='col-sm-4'><?= $form->field($modelHousing, "[{$i}]invest_price")->textInput(['maxlength' => true]) ?></div>
 								    
-                                <div class='col-sm-12 label-info'><label class='label-info'><?= Yii::t('app','You can add unit images via the Units option from the main menu')?></label></div>
-                            </fieldset>	
+<!--                                <div class='col-sm-12 label-info'><label class='label-info'>--><?php //= Yii::t('app','You can add unit images via the Units option from the main menu')?><!--</label></div>-->
+                                <div class='col-sm-12 label-info'><label class='label-info'>إضافة المزيد من الوحدات ستكون عن طريق خيار الوحدات في القائمة الرئيسية</label></div>
+                            </fieldset>
                         </div><!-- .row -->
                     </div>
                 </div>

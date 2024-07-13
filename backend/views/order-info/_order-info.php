@@ -60,7 +60,7 @@ $form1 =  new \yii\widgets\ActiveForm();
 
         <label for='' class='col-sm-2 control-label'><?=Yii::t('app', 'District')?></label>
         <div class='col-sm-4'>
-            <label class="label-data"><?=$model->buildingHousingUnit->building->district->_name?></label>
+            <label class="label-data"><?=$model?->buildingHousingUnit?->building?->district?->_name?></label>
         </div>
 
         <div class="clearfix"></div>

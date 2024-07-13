@@ -22,8 +22,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="box-body table-responsive"> 
       <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
+      <?=Yii::$app->view->renderFile('@backend/views/receipt-voucher/_filter_date.php',['model'=>$searchModel,'label'=>yii::t('app','Created Date')]);?>
 
-    <?= GridView::widget([
+      <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'panel' => [

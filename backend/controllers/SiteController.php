@@ -379,12 +379,12 @@ class SiteController extends Controller
     /**
      * Logout action.
      *
-     * @return string
+     * @return \yii\web\Response
      */
     public function actionLogout()
     {
         Yii::$app->user->logout();
-        return $this->redirect(Yii::$app->homeUrl);
+        return $this->goHome();
     }
 
 

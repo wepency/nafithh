@@ -114,7 +114,7 @@ $estateOffice = $contract->estateOffice;
 					</div>
 					<div class='col-sm-2'>
 					</div>
-					<?php if(!$key->isPaid() && in_array(yii::$app->user->identity->role, ['estate_officer','renter','developer'])){ ?>
+					<?php if(!$key->isPaid() && in_array(yii::$app->user->identity->role, ['estate_officer','developer'])){ ?>
 						
 						<div class='col-sm-push-2'>
 							<label class='label-data'><?=Html::a(yii::t('app','installment payment'),

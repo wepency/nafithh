@@ -283,8 +283,7 @@ class GeneralHelpers
         $password_msg = $settingSms->password;
         $sender_msg = $settingSms->sender;
 
-        $msg = urlencode($message);
-//        $msg = urlencode($message).' - '.rand(1111,9999);
+        $msg = urlencode($message).' - '.rand(1111,9999);
         //للإظهار jop_id والرصيد المخصوم والرصيد المتبقي
         $infos = "YES";
         //للإظهار نتيجة الإرسال على شكل XML
@@ -294,6 +293,7 @@ class GeneralHelpers
         if ($host_msg != NULL && $user_msg != NULL && $password_msg != NULL) {
             if ($sender_msg != NULL) {
                 $SendingResult = self::SendMsgSms($user_msg, $password_msg, $to, $sender_msg, $msg, $infos, $xml);
+
             } else {
                 $SendingResult = self::SendMsgSms($user_msg, $password_msg, $to, '', $msg, $infos, $xml);
             }
@@ -337,7 +337,7 @@ class GeneralHelpers
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
             curl_setopt($ch, CURLOPT_VERBOSE, 0);
-            // curl_setopt($ch, CURLE_HTTP_NOT_FOUND,true); 
+            // curl_setopt($ch, CURLE_HTTP_NOT_FOUND,true);
             $FainalResult = curl_exec($ch);
             curl_close($ch);
             return $FainalResult;
@@ -584,7 +584,7 @@ function getElapsedTime ($t){
     /*
     if model have 2 type image used $attribute for name column
 
-       If you want to delete the entire row in which the file is located, 
+       If you want to delete the entire row in which the file is located,
        write anything in $deleteRow
 
     */
@@ -755,7 +755,10 @@ function getElapsedTime ($t){
             ->orderBy(['id' => SORT_DESC]) // Order by 'id' in descending order
             ->one()?->plan; // Fetch only one record
 
-        return (bool)$lastPlan->price == 0;
+        if (!is_null($lastPlan))
+            return (bool)$lastPlan?->price == 0;
+
+        return true;
     }
 
 

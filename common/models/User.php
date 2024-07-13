@@ -313,7 +313,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findByUsername($username)
     {
-        return static::find()->where(['username' => $username])->Orwhere(['email'=>$username])->one();
+        return static::find()->where(['username' => $username])->Orwhere(['email'=>$username])->Orwhere(['identity_id'=>$username])->one();
     }
 
     /**

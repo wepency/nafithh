@@ -153,14 +153,14 @@ $this->params['breadcrumbs'][] = $this->title;
                         return Yii::$app->params['yesNo'][Yii::$app->language][$model->kitchen];
                     }
                 ],
-                [
-                    'attribute' => 'ad_status',
-                    'filter' => Yii::$app->params['statusCase'][Yii::$app->language],
-                    'label' => yii::t('app', 'Status'),
-                    'value' => function ($model) {
-                        return Yii::$app->params['statusCase'][Yii::$app->language][$model->ad_status] ?? '';
-                    }
-                ],
+//                [
+//                    'attribute' => 'ad_status',
+//                    'filter' => Yii::$app->params['statusCase'][Yii::$app->language],
+//                    'label' => yii::t('app', 'Status'),
+//                    'value' => function ($model) {
+//                        return Yii::$app->params['statusCase'][Yii::$app->language][$model->ad_status] ?? '';
+//                    }
+//                ],
                 // [
                 //    'attribute'=>'has_parking',
                 //     'filter'=> Yii::$app->params['yesNo'][Yii::$app->language],
