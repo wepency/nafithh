@@ -140,14 +140,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 //   return Yii::$app->params['buildingStatus'][Yii::$app->language][$model->building_status];
                 //  }
                 //      ],
-                [
-                    'attribute' => 'ad_status',
-                    'filter' => Yii::$app->params['statusCase'][Yii::$app->language],
-                    'label' => yii::t('app', 'Status'),
-                    'value' => function ($model) {
-                        return Yii::$app->params['statusCase'][Yii::$app->language][$model->ad_status];
-                    }
-                ],
+//                [
+//                    'attribute' => 'ad_status',
+//                    'filter' => Yii::$app->params['statusCase'][Yii::$app->language],
+//                    'label' => yii::t('app', 'Status'),
+//                    'value' => function ($model) {
+//                        return Yii::$app->params['statusCase'][Yii::$app->language][$model->ad_status];
+//                    }
+//                ],
 //                [
 //                    'label' => Yii::t('app', 'for sale - for renting - for investing'),
 //                    'attribute' => 'for_rent',
@@ -158,7 +158,7 @@ $this->params['breadcrumbs'][] = $this->title;
 //                ],
                 [
                     'label' => Yii::t('app', 'for sale - for renting - for investing'),
-                    'attribute' => 'for_rent',
+                    'attribute' => 'ad_subtype',
                     'filter' => Yii::$app->params['adsubtype'][Yii::$app->language],
                     'format' => 'html',
                     'value' => function ($model) {

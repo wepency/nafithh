@@ -75,13 +75,13 @@ $this->params['breadcrumbs'][] = $this->title;
                         ],
                     ],
                 ],
-                [       
-                   'label'=>yii::t('app','Number').' '.yii::t('app','Contracts'),
-                    'value'=> function($model) {
-                        $contract = Contract::find()->where(['renter_id'=>$model->id])->count();
-                           return $contract;
-                       }
-                ],
+//                [
+//                   'label'=>yii::t('app','Number').' '.yii::t('app','Contracts'),
+//                    'value'=> function($model) {
+//                        $contract = Contract::find()->where(['renter_id'=>$model->id])->count();
+//                           return $contract;
+//                       }
+//                ],
                 // 'username',
                 // 'description',
                 // 'status',
