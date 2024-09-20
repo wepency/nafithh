@@ -68,17 +68,19 @@ class GeneralHelpers
                 $statusSend = ['status' => false, 'message' => 'You cannot Send Messages sms  due to the expiration of the SMS balance'];
             }
 
-            if ($statusSend['status']) {
-                if ($estatOffice) {
-                    $estatOffice->sms_balance = $estatOffice->sms_balance - 1;
-                    $estatOffice->save(false);
-                }
-                if (Yii::$app instanceof \yii\web\Application) {
-                    Yii::$app->session->setFlash('success', Yii::t('app', $statusSend['message']));
-                }
-            } else {
-                if (Yii::$app instanceof \yii\web\Application) {
-                    Yii::$app->session->setFlash('dangur', Yii::t('app', $statusSend['message']));
+            if(is_array($statusSend)) {
+                if ($statusSend['status']) {
+                    if ($estatOffice) {
+                        $estatOffice->sms_balance = $estatOffice->sms_balance - 1;
+                        $estatOffice->save(false);
+                    }
+                    if (Yii::$app instanceof \yii\web\Application) {
+                        Yii::$app->session->setFlash('success', Yii::t('app', $statusSend['message']));
+                    }
+                } else {
+                    if (Yii::$app instanceof \yii\web\Application) {
+                        Yii::$app->session->setFlash('dangur', Yii::t('app', $statusSend['message']));
+                    }
                 }
             }
 
@@ -283,7 +285,8 @@ class GeneralHelpers
         $password_msg = $settingSms->password;
         $sender_msg = $settingSms->sender;
 
-        $msg = urlencode($message).' - '.rand(1111,9999);
+        $msg = urlencode($message);
+//        $msg = urlencode($message).' - '.rand(1111,9999);
         //للإظهار jop_id والرصيد المخصوم والرصيد المتبقي
         $infos = "YES";
         //للإظهار نتيجة الإرسال على شكل XML
@@ -293,28 +296,31 @@ class GeneralHelpers
         if ($host_msg != NULL && $user_msg != NULL && $password_msg != NULL) {
             if ($sender_msg != NULL) {
                 $SendingResult = self::SendMsgSms($user_msg, $password_msg, $to, $sender_msg, $msg, $infos, $xml);
-
             } else {
                 $SendingResult = self::SendMsgSms($user_msg, $password_msg, $to, '', $msg, $infos, $xml);
             }
             $lib = simplexml_load_string(iconv("windows-1256", "UTF-8", $SendingResult));
-            $ResultSending = $lib->ResultSending[0];
-            $code = $ResultSending->Code;
 
-            // $code = $SendingResult;
+            if ($lib) {
+                $ResultSending = $lib->ResultSending[0];
+                $code = $ResultSending->Code;
 
-            if ($code == "1") {
-                $text = "JOB_ID : " . $ResultSending->JOB_ID;
-                $text .= "<br>";
-                $text .= "Cost : " . $ResultSending->Cost;
-                $text .= "<br>";
-                $text .= "Credit : " . $ResultSending->Credit;
-                return ['status' => true, 'message' => "Send Successfully ,JOB_ID : " . $ResultSending->JOB_ID];
+                // $code = $SendingResult;
 
-            } else {
-                return ['status' => false, 'message' => "error profiver code:$code"];
+                if ($code == "1") {
+                    $text = "JOB_ID : " . $ResultSending->JOB_ID;
+                    $text .= "<br>";
+                    $text .= "Cost : " . $ResultSending->Cost;
+                    $text .= "<br>";
+                    $text .= "Credit : " . $ResultSending->Credit;
+                    return ['status' => true, 'message' => "Send Successfully ,JOB_ID : " . $ResultSending->JOB_ID];
 
+                } else {
+                    return ['status' => false, 'message' => "error profiver code:$code"];
+
+                }
             }
+
 
         } else
             return ['status' => false, 'message' => "error data profiver $result"];
@@ -337,7 +343,7 @@ class GeneralHelpers
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
             curl_setopt($ch, CURLOPT_VERBOSE, 0);
-            // curl_setopt($ch, CURLE_HTTP_NOT_FOUND,true);
+            // curl_setopt($ch, CURLE_HTTP_NOT_FOUND,true); 
             $FainalResult = curl_exec($ch);
             curl_close($ch);
             return $FainalResult;
@@ -584,7 +590,7 @@ function getElapsedTime ($t){
     /*
     if model have 2 type image used $attribute for name column
 
-       If you want to delete the entire row in which the file is located,
+       If you want to delete the entire row in which the file is located, 
        write anything in $deleteRow
 
     */
@@ -755,10 +761,7 @@ function getElapsedTime ($t){
             ->orderBy(['id' => SORT_DESC]) // Order by 'id' in descending order
             ->one()?->plan; // Fetch only one record
 
-        if (!is_null($lastPlan))
-            return (bool)$lastPlan?->price == 0;
-
-        return true;
+        return (bool)$lastPlan?->price == 0;
     }
 
 

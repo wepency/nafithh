@@ -49,6 +49,9 @@ class StatementSearch extends Statement
         
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 500, // Set the default number of rows per page
+            ],
              // 'sort' => ['defaultOrder' => ['id' => SORT_DESC]]
 
         ]);

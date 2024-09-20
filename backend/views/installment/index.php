@@ -130,6 +130,11 @@ CrudAsset::register($this);
                 'attribute'=>'housing_unit_name',
                 'value'=> 'contract.housingUnit.housing_unit_name'
             ],
+//            [
+//                'label' => 'رقم عقد منصة إيجار',
+//                'attribute' =>'contract_no_ejar',
+//                'value'=> 'contract.contract_no_ejar',
+//            ],
             [
                 'label' =>yii::t('app','Renter Mobile'),
                 'attribute' =>'renter_mobile',

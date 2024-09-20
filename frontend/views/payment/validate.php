@@ -13,7 +13,7 @@
 
                         <h4>تم الاشتراك في الباقة بنجاح.</h4>
 
-                        <a href="#" class="btn btn-success">قائمة اشتراكاتي</a>
+                        <a href="<?= Yii::$app->homeUrl?>admin/subscriptions" class="btn btn-success">قائمة اشتراكاتي</a>
                     </div>
 
                     <?php else : ?>

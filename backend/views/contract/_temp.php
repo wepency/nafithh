@@ -99,7 +99,7 @@ $estateOffice = $model?->estateOffice;
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                             <div class="form-group">
-                                <label><?= Yii::t('app', 'Water Meter Number') ?></label>
+                                <label><?= Yii::t('app', 'Water Account Number') ?></label>
                                 <span><?= $building?->water_meter_no ?></span>
                             </div>
                         </div>
@@ -356,6 +356,80 @@ $estateOffice = $model?->estateOffice;
                             </div>
                         </div>
                     </div>
+
+                    <div class="row">
+
+                        <div class="col-lg-4 col-md-6 col-sm-12 col-12">
+                            <div class="form-group">
+                                <label><?= Yii::t('app', 'Water Meter Serial') ?></label>
+                                <span><?= $model->water_meter_serial ?? '--' ?></span>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-6 col-sm-12 col-12">
+                            <div class="form-group">
+                                <label><?=Yii::t('app', 'Water Account Number')?></label>
+                                <span><?= $model->water_account_number ?? '--' ?></span>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-6 col-sm-12 col-12">
+                            <div class="form-group">
+                                <label><?=Yii::t('app', 'Meter Reading Number')?></label>
+                                <span><?= $model->meter_reading_number ?? '--' ?></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="form-group">
+                                <label><?= Yii::t('app', 'Brokerage Type') ?></label>
+                                <span><?= $contract->brokerage_type == 1 ? Yii::t('app', 'Percentage') : Yii::t('app', 'Fixed') ?></span>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="form-group">
+                                <label><?= Yii::t('app', 'Brokerage Value') ?></label>
+                                <span><?= $contract->brokerage_value ?></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="form-group">
+                                <label><?= Yii::t('app', 'Marketing Fees Type') ?></label>
+                                <span><?= $contract->marketing_fees_type == 1 ? Yii::t('app', 'Percentage') : Yii::t('app', 'Fixed') ?></span>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="form-group">
+                                <label><?= Yii::t('app', 'Fees amount') ?></label>
+                                <span><?= $contract->marketing_fees ?></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="form-group">
+                                <label><?= Yii::t('app', 'Property Management Fees Type') ?></label>
+                                <span><?= $contract->property_management_fees_type == 1 ? Yii::t('app', 'Percentage') : Yii::t('app', 'Fixed') ?></span>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="form-group">
+                                <label><?= Yii::t('app', 'Fees amount') ?></label>
+                                <span><?= $contract->property_management_fees ?></span>
+                            </div>
+                        </div>
+                    </div>
+
+
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                             <div class="form-group">

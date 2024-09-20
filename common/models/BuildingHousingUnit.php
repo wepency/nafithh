@@ -128,7 +128,7 @@ class BuildingHousingUnit extends \yii\db\ActiveRecord
 				[['furniture', 'ad_description'], 'string', 'max' => 400],
 				[['status','rooms','entrances','toilets','conditioner_num' ,'has_parking', 'kitchen','width','length'  , 'ad_subtype'], 'default', 'value' => 0],
 				//[['electricity_meter_no', 'advertiser_side', 'advertiser_adjective', 'advertiser_license_number', 'advertiser_name', 'advertiser_email', 'advertiser_mobile', 'advertiser_registration_number','authorization_number'], 'string', 'max' => 50],
-                [['electricity_meter_no'], 'string', 'max' => 50],
+                [['electricity_meter_no', 'water_meter_no'], 'string', 'max' => 50],
 				[['detail'], 'string', 'max' => 500],
 			];
 		}
@@ -169,6 +169,7 @@ class BuildingHousingUnit extends \yii\db\ActiveRecord
 				'for_invest' => Yii::t('app', 'For Invest'),
 				'sale_price' => Yii::t('app', 'Sale Price'),
 				'electricity_meter_no' => Yii::t('app', 'Electricity Meter Number'),
+				'water_meter_no' => Yii::t('app', 'Water Meter Number'),
 				'width' => Yii::t('app', 'Width'),
 				'length' => Yii::t('app', 'Length'),
 				'ad_subtype' => Yii::t('app', 'Ad Sub Type'),
@@ -271,41 +272,41 @@ class BuildingHousingUnit extends \yii\db\ActiveRecord
 						$link = Yii::$app->BaseUrl->baseUrl. '/gallery/housing?'. $urlParams;
 				        // $link = Html::a(yii::t('app','Click me'), $link,['target'=>'_blank']);
 				        
-					$params = [
-						're_id' => $this->building->estateContract->estate_office_id ,
-						're_type' => 'estate_officer' ,
-						'content' => 'Housing view for renter Or pay' ,
-						'id' => $this->id,
-						't_name' => 'building-housing-unit',
-						'mobile' => $this->building->estateContract->estateOffice->mobile,
-						'email' => $this->building->estateContract->estateOffice->email,
-						
-						'building_name' => $this->housing_unit_name,
-						'estate_office_name' =>  $this->building->estateContract->estateOffice->name,
-						'owner_name' => $this->building->owner->name,
-						'status_view' => $status,
-					];
-					\common\components\GeneralHelpers::sendNotif(Building::NOTIF_TEMP_VIEW_RENTER_PAY_ESTATE,$params,$this->building->estateContract->estateOffice->id);
+//					$params = [
+//						're_id' => $this->building->estateContract->estate_office_id ,
+//						're_type' => 'estate_officer' ,
+//						'content' => 'Housing view for renter Or pay' ,
+//						'id' => $this->id,
+//						't_name' => 'building-housing-unit',
+//						'mobile' => $this->building->estateContract->estateOffice->mobile,
+//						'email' => $this->building->estateContract->estateOffice->email,
+//
+//						'building_name' => $this->housing_unit_name,
+//						'estate_office_name' =>  $this->building->estateContract->estateOffice->name,
+//						'owner_name' => $this->building->owner->name,
+//						'status_view' => $status,
+//					];
+//					\common\components\GeneralHelpers::sendNotif(Building::NOTIF_TEMP_VIEW_RENTER_PAY_ESTATE,$params,$this->building->estateContract->estateOffice->id);
 					// $owners = \common\models\User::find()->where(['or',['user_type'=>'owner'],['owner'=>1]])->all();
 					$owner = $this->building->owner;
 						
-						$params = [
-							're_id' => $owner->id ,
-							're_type' => 'owner' ,
-							'content' => 'Housing view for renter Or pay' ,
-							'id' => $this->id,
-							't_name' => 'building-housing-unit',
-							'mobile' => $owner->mobile,
-							'email' => $owner->email,
-							
-							'building_name' => $this->housing_unit_name,
-							'estate_office_name' =>  $this->building->estateContract->estateOffice->name,
-							'owner_name' => $this->building->owner->name,
-							'status_view' => $status,
-							'url' => $link,
-						];
-
-						\common\components\GeneralHelpers::sendNotif(Building::NOTIF_TEMP_VIEW_RENTER_PAY_OWNERS,$params,$this->building->estateContract->estateOffice->id);
+//						$params = [
+//							're_id' => $owner->id ,
+//							're_type' => 'owner' ,
+//							'content' => 'Housing view for renter Or pay' ,
+//							'id' => $this->id,
+//							't_name' => 'building-housing-unit',
+//							'mobile' => $owner->mobile,
+//							'email' => $owner->email,
+//
+//							'building_name' => $this->housing_unit_name,
+//							'estate_office_name' =>  $this->building->estateContract->estateOffice->name,
+//							'owner_name' => $this->building->owner->name,
+//							'status_view' => $status,
+//							'url' => $link,
+//						];
+//
+//						\common\components\GeneralHelpers::sendNotif(Building::NOTIF_TEMP_VIEW_RENTER_PAY_OWNERS,$params,$this->building->estateContract->estateOffice->id);
 
 				};
 				};
@@ -317,5 +318,4 @@ class BuildingHousingUnit extends \yii\db\ActiveRecord
 			$this->eventViewRenterAndPay(null,true);
 
 		}
-
 	}

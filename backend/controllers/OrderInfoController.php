@@ -116,6 +116,9 @@ class OrderInfoController extends Controller
             if(isset(Yii::$app->request->post()['is_draft']) || $model->send_to == 'estate_officer'){
                 $model->is_draft = 1;
                 $model->save(false);
+
+                (new OrderInfo)->eventNew($model);
+
                 GeneralHelpers::setImages($model);
                 
                 if(isset(Yii::$app->request->post()['is_draft']))
@@ -124,11 +127,13 @@ class OrderInfoController extends Controller
                     Yii::$app->session->setFlash('success', Yii::t('app','Order Saved successful.'));
 
                 return $this->redirect(['view', 'id' => $model->id]);
-            } 
-
+            }
 
             if($model->save(false) && $this->addOrderMaintenance($model)){
                 GeneralHelpers::setImages($model);
+
+                (new OrderInfo)->eventNew($model);
+
                 Yii::$app->session->setFlash('success', Yii::t('app','Order Saved successful.'));
                 return $this->redirect(['view', 'id' => $model->id]);
             }

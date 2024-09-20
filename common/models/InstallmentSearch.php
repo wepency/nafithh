@@ -1,10 +1,12 @@
 <?php
 
 namespace common\models;
+
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\Installment;
 use Yii;
+use yii\db\Expression;
+use yii\helpers\ArrayHelper;
 
 /**
  * InstallmentSearch represents the model behind the search form of `common\models\Installment`.
@@ -12,6 +14,7 @@ use Yii;
 class InstallmentSearch extends Installment
 {
     use FilterDate;
+
     public $identity;
     public $renter_mobile;
     public $contract_no;
@@ -25,8 +28,8 @@ class InstallmentSearch extends Installment
     public function rules()
     {
         return [
-            [['id', 'contract_id', 'renter_id', 'payment_status','building_id'], 'integer'],
-            [['installment_no', 'amount_text', 'details', 'start_date', 'end_date','identity','renter_mobile','contract_no','housing_unit_name'], 'safe'],
+            [['id', 'contract_id', 'renter_id', 'payment_status', 'building_id'], 'integer'],
+            [['installment_no', 'amount_text', 'details', 'start_date', 'end_date', 'identity', 'renter_mobile', 'contract_no', 'housing_unit_name'], 'safe'],
             [['amount', 'amount_paid', 'amount_remaining'], 'number'],
         ];
     }
@@ -50,7 +53,7 @@ class InstallmentSearch extends Installment
     public function search($params)
     {
         $query = Installment::find();
-        $query->joinWith(['renter','contract','contract.building','contract.housingUnit'],false);
+        $query->joinWith(['renter', 'contract', 'contract.building', 'contract.housingUnit'], false);
 
         $user = yii::$app->user->identity;
         $andFilter = [];
@@ -74,7 +77,7 @@ class InstallmentSearch extends Installment
                     'renter_id' => $user->id
                 ];
                 break;
-            
+
             default:
                 # code...
                 break;
@@ -83,7 +86,7 @@ class InstallmentSearch extends Installment
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort' => ['defaultOrder' => ['payment_status' => SORT_ASC , 'start_date' => SORT_DESC ]]
+            'sort' => ['defaultOrder' => ['payment_status' => SORT_ASC, 'start_date' => SORT_DESC]]
         ]);
 
         $this->load($params);
@@ -110,6 +113,18 @@ class InstallmentSearch extends Installment
             'end_date' => $this->end_date,
         ]);
 
+        if (Yii::$app->request->get('belated') == 1) {
+            $InstaIds = Installment::find()->joinWith(['contract'])->select(['installment.id', 'contract_id'])->where(['contract.estate_office_id' => $estate_office_id])->asArray()->all();
+            $InstaIds = ArrayHelper::getColumn($InstaIds, 'id');
+
+            $query->andFilterWhere(['installment.id' => $InstaIds, 'installment.payment_status' => Installment::STATUS_UNPAID])->andFilterWhere(['<', 'installment.start_date', date("Y-m-d")]);
+        }
+
+        if (Yii::$app->request->get('type') == "aboutToExpire") {
+            $query->andFilterWhere(['installment.payment_status' => [0, 2]])
+                ->andFilterWhere(['between', 'installment.end_date', new Expression('CURDATE() + INTERVAL 1 DAY'), new Expression('CURDATE() + INTERVAL 30 DAY')]);
+        }
+
         $query->andFilterWhere(['like', 'installment_no', $this->installment_no])
             ->andFilterWhere(['like', 'user.identity_id', $this->identity])
             ->andFilterWhere(['like', 'user.mobile', $this->renter_mobile])
@@ -119,7 +134,7 @@ class InstallmentSearch extends Installment
             ->andFilterWhere(['like', 'building_housing_unit.housing_unit_name', $this->housing_unit_name])
             ->andFilterWhere(['like', 'details', $this->details]);
 
-        $this->filterByDate($query,'installment.start_date');
+        $this->filterByDate($query, 'installment.start_date');
         return $dataProvider;
     }
 }

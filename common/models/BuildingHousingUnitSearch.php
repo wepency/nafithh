@@ -106,12 +106,26 @@ class BuildingHousingUnitSearch extends BuildingHousingUnit
             'building_housing_unit.ad_status' => $this->ad_status,
             'building_housing_unit.using_for' => $this->using_for,
             'building_housing_unit.status' => $this->status,
-            'building_housing_unit.for_rent' => $this->for_rent,
-            'building_housing_unit.for_invest' => $this->for_invest,
-            'building_housing_unit.for_sale' => $this->for_sale,
+//            'building_housing_unit.for_rent' => $this->for_rent,
+//            'building_housing_unit.for_invest' => $this->for_invest,
+//            'building_housing_unit.for_sale' => $this->for_sale,
             'building_housing_unit.sale_price' => $this->sale_price,
-            'building_housing_unit.ad_subtype' => $this->ad_subtype,
+//            'building_housing_unit.ad_subtype' => $this->ad_subtype
         ]);
+
+        // This custom filter only to filter sub_adtype like for rent, investment and sale
+        if ($this->ad_subtype != '') {
+
+            $column = match ((int)$this->ad_subtype) {
+                1 => 'for_sale',
+                0 => 'for_invest',
+                2 => 'for_rent',
+            };
+
+            $query->andFilterWhere([
+                "building_housing_unit.{$column}" => 1
+            ]);
+        }
 
         $query->andFilterWhere(['like', 'housing_unit_name', $this->housing_unit_name])
             ->andFilterWhere(['like', 'area', $this->area])

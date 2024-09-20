@@ -84,7 +84,7 @@ $this->params['breadcrumbs'][] = $this->title;
 //                ],
                 [
                     'label' => Yii::t('app', 'for sale - for renting - for investing'),
-                    'attribute' => 'for_rent',
+                    'attribute' => 'ad_subtype',
                     'filter' => Yii::$app->params['adsubtype'][Yii::$app->language],
                     'format' => 'html',
                     'value' => function ($model) {

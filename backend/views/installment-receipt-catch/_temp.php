@@ -83,6 +83,13 @@ $estateOffice = $installment->contract->estateOffice;
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                                 <div class="form-group">
+                                    <label><?=Yii::t('app', 'Created Start Date')?></label>
+                                    <span><?=date('Y-m-d', strtotime($installment->contract->created_date))?></span>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-12">
+                                <div class="form-group">
                                     <label><?=Yii::t('app', 'Installment Start Date')?></label>
                                     <span><?=$installment->start_date?></span>
                                 </div>

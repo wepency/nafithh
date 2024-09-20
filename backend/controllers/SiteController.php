@@ -1,4 +1,5 @@
 <?php
+
 namespace backend\controllers;
 
 use Yii;
@@ -32,7 +33,6 @@ use yii\helpers\Html;
 use yii\db\Expression;
 
 
-
 /**
  * Site controller
  */
@@ -47,7 +47,7 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only'=>['request-password-reset','reset-password','verify-email','resend-verification-email'],
+                'only' => ['request-password-reset', 'reset-password', 'verify-email', 'resend-verification-email'],
                 'rules' => [
                     [
                         'allow' => true,
@@ -87,13 +87,13 @@ class SiteController extends Controller
      *
      * @return string
      */
-    
+
     public function actionIndex()
     {
         new \common\components\MultiUserType();
         $infoUser = \common\models\Chat::getInfoUser();
         $option = [];
-        $other =null;
+        $other = null;
         switch ($infoUser["userType"]) {
             case 'owner':
                 $option = $this->dashboardOwner($infoUser["userId"]);
@@ -114,18 +114,18 @@ class SiteController extends Controller
                 $other = true;
                 break;
         }
-        if($other || !is_array($option))
+        if ($other || !is_array($option))
             return $this->render("index");
-        else{
-            $option = array_merge($option,["type"=> $infoUser["userType"]]);
-            return $this->render('/dashboard/index',['option' =>$option]);
+        else {
+            $option = array_merge($option, ["type" => $infoUser["userType"]]);
+            return $this->render('/dashboard/index', ['option' => $option]);
         }
     }
 
     public function actionLanguage()
     {
 
-       $language = Yii::$app->request->get('language');
+        $language = Yii::$app->request->get('language');
         Yii::$app->language = $language;
 
         $languageCookie = new Cookie([
@@ -143,66 +143,66 @@ class SiteController extends Controller
 
     private function dashboardOwner($id)
     {
-        $countContractOpen = Contract::find()->where(['owner_id'=> $id])->active()->count();
-        $countContractClose = Contract::find()->where(['owner_id'=> $id])->active('false')->count();
+        $countContractOpen = Contract::find()->where(['owner_id' => $id])->active()->count();
+        $countContractClose = Contract::find()->where(['owner_id' => $id])->active('false')->count();
 
-        $buildingIds = Building::find()->select(['id'])->where(['owner_id'=> $id])->asArray()->all();
+        $buildingIds = Building::find()->select(['id'])->where(['owner_id' => $id])->asArray()->all();
         $buildingIds = ArrayHelper::getColumn($buildingIds, 'id');
 
-        $building = Building::find()->select(['building_type_id','count(*) as countbuilding'])->where(['id'=>$buildingIds])->groupBy(['building_type_id'])->orderBy(['countbuilding'=> SORT_DESC])->limit(10)->asArray()->all();
+        $building = Building::find()->select(['building_type_id', 'count(*) as countbuilding'])->where(['id' => $buildingIds])->groupBy(['building_type_id'])->orderBy(['countbuilding' => SORT_DESC])->limit(10)->asArray()->all();
         $buildingType = BuildingType::getBuildingTypeName();
 
 
-        $housing = BuildingHousingUnit::find()->select(['building_type_id','count(*) as count'])->where(['building_id'=>$buildingIds])->groupBy(['building_type_id'])->limit(10)->orderBy(['count'=> SORT_DESC])->asArray()->all();
+        $housing = BuildingHousingUnit::find()->select(['building_type_id', 'count(*) as count'])->where(['building_id' => $buildingIds])->groupBy(['building_type_id'])->limit(10)->orderBy(['count' => SORT_DESC])->asArray()->all();
         $housingType = $buildingType;
 
-        $chat = Chat::find()->CurrentUser()->orderBy(['id'=> SORT_DESC])->all();
+        $chat = Chat::find()->CurrentUser()->orderBy(['id' => SORT_DESC])->all();
 
-        $dataIds = OrderMaintenance::find()->select(['order_maintenance.id','order_info_id'])->where(['sender_id' => $id ,'sender_type'=>'owner'])->joinWith(['orderInfo'])->asArray()->all();
+        $dataIds = OrderMaintenance::find()->select(['order_maintenance.id', 'order_info_id'])->where(['sender_id' => $id, 'sender_type' => 'owner'])->joinWith(['orderInfo'])->asArray()->all();
         $dataIds = ArrayHelper::getColumn($dataIds, 'id');
-        $order = OrderMaintenance::find()->where(['id' => $dataIds])->select(['status','count(*) as count'])->groupBy(['status'])->orderBy(['count'=> SORT_DESC])->asArray()->all();
+        $order = OrderMaintenance::find()->where(['id' => $dataIds])->select(['status', 'count(*) as count'])->groupBy(['status'])->orderBy(['count' => SORT_DESC])->asArray()->all();
         $orderType = Yii::$app->params['statusOrder'][Yii::$app->language];
 
-        $InstaIds = Installment::find()->joinWith(['contract'])->select(['installment.id','contract_id'])->where(['contract.owner_id' => $id])->asArray()->all();
+        $InstaIds = Installment::find()->joinWith(['contract'])->select(['installment.id', 'contract_id'])->where(['contract.owner_id' => $id])->asArray()->all();
         $InstaIds = ArrayHelper::getColumn($InstaIds, 'id');
         $InstaAll = count($InstaIds);
         // $InstaEnd->select(['DATE_FORMAT(installment.start_date, "%d-%m-%Y") as endDate'])->where(['>=','start_date',date("Y-m-d")])->one();
-        $InstaEnd= Installment::find()->where(['id'=>$InstaIds,'payment_status'=>Installment::STATUS_UNPAID])->andWhere(['<','installment.start_date',date("Y-m-d")])->count();
-        $InstaInMonth = Installment::find()->where(['id'=>$InstaIds,'payment_status'=>Installment::STATUS_UNPAID])->andWhere(['=','DATE_FORMAT(installment.start_date, "%Y-%m")',date("Y-m")])->count();
-        $ads = Ad::find()->where(['status'=>1,'page_name'=>'owner'])->orderby('id DESC')->all();
+        $InstaEnd = Installment::find()->where(['id' => $InstaIds, 'payment_status' => Installment::STATUS_UNPAID])->andWhere(['<', 'installment.start_date', date("Y-m-d")])->count();
+        $InstaInMonth = Installment::find()->where(['id' => $InstaIds, 'payment_status' => Installment::STATUS_UNPAID])->andWhere(['=', 'DATE_FORMAT(installment.start_date, "%Y-%m")', date("Y-m")])->count();
+        $ads = Ad::find()->where(['status' => 1, 'page_name' => 'owner'])->orderby('id DESC')->all();
 
         // $Installment = Installment::find()->where(['id'=>$InstaIds])->groupBy(['building_type_id'])->orderBy(['countbuilding'=> SORT_DESC])->limit(10)->asArray()->all();
 
         // $countMaintenance = MaintenanceOffice::find()->count();
 
         // $recipit = MaintenanceOffice::find()->count();
-       return compact('countContractOpen','countContractClose','building','buildingType','housing','housingType','chat','InstaAll','InstaEnd','InstaInMonth','order','orderType','ads');
+        return compact('countContractOpen', 'countContractClose', 'building', 'buildingType', 'housing', 'housingType', 'chat', 'InstaAll', 'InstaEnd', 'InstaInMonth', 'order', 'orderType', 'ads');
 
 
     }
 
     private function dashboardRenter($id)
     {
-        $countContractOpen = Contract::find()->where(['renter_id'=> $id])->active()->count();
-        $countContractClose = Contract::find()->where(['renter_id'=> $id])->active('false')->count();
+        $countContractOpen = Contract::find()->where(['renter_id' => $id])->active()->count();
+        $countContractClose = Contract::find()->where(['renter_id' => $id])->active('false')->count();
 
-        $chat = Chat::find()->CurrentUser()->orderBy(['id'=> SORT_DESC])->all();
+        $chat = Chat::find()->CurrentUser()->orderBy(['id' => SORT_DESC])->all();
 
-        $dataIds = OrderMaintenance::find()->select(['order_maintenance.id','order_info_id'])->where(['sender_id' => $id ,'sender_type'=>'renter'])->joinWith(['orderInfo'])->asArray()->all();
+        $dataIds = OrderMaintenance::find()->select(['order_maintenance.id', 'order_info_id'])->where(['sender_id' => $id, 'sender_type' => 'renter'])->joinWith(['orderInfo'])->asArray()->all();
         $dataIds = ArrayHelper::getColumn($dataIds, 'id');
-        $order = OrderMaintenance::find()->where(['id' => $dataIds])->select(['status','count(*) as count'])->groupBy(['status'])->orderBy(['count'=> SORT_DESC])->asArray()->all();
+        $order = OrderMaintenance::find()->where(['id' => $dataIds])->select(['status', 'count(*) as count'])->groupBy(['status'])->orderBy(['count' => SORT_DESC])->asArray()->all();
         $orderType = Yii::$app->params['statusOrder'][Yii::$app->language];
 
-        $InstaIds = Installment::find()->where(['renter_id'=> $id])->select(['installment.id'])->asArray()->all();
+        $InstaIds = Installment::find()->where(['renter_id' => $id])->select(['installment.id'])->asArray()->all();
         $InstaIds = ArrayHelper::getColumn($InstaIds, 'id');
         $InstaAll = count($InstaIds);
-        $InstaEnd= Installment::find()->where(['id'=>$InstaIds,'payment_status'=>Installment::STATUS_UNPAID])->andWhere(['<','installment.start_date',date("Y-m-d")])->count();
-        $InstaInMonth = Installment::find()->where(['id'=>$InstaIds,'payment_status'=>Installment::STATUS_UNPAID])->andWhere(['=','DATE_FORMAT(installment.start_date, "%Y-%m")',date("Y-m")])->count();
+        $InstaEnd = Installment::find()->where(['id' => $InstaIds, 'payment_status' => Installment::STATUS_UNPAID])->andWhere(['<', 'installment.start_date', date("Y-m-d")])->count();
+        $InstaInMonth = Installment::find()->where(['id' => $InstaIds, 'payment_status' => Installment::STATUS_UNPAID])->andWhere(['=', 'DATE_FORMAT(installment.start_date, "%Y-%m")', date("Y-m")])->count();
 
-        $ads = Ad::find()->where(['status'=>1,'page_name'=>'renter'])->orderby('id DESC')->all();
+        $ads = Ad::find()->where(['status' => 1, 'page_name' => 'renter'])->orderby('id DESC')->all();
 
 
-       return compact('countContractOpen','countContractClose','chat','InstaAll','InstaEnd','InstaInMonth','order','orderType','ads');
+        return compact('countContractOpen', 'countContractClose', 'chat', 'InstaAll', 'InstaEnd', 'InstaInMonth', 'order', 'orderType', 'ads');
 
     }
 
@@ -210,30 +210,30 @@ class SiteController extends Controller
     {
         $countMaintenance = MaintenanceOffice::find()->count();
         $countEstate = EstateOffice::find()->count();
-        $countEstateExpaire = EstateOffice::find()->where(['<=','expire_date',date("Y-m-d")])->count();
-        $countOwner = User::find()->where(['or',['user_type'=>'owner'],['owner'=>1]])->count();
-        $countRenter = User::find()->where(['or',['user_type'=>'renter'],['renter'=>1]])->count();
+        $countEstateExpaire = EstateOffice::find()->where(['<=', 'expire_date', date("Y-m-d")])->count();
+        $countOwner = User::find()->where(['or', ['user_type' => 'owner'], ['owner' => 1]])->count();
+        $countRenter = User::find()->where(['or', ['user_type' => 'renter'], ['renter' => 1]])->count();
 
-        $building = Building::find()->select(['building_type_id','count(*) as countbuilding'])->groupBy(['building_type_id'])->limit(10)->orderBy(['countbuilding'=> SORT_DESC])->asArray()->all();
-        $buildingType = BuildingType::getBuildingTypeName(); 
+        $building = Building::find()->select(['building_type_id', 'count(*) as countbuilding'])->groupBy(['building_type_id'])->limit(10)->orderBy(['countbuilding' => SORT_DESC])->asArray()->all();
+        $buildingType = BuildingType::getBuildingTypeName();
 
-        $chat = Chat::find()->CurrentUser()->orderBy(['id'=> SORT_DESC])->all();
-        $countNewChat = Chat::find()->joinWith(['chatHistories' => function($query) {
+        $chat = Chat::find()->CurrentUser()->orderBy(['id' => SORT_DESC])->all();
+        $countNewChat = Chat::find()->joinWith(['chatHistories' => function ($query) {
             $query->unread();
         }])->CurrentUser()->count();
-            // print_r($countNewChat);die();
-        $blackList = User::find()->where(['And',['or',['in','user_type',['owner','renter']],['owner'=>1,'renter'=>1]],['black_list'=>1]])->limit(3)->all();
+        // print_r($countNewChat);die();
+        $blackList = User::find()->where(['And', ['or', ['in', 'user_type', ['owner', 'renter']], ['owner' => 1, 'renter' => 1]], ['black_list' => 1]])->limit(3)->all();
         $contracts = Contract::find()
-                ->select(['estate_office_id', 'count(*) as count', 'sum(price) as amounts'])
-                ->groupBy ('estate_office_id')->orderBy(['amounts'=> SORT_DESC])->asArray()->limit(5)->all();
+            ->select(['estate_office_id', 'count(*) as count', 'sum(price) as amounts'])
+            ->groupBy('estate_office_id')->orderBy(['amounts' => SORT_DESC])->asArray()->limit(5)->all();
 
         $estateOfficeIds = Arrayhelper::map($contracts, 'estate_office_id', 'estate_office_id');
 
-        $estateOfficeNames = Arrayhelper::map(EstateOffice::find()->where(['id' => $estateOfficeIds])->asArray()->all(),"name","name") ;
+        $estateOfficeNames = Arrayhelper::map(EstateOffice::find()->where(['id' => $estateOfficeIds])->asArray()->all(), "name", "name");
 
         $expense = SystemExpense::find()->select(['sum(amount) as amount'])->asArray()->all();
         $income = SystemIncome::find()->select(['sum(amount) as amount'])->asArray()->all();
-        return compact('countMaintenance','countEstate','countEstateExpaire','countOwner','countRenter','building','buildingType','chat','countNewChat','blackList','contracts','estateOfficeNames','expense','income');
+        return compact('countMaintenance', 'countEstate', 'countEstateExpaire', 'countOwner', 'countRenter', 'building', 'buildingType', 'chat', 'countNewChat', 'blackList', 'contracts', 'estateOfficeNames', 'expense', 'income');
 
 
     }
@@ -241,32 +241,69 @@ class SiteController extends Controller
     private function dashboardEstate($id)
     {
         $estate_office_id = $id;
-        $countOwner = User::find()->where(['estate_office_id' => $estate_office_id])->AndWhere(['or',['user_type'=>'owner'],['owner'=>1]])->leftJoin('estate_office_owner', 'user.id = estate_office_owner.owner_id')->count();
+        $countOwner = User::find()->where(['estate_office_id' => $estate_office_id])->AndWhere(['or', ['user_type' => 'owner'], ['owner' => 1]])->leftJoin('estate_office_owner', 'user.id = estate_office_owner.owner_id')->count();
         $countContractOpen = Contract::find()->currentOffice($estate_office_id)->withDraft()->active()->count();
         $countContractClose = Contract::find()->currentOffice($estate_office_id)->withDraft()->active(0)->count();
 
-        $buildingIds = Building::find()->select(['building.id'])->leftJoin('estate_office_building as eob','building.id = eob.building_id'
-            )->where(['estate_office_id'=> $estate_office_id,'is_active'=>1])->asArray()->all();
+        $buildingIds = Building::find()->select(['building.id'])->leftJoin('estate_office_building as eob', 'building.id = eob.building_id'
+        )->where(['estate_office_id' => $estate_office_id, 'is_active' => 1])->asArray()->all();
         $buildingIds = ArrayHelper::getColumn($buildingIds, 'id');
 
-        $building = Building::find()->select(['building_type_id','count(*) as countbuilding'])
-        ->where(['id'=>$buildingIds])->groupBy(['building_type_id'])->orderBy(['countbuilding'=> SORT_DESC])->limit(10)->asArray()->all();
+        $building = Building::find()->select(['building_type_id', 'count(*) as countbuilding'])
+            ->where(['id' => $buildingIds])->groupBy(['building_type_id'])->orderBy(['countbuilding' => SORT_DESC])->limit(10)->asArray()->all();
         $buildingType = BuildingType::getBuildingTypeName();
 
 
-        $housing = BuildingHousingUnit::find()->select(['building_type_id','count(*) as count'])->where(['building_id'=>$buildingIds])->groupBy(['building_type_id'])->limit(10)->orderBy(['count'=> SORT_DESC])->asArray()->all();
-        $housingType = $buildingType; 
+        $housing = BuildingHousingUnit::find()->select(['building_type_id', 'count(*) as count'])->where(['building_id' => $buildingIds])->groupBy(['building_type_id'])->limit(10)->orderBy(['count' => SORT_DESC])->asArray()->all();
+        $housingType = $buildingType;
 
-        $chat = Chat::find()->CurrentUser()->orderBy(['id'=> SORT_DESC])->all();
+        $chat = Chat::find()->CurrentUser()->orderBy(['id' => SORT_DESC])->all();
 
-        $InstaIds = Installment::find()->joinWith(['contract'])->select(['installment.id','contract_id'])->where(['contract.estate_office_id' => $estate_office_id])->asArray()->all();
+        $InstaIds = Installment::find()->joinWith(['contract'])->select(['installment.id', 'contract_id'])->where(['contract.estate_office_id' => $estate_office_id])->asArray()->all();
         $InstaIds = ArrayHelper::getColumn($InstaIds, 'id');
         $InstaAll = count($InstaIds);
         // $InstaEnd->select(['DATE_FORMAT(installment.start_date, "%d-%m-%Y") as endDate'])->where(['>=','start_date',date("Y-m-d")])->one();
-        $InstaEnd= Installment::find()->where(['id'=>$InstaIds,'payment_status'=>Installment::STATUS_UNPAID])->andWhere(['<','installment.start_date',date("Y-m-d")])->count();
-        $InstaInMonth = Installment::find()->where(['id'=>$InstaIds,'payment_status'=>Installment::STATUS_UNPAID])->andWhere(['=','DATE_FORMAT(installment.start_date, "%Y-%m")',date("Y-m")])->count();
+        $InstaEnd = Installment::find()->where(['id' => $InstaIds, 'payment_status' => Installment::STATUS_UNPAID])->andWhere(['<', 'installment.start_date', date("Y-m-d")])->count();
+//        $InstaInMonth = Installment::find()->where(['id' => $InstaIds, 'payment_status' => Installment::STATUS_UNPAID])->andWhere(['=', 'DATE_FORMAT(installment.start_date, "%Y-%m")', date("Y-m")])->count();
+        $InstaInMonth = Installment::find()->where(['id' => $InstaIds])->andWhere(['=', 'DATE_FORMAT(installment.start_date, "%Y-%m")', date("Y-m")])->count();
 
-         $ads = Ad::find()->where(['status'=>1,'page_name'=>'estate_officer'])->orderby('id DESC')->all();
+        $ads = Ad::find()->where(['status' => 1, 'page_name' => 'estate_officer'])->orderby('id DESC')->all();
+
+        $expiredContracts = Contract::find()
+            ->where(['<', 'end_date', new Expression('CURDATE()')]) // start_date is before today
+            ->andWhere(['estate_office_id' => $id]) // start_date is before today
+            ->count();
+
+        $aboutToExpireContracts = Contract::find()
+            ->where(['between', 'end_date', new Expression('CURDATE() + INTERVAL 1 DAY'), new Expression('CURDATE() + INTERVAL 30 DAY')])
+            ->andWhere(['estate_office_id' => $id]) // start_date is before today
+            ->count();
+
+        $contractsWillExpireAfterMonths = Contract::find()
+            ->where(['between', 'end_date', new Expression('CURDATE() + INTERVAL 71 DAY'), new Expression('CURDATE() + INTERVAL 89 DAY')])
+            ->andWhere(['estate_office_id' => $id]) // start_date is before today
+            ->count();
+
+        // Installments counts
+        $aboutToExpireInstallments = Installment::find()
+            ->joinWith('contract') // Assuming you have a relation 'contract' in Installment model
+            ->where(['installment.payment_status' => [0, 2]])
+            ->where(['between', 'installment.end_date', new Expression('CURDATE() + INTERVAL 1 DAY'), new Expression('CURDATE() + INTERVAL 30 DAY')])
+            ->andWhere(['estate_office_id' => $id]) // start_date is before today
+            ->count();
+
+        // Calculate the start and end of the current month
+        $year = date('Y');
+        $month = date('m');
+        $startDate = "$year-$month-01";
+        $endDate = date('Y-m-t');
+
+        // Generate the URL with start and end dates
+        $installmentFilter = 'InstallmentSearch%5BstartDate%5D=' . $startDate . '&InstallmentSearch%5BendDate%5D=' . $endDate;
+
+//        installment?InstallmentSearch%5BstartDate%5D=2024-08-25&InstallmentSearch%5BendDate%5D=2024-08-25
+//        installment?InstallmentSearch%5BstartDate%5D%3D2024-09-01%26InstallmentSearch%5BendDate%5D%3D2024-09-30
+//        dd($installmentFilter);
 
         // print_r(date("Y-m")); 
         // die();
@@ -279,24 +316,23 @@ class SiteController extends Controller
         // $countMaintenance = MaintenanceOffice::find()->count();
 
         // $recipit = MaintenanceOffice::find()->count();
-       return compact('countOwner','countContractOpen','countContractClose','building','buildingType','housing','housingType','chat','InstaAll','InstaEnd','InstaInMonth','ads');
-
+        return compact('countOwner', 'countContractOpen', 'countContractClose', 'building', 'buildingType', 'housing', 'housingType', 'chat', 'InstaAll', 'InstaEnd', 'InstaInMonth', 'ads', 'expiredContracts', 'aboutToExpireContracts', 'installmentFilter', 'aboutToExpireInstallments', 'contractsWillExpireAfterMonths');
     }
 
     private function dashboardMaintenance($id)
     {
-        $dataIds = OrderMaintenance::find()->select(['id'])->where(['maintenance_office_id' => $id ])->asArray()->all();
+        $dataIds = OrderMaintenance::find()->select(['id'])->where(['maintenance_office_id' => $id])->asArray()->all();
         $dataIds = ArrayHelper::getColumn($dataIds, 'id');
 
-        $countOrderClose = OrderMaintenance::find()->where(['id' => $dataIds,'status' => 10])->count();
-        $countOrderOpen = OrderMaintenance::find()->where(['id' => $dataIds])->andWhere(['!=','status',10])->count();
+        $countOrderClose = OrderMaintenance::find()->where(['id' => $dataIds, 'status' => 10])->count();
+        $countOrderOpen = OrderMaintenance::find()->where(['id' => $dataIds])->andWhere(['!=', 'status', 10])->count();
 
-        $order = OrderMaintenance::find()->where(['id' => $dataIds])->select(['status','count(*) as count'])->groupBy(['status'])->orderBy(['count'=> SORT_DESC])->asArray()->all();
+        $order = OrderMaintenance::find()->where(['id' => $dataIds])->select(['status', 'count(*) as count'])->groupBy(['status'])->orderBy(['count' => SORT_DESC])->asArray()->all();
         $orderType = Yii::$app->params['statusOrder'][Yii::$app->language];
-        $chat = Chat::find()->CurrentUser()->orderBy(['id'=> SORT_DESC])->all();
-        $ads = Ad::find()->where(['status'=>1,'page_name'=>'maintenance_officer'])->orderby('id DESC')->all();
+        $chat = Chat::find()->CurrentUser()->orderBy(['id' => SORT_DESC])->all();
+        $ads = Ad::find()->where(['status' => 1, 'page_name' => 'maintenance_officer'])->orderby('id DESC')->all();
 
-        return compact('countOrderOpen','countOrderClose','order','orderType','chat','ads');
+        return compact('countOrderOpen', 'countOrderClose', 'order', 'orderType', 'chat', 'ads');
 
 
     }
@@ -317,37 +353,37 @@ class SiteController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             if ($model->login()) {
                 $user = Yii::$app->user->identity;
-    			if(isset($user->role) && ($user->role == "estate_officer")){
-    				$user_estate = UserEstateOffice::find()->where(['user_id'=>Yii::$app->user->identity->id])->one();
-    				$session = Yii::$app->session;
-    				$session['estate_office_id'] = $user_estate->estate_office_id;
-    			}
+                if (isset($user->role) && ($user->role == "estate_officer")) {
+                    $user_estate = UserEstateOffice::find()->where(['user_id' => Yii::$app->user->identity->id])->one();
+                    $session = Yii::$app->session;
+                    $session['estate_office_id'] = $user_estate->estate_office_id;
+                }
 
                 if (Yii::$app->session->has('paymentPlan'))
-                    return $this->redirect(Yii::$app->BaseUrl->baseUrl.'/payment/overview');
+                    return $this->redirect(Yii::$app->BaseUrl->baseUrl . '/payment/overview');
 
                 return $this->goBack();
-            }else{
-                if(isset($model->getErrors()['agreeTerm'])){
-                    $terms = "<div class=\'box-body table-responsive\'>".yii::$app->SiteSetting->info()->_terms_and_conditions."<br> ".yii::t('app','you have agree to')." ".yii::t('app','Terms And Conditions').'</div>';
-                    $footer = Html::Submitbutton(yii::t('app','I\'m Agree'),  [
-                            'class' => 'btn btn-group-justified btn-primary center-block',
-                            'onclick' => "$('input[name=\"LoginForm[agreeTerm]\"]').val(1)",
-                            ]);
-                     Yii::$app->view->registerJs("
+            } else {
+                if (isset($model->getErrors()['agreeTerm'])) {
+                    $terms = "<div class=\'box-body table-responsive\'>" . yii::$app->SiteSetting->info()->_terms_and_conditions . "<br> " . yii::t('app', 'you have agree to') . " " . yii::t('app', 'Terms And Conditions') . '</div>';
+                    $footer = Html::Submitbutton(yii::t('app', 'I\'m Agree'), [
+                        'class' => 'btn btn-group-justified btn-primary center-block',
+                        'onclick' => "$('input[name=\"LoginForm[agreeTerm]\"]').val(1)",
+                    ]);
+                    Yii::$app->view->registerJs("
                         modal.open();
                         modal.hidenCloseButton();
-                        modal.setTitle('".yii::t('app','Agree Terms and conditions')."');
-                        modal.setContent('".$terms."');
-                        modal.setFooter('".$footer."');
+                        modal.setTitle('" . yii::t('app', 'Agree Terms and conditions') . "');
+                        modal.setContent('" . $terms . "');
+                        modal.setFooter('" . $footer . "');
                         ");
                     return $this->render('login', [
                         'model' => $model,
                     ]);
-                } 
+                }
             }
-        } 
-             
+        }
+
         $model->password = '';
 
         return $this->render('login', [
@@ -365,7 +401,7 @@ class SiteController extends Controller
 
     public function actionLoginAsUser($user_id)
     {
-        if(Yii::$app->user->identity->user_type === 'developer'){
+        if (Yii::$app->user->identity->user_type === 'developer') {
             $user = User::findOne($user_id);
             // print_r(Yii::$app->user::class); die();
             // Yii::$app->user2->enableAutoLogin = false;
@@ -395,7 +431,7 @@ class SiteController extends Controller
             if ($model->sendEmail()) {
                 Yii::$app->session->setFlash('success', yii::t('app', 'Check your email for further instructions.'));
             } else {
-                Yii::$app->session->setFlash('error',  yii::t('app','Sorry, we are unable to reset password for the provided email address.'));
+                Yii::$app->session->setFlash('error', yii::t('app', 'Sorry, we are unable to reset password for the provided email address.'));
             }
 
             return $this->refresh();
@@ -422,9 +458,9 @@ class SiteController extends Controller
         }
 
         if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
-            Yii::$app->session->setFlash('success', Yii::t('app','New password saved.'));
+            Yii::$app->session->setFlash('success', Yii::t('app', 'New password saved.'));
 
-             return $this->redirect(['login']);
+            return $this->redirect(['login']);
         }
 
         return $this->render('resetPassword', [
@@ -436,23 +472,23 @@ class SiteController extends Controller
      * Verify email address
      *
      * @param string $token
-     * @throws BadRequestHttpException
      * @return yii\web\Response
+     * @throws BadRequestHttpException
      */
     public function actionVerifyEmail($token)
     {
         try {
             $model = new VerifyEmailForm($token);
         } catch (InvalidArgumentException $e) {
-            Yii::$app->session->setFlash('error', Yii::t('app','Sorry, we are unable to verify your account with provided token.'));
-        // return $this->goHome();
+            Yii::$app->session->setFlash('error', Yii::t('app', 'Sorry, we are unable to verify your account with provided token.'));
+            // return $this->goHome();
 
             return $this->redirect(['resend-verification-email']);
             //throw new BadRequestHttpException($e->getMessage());
         }
         if ($user = $model->verifyEmail()) {
             if (Yii::$app->user->login($user)) {
-                Yii::$app->session->setFlash('success', Yii::t('app','Your email has been confirmed!'));
+                Yii::$app->session->setFlash('success', Yii::t('app', 'Your email has been confirmed!'));
                 return $this->redirect(['volunteer/basic-data']);
             }
         }
@@ -470,9 +506,9 @@ class SiteController extends Controller
         $model = new ResendVerificationEmailForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->activationCode()) {
             if (User::sendActiveEmail($model->email)) {
-               Yii::$app->session->setFlash('success', yii::t('app','Thank you for registration. Please check your inbox for verification email.'));
+                Yii::$app->session->setFlash('success', yii::t('app', 'Thank you for registration. Please check your inbox for verification email.'));
             }
-            Yii::$app->session->setFlash('error', yii::t('app','There was a problem sending your verification code. Please try again'));
+            Yii::$app->session->setFlash('error', yii::t('app', 'There was a problem sending your verification code. Please try again'));
             return $this->refresh();
 
         }

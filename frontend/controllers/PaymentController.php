@@ -172,7 +172,8 @@ class PaymentController extends Controller
             $coupon = Coupon::find()->where(['coupon' => $coupon])->one();
 
             if($coupon) {
-                $discount = ($coupon->discount * ($planPrice + $planPriceTax)) / 100;
+//                $discount = ($coupon->discount * ($planPrice + $planPriceTax)) / 100;
+                $discount = ($coupon->discount * $planPrice ) / 100;
             }
         }
 
@@ -195,7 +196,7 @@ class PaymentController extends Controller
 
         $model->total = $planPrice - $discount + $model->taxes;
 
-        $model->discount = $discount ?? null;
+        $model->discount = $discount + ($planPriceTax - $model->taxes) ?? null;
         $model->coupon = $coupon?->coupon ?? null;
         $model->coupon_id = $coupon->id ?? null;
 
@@ -234,7 +235,7 @@ class PaymentController extends Controller
 
         if ($coupon) {
 
-            $discount = ($coupon->discount * ($planPrice + $planPriceTax)) / 100;
+            $discount = ($coupon->discount * $planPrice ) / 100;
             $finalPrice = $planPrice + $planPriceTax - $discount;
 
             $message = "مبروك لقد حصلت للتو على كود خصم بقيمة: " . GeneralHelpers::currency($discount);
@@ -252,36 +253,50 @@ class PaymentController extends Controller
 
         if ($order) {
             if ($this->checkStatusOfPayment($request)) {
+
                 $order->payment_status = 1;
                 $order->save();
 
-                $adminId = $order->admin_id;
+                $transaction = Yii::$app->db->beginTransaction();
 
-                $estateOffice = EstateOffice::findOne(['admin_id' => $order->admin_id]);
+                try{
 
-                // Add SMS Balance
-                $balanceSMS = new BalanceSms();
+                    $adminId = $order->admin_id;
 
-                $balanceSMS->estate_office_id = $estateOffice->id;
-                $balanceSMS->user_id = $adminId;
-                $balanceSMS->amount = $order->plan->sms;
-                $balanceSMS->price = $order->total;
+                    $estateOffice = EstateOffice::findOne(['admin_id' => $order->admin_id]);
 
-                $balanceSMS->save();
+                    // Add SMS Balance
+                    $balanceSMS = new BalanceSms();
 
-                GeneralHelpers::balanceChange($balanceSMS,'add');
+                    $balanceSMS->estate_office_id = $estateOffice->id;
+                    $balanceSMS->user_id = $adminId;
+                    $balanceSMS->amount = $order->plan->sms;
+                    $balanceSMS->price = $order->total;
+                    $balanceSMS->expire_date = date('Y-m-d H:i:s', strtotime('+1 year'));
 
-                // Add Contracts Balance
-                $balanceContract = new BalanceContract();
+                    $balanceSMS->save();
 
-                $balanceContract->estate_office_id = $estateOffice->id;
-                $balanceContract->user_id = $adminId;
-                $balanceContract->amount = $order->plan->contracts;
-                $balanceContract->price = $order->total;
+                    GeneralHelpers::balanceChange($balanceSMS,'add', true);
 
-                $balanceContract->save();
+                    // Add Contracts Balance
+                    $balanceContract = new BalanceContract();
 
-                GeneralHelpers::balanceChange($balanceContract,'add');
+                    $balanceContract->estate_office_id = $estateOffice->id;
+                    $balanceContract->user_id = $adminId;
+                    $balanceContract->amount = $order->plan->contracts;
+                    $balanceContract->price = $order->total;
+                    $balanceContract->expire_date = date('Y-m-d H:i:s', strtotime('+1 year'));
+
+                    $balanceContract->save();
+
+                    GeneralHelpers::balanceChange($balanceContract,'add', true);
+
+                    $transaction->commit();
+
+                } catch (\Exception $e) {
+                    $transaction->rollBack();
+                    Yii::error("Failed to process payment for order {$order->id}: " . $e->getMessage(), __METHOD__);
+                }
             }
         }
 

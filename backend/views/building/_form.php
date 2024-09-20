@@ -481,7 +481,7 @@ $EOS = yii::$app->SiteSetting->queryEOS();
 
     <div class="box-footer">
 
-        <div class='col-sm-12 clsAgreeTerms' style="clear:both; width:100%;">
+        <div class='col-sm-12 clsAgreeTerms' style="clear:both; width:100%;display: none">
 
             <?=
             $form->field($model, 'agreeterms')->checkboxList(Yii::$app->params['agree_terms'][Yii::$app->language], [
@@ -492,12 +492,11 @@ $EOS = yii::$app->SiteSetting->queryEOS();
 
                 'item' => function ($index, $label, $name, $checked, $value) {
 
-                    return "<label class='clsTermlabel'><input type='checkbox' {$checked} name='{$name}' value='{$value}'><a href='javascript:;' style='color:#C6A53E;' data-toggle='modal' data-target='#myModal'>{$label}</a></label>";
+                    return "<label class='clsTermlabel'><input type='checkbox' {$checked} name='{$name}' value='{$value}' checked><a href='javascript:;' style='color:#C6A53E;' data-toggle='modal' data-target='#myModal'>{$label}</a></label>";
 
                 }
 
             ])->label(false); ?>
-
 
         </div>
 
@@ -705,4 +704,4 @@ $this->registerJs($scripts);
 
                 <p dir="rtl" style=""><span style="">ثامنا:</span></p>
 
-                <p dir="rtl" style=""><span style="">يستثنى من تطبيق أحكام الضوابط ا�
+                <p dir="rtl" style=""><span style="">يستثنى من تطبيق أحكام الضوابط ا�

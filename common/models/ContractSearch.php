@@ -5,7 +5,10 @@ namespace common\models;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use common\models\Contract;
+use yii\db\Expression;
+
 use yii;
+
 /**
  * ContractSearch represents the model behind the search form of `common\models\Contract`.
  */
@@ -15,6 +18,7 @@ class ContractSearch extends Contract
 
     public $estate_office_name;
     public $owner_name;
+    public $contract_no_ejar;
     public $renter_name;
 
     /**
@@ -24,7 +28,7 @@ class ContractSearch extends Contract
     {
         return [
             [['id', 'estate_office_id', 'owner_id', 'building_id', 'housing_unit_id', 'renter_id', 'rent_period_id', 'housing_using_type_id', 'contract_form_id', 'user_created_id', 'refrence_contract_id', 'include_water', 'include_electricity', 'include_maintenance', 'status', 'is_active', 'is_draft', 'number_installments'], 'integer'],
-            [['contract_no', 'contract_info_json', 'created_date', 'start_date', 'end_date', 'price_text', 'details','estate_office_name','owner_name','renter_name'], 'safe'],
+            [['contract_no', 'contract_info_json', 'created_date', 'start_date', 'end_date', 'price_text', 'details', 'estate_office_name', 'owner_name', 'renter_name', 'contract_no_ejar'], 'safe'],
             [['price', 'added_tax', 'insurance_amount'], 'number'],
         ];
     }
@@ -48,7 +52,7 @@ class ContractSearch extends Contract
     public function search($params)
     {
         $query = Contract::find();
-        $query->joinWith(['estateOffice','renter as renter_rel','owner as owner_rel'],false);
+        $query->joinWith(['estateOffice', 'renter as renter_rel', 'owner as owner_rel'], false);
 
 
         $user = yii::$app->user->identity;
@@ -67,7 +71,7 @@ class ContractSearch extends Contract
             case 'estate_officer':
                 $query->withDraft()->currentOffice();
                 break;
-            
+
             default:
                 # code...
                 break;
@@ -120,11 +124,23 @@ class ContractSearch extends Contract
             ->andFilterWhere(['like', 'price_text', $this->price_text])
             ->andFilterWhere(['like', 'estate_office.name', $this->estate_office_name])
             ->andFilterWhere(['like', 'owner_rel.name', $this->owner_name])
+            ->andFilterWhere(['like', 'contract_no_ejar', $this->contract_no_ejar])
             ->andFilterWhere(['like', 'renter_rel.name', $this->renter_name])
             ->andFilterWhere(['like', 'details', $this->details]);
 
-        $this->filterByDate($query,'created_date');
-        
+        $type = Yii::$app->request->get('type');
+
+        if ($type) {
+            if ($type == 'expired') {
+                $query->andWhere(['<', 'end_date', new Expression('CURDATE()')]);
+            } elseif ($type == 'about_to_expire') {
+                $query->andWhere(['between', 'end_date', new Expression('CURDATE() + INTERVAL 1 DAY'), new Expression('CURDATE() + INTERVAL 30 DAY')]);
+            } elseif ($type == 'contracts_will_expire_after_months') {
+                $query->andWhere(['between', 'end_date', new Expression('CURDATE() + INTERVAL 71 DAY'), new Expression('CURDATE() + INTERVAL 89 DAY')]);
+            }
+        }
+
+        $this->filterByDate($query, 'created_date');
 
         return $dataProvider;
     }

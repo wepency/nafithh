@@ -3,6 +3,9 @@ use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
 use kartik\grid\GridView;
 //  this view for office
+
+Yii::$app->cache->flush();
+
 return [
     // [
     //     'class' => 'kartik\grid\CheckboxColumn',
@@ -86,7 +89,7 @@ return [
             // var_dump($widget->col(3, $p)); die();
             // }
             if(is_numeric($widget->col(3, $p)) && is_numeric($widget->col(4, $p))){
-              $total = (float) $widget->col(3, $p) - (float) $widget->col(4, $p) ;
+              $total = (float) $widget->col(3, $p) - (float) $widget->col(4, $p);
               return yii::t('app','Total').'  : '. (string) $total;
             }
             return yii::t('app','Total').'  : ';

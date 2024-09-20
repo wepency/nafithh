@@ -14,7 +14,6 @@ class ReceiptVoucherSearch extends ReceiptVoucher
 {
     public $owner_name;
     public $housing_unit_name;
-    public $created_date;
     /**
      * @inheritdoc
      */

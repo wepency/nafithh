@@ -21,7 +21,7 @@ $EOS = yii::$app->SiteSetting->queryEOS();
     <?php $form = ActiveForm::begin(['options'=>['class'=>""]]); ?>
     <div class="box-body table-responsive">
         <fieldset>
-            <legend><?=Yii::t('app','Building Info')?> :</legend>
+            <legend><?=Yii::t('app','Unit Info')?> :</legend>
             <div class='col-sm-12'> 
                 <label for='' class='col-sm-2 control-label'><?= Yii::t('app', 'Building') ?> </label> 
                 <div class='col-sm-4'>
@@ -58,7 +58,8 @@ $EOS = yii::$app->SiteSetting->queryEOS();
                 
                 <div class='col-sm-3'><?= $form->field($model, "lounge")->textInput(['maxlength' => true]) ?></div>
                 <div class='col-sm-3'><?= $form->field($model, "electricity_meter_no")->textInput(['maxlength' => true]) ?></div>
-                <div class="clearfix"></div>        
+                <div class='col-sm-3'><?= $form->field($model, "water_meter_no")->textInput(['maxlength' => true]) ?></div>
+                <div class="clearfix"></div>
 
 <!--                 <label for='' class='col-sm-12 control-label' style="font-weight:bold !important;" >--><?php //= Yii::t('app', 'Limits and Lengths of the Property') ?><!-- </label>-->
 <!--                <div class='col-sm-3'>--><?php //= $form->field($model, "length")->textInput(['maxlength' => true]) ?><!--</div>-->
@@ -129,7 +130,7 @@ $EOS = yii::$app->SiteSetting->queryEOS();
         <div class='col-sm-6'><?= $form->field($model, "status")->checkbox(Yii::$app->params['statusHousRent'][Yii::$app->language]) ?></div>
         */?>
         <fieldset>
-            <legend><?=Yii::t('app','Rent And Sale for full Building')?> :</legend>
+            <legend><?=Yii::t('app','Rent And Sale for full Unit')?> :</legend>
             <div class='col-sm-12'> 
                
                 <div class='col-sm-12'> 

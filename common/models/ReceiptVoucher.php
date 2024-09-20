@@ -112,7 +112,7 @@ class ReceiptVoucher extends \yii\db\ActiveRecord
             [['owner_id', 'estate_office_id', 'building_housing_unit_id', 'maintenance_office_id', 'payment_method', 'user_receipt_id','payment_status_estate'], 'integer'],
             [['recipient_type','amount','pay_against','payment_method'], 'required'],
             [['amount'], 'number'],
-            [['pay_against', 'details'], 'string'],
+            [['pay_against', 'details', 'recipient_name'], 'string'],
             [['created_date'], 'safe'],
 
             [['building_housing_unit_id','maintenance_office_id'], 'required', 'when' => function($model) {
@@ -238,8 +238,8 @@ class ReceiptVoucher extends \yii\db\ActiveRecord
 
 
 
-    public function eventCreateStatement($event){
-        if($this->recipient_type ==  'maintenance_officer' && $this->building_housing_unit_id ){
+    public function eventCreateStatement($event = null){
+        if(in_array($this->recipient_type, ['maintenance_officer','other']) && $this->building_housing_unit_id ){
             $amount = $this->amount;
             $trans = new Statement();
 
@@ -264,7 +264,7 @@ class ReceiptVoucher extends \yii\db\ActiveRecord
     }
 
 
-    public function eventCreateMaintenanceStatement($event){
+    public function eventCreateMaintenanceStatement($event = null){
         $amount = $this->amount;
         $building = $this->buildingHousingUnit->building;
 
@@ -275,7 +275,6 @@ class ReceiptVoucher extends \yii\db\ActiveRecord
         $receiptCatch->setDetail('maintenance',['amount'=> $amount,'receipt_voucher_id'=>$this->id]);
         $receiptCatch->save();
         $receiptCatch->refresh();
-
 
         $trans = new Statement();
         $trans->housing_id = $this->building_housing_unit_id ;
@@ -290,8 +289,6 @@ class ReceiptVoucher extends \yii\db\ActiveRecord
         $trans->reference_id = $receiptCatch->id;
         $trans->setDetail('receipt_catch_maintenance',['amount'=> $amount,'receipt_catch_id'=>$receiptCatch->id,'receipt_voucher_id'=>$this->id]);
         $trans->save();
-
-       
     }
 
 

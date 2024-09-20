@@ -247,7 +247,10 @@ class Installment extends \yii\db\ActiveRecord
         $st_type1 = Statement::find()->where([
             'contract_id'=>$contract->id,
             'type'=>1,
-            ])->orderBy('id DESC')->one();
+            ]);
+
+        $stdCredit = (clone $st_type1)->sum('credit');
+        $st_type1 = $st_type1->orderBy('id DESC')->all();
 
         // $amount = $this->amount;
         // if($this->payment_status_owner == self::STATUS_PAID){
@@ -256,20 +259,22 @@ class Installment extends \yii\db\ActiveRecord
         //     $amount = $this->amount_remaining_owner;
         // }
 
-        if($st_type1 && ($brokerage = $st_type1->credit) > 0 ){
+        if($st_type1 && ($brokerage = $stdCredit) > 0 ){
+
         // إذا كان يوجد قيد بنوع عمولة لنفس هذا العقد 
             $st_type5 = Statement::find()
             ->select('sum(debit) as sum')
             ->where([
             'contract_id'=>$contract->id,
             'type'=>5,
-            ])->andWhere(['>','id',$st_type1->id])->orderBy('id ASC')->asArray()->One();
+            ])->andWhere(['>','id',$st_type1[0]->id])->orderBy('id ASC')->asArray()->One();
+
             // print_r($brokerage); die();
             if($brokerage > $st_type5['sum'] ){
             // إذا كانت عمولة المكتب أكبر من مجموع القيود يعني أن المكتب لم يستلم كامل المبلغ
-                $brokerage_remaining = $brokerage -  ($st_type5['sum']??  0);
+                $brokerage_remaining = $brokerage - ($st_type5['sum'] ??  0);
 
-                if($brokerage_remaining  >= $this->amount){
+                if($brokerage_remaining >= $this->amount){
                     // إذا كان المبلغ المتبقي للمالك أكبر من القسط يتم إضافة  قيد على المكتب وسند قبض
                     // يتم تحديد القسط أنه مسدد بشكل كامل للمالك
                     $this->payment_status_owner = self::STATUS_PAID;
@@ -280,13 +285,13 @@ class Installment extends \yii\db\ActiveRecord
                     $this->payment_status_owner = self::STATUS_PART_PAID;
                     $amount = $brokerage_remaining;
                     $this->amount_remaining_owner = $this->amount - $amount;
-
                 }
+
                 $receiptCatch = New StatementReceiptCatch();
                 $receiptCatch->amount_paid = $amount;
                 $receiptCatch->estate_office_id = $contract->estate_office_id;
                 $receiptCatch->owner_id = $contract->owner_id;
-                $receiptCatch->setDetail('brokerage',['amount'=> $amount,'contract_id'=>$contract->id,'installment_id'=>$this->id]);
+                $receiptCatch->setDetail('brokerage', ['amount'=> $amount,'contract_id'=>$contract->id,'installment_id'=>$this->id]);
                 $receiptCatch->save();
                 $receiptCatch->refresh();
 
@@ -305,7 +310,7 @@ class Installment extends \yii\db\ActiveRecord
                 $trans->setDetail('receipt_catch',['amount'=> $amount,'receipt_catch_id'=>$receiptCatch->id]);
                 $trans->save();
             }else{
-                // إذا كانت عمولة المكتب أقل من أو يساوي مجموع القيودبمعنى تم سداد عمولة المكتب بشكل كامل
+                // إذا كانت عمولة المكتب أقل من أو يساوي مجموع القيود بمعنى تم سداد عمولة المكتب بشكل كامل
             }
 
             $amount = 0;
@@ -331,15 +336,10 @@ class Installment extends \yii\db\ActiveRecord
 
             // $this->payment_status_owner = self::STATUS_PAID;
 
-            $trans->setDetail('installment',['amount'=> $amount,'installment_id'=>$this->id]);
+            $trans->setDetail('installment', ['amount'=> $amount,'installment_id'=>$this->id]);
 
             $trans->debit = $amount;
             $trans->save();
-            
-
-
-
-
         }
     }
 

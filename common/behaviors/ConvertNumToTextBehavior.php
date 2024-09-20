@@ -28,11 +28,11 @@ class ConvertNumToTextBehavior extends AttributeBehavior
         if (!($this->owner->hasAttribute($this->numberAttribute))) {
                 throw new \InvalidArgumentException("You should add attribute ".$this->numberAttribute);
         }
-        
+
         if (!($this->owner->hasAttribute($this->textNumberAttribute))) {
             throw new \InvalidArgumentException("You should add attribute ".$this->textNumberAttribute);
         }
-        
+
         $ar_number= new ConvertNumToText($this->owner->{$this->numberAttribute}, "male");
         $this->owner->{$this->textNumberAttribute} =  $ar_number->convert_number(). ' ريال سعودي فقط لا غير';
     }

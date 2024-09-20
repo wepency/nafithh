@@ -272,79 +272,96 @@ class ContractController extends Controller
         if ($request->isAjax) {
             if ($model->load($request->post())) {
 
-                $model->estate_office_id = GeneralHelpers::getEstateOfficeId();
-                $model->owner_id = $owner->id;
-                $model->building_id = $housing->building_id;
-                $model->housing_unit_id = $housing->id;
-                $model->renter_id = $renter->id;
+                // Start the transaction
+//                $transaction = Yii::$app->db->beginTransaction();
+//
+//                try {
+                    $model->estate_office_id = GeneralHelpers::getEstateOfficeId();
+                    $model->owner_id = $owner->id;
+                    $model->building_id = $housing->building_id;
+                    $model->housing_unit_id = $housing->id;
+                    $model->renter_id = $renter->id;
 
-                $model->user_created_id = Yii::$app->user->identity->id;
-                // إذا كان ات الوحدة تجارية يتم احتسا الضريبة من الاعدادات العامة
-                if ($housing->using_for == 1) {
-                    $added_tax_setting = yii::$app->SiteSetting->info()->added_tax;
-                    if ($added_tax_setting > 0 && $model->price > 0)
-                        $model->added_tax = round(($added_tax_setting * $model->price) / 100, 2);
-                }
+                    $model->user_created_id = Yii::$app->user->identity->id;
+                    // إذا كان ات الوحدة تجارية يتم احتسا الضريبة من الاعدادات العامة
+                    if ($housing->using_for == 1) {
+                        $added_tax_setting = yii::$app->SiteSetting->info()->added_tax;
+                        if ($added_tax_setting > 0 && $model->price > 0)
+                            $model->added_tax = round(($added_tax_setting * $model->price) / 100, 2);
+                    }
 
-                if ($model->include_water == 1 && $model->water_amount > 0) {
-                    $model->price = $model->price + $model->water_amount;
-                }
+                    if ($model->include_water == 1 && $model->water_amount > 0) {
+                        $model->price = $model->price + $model->water_amount;
+                    }
 
-                // إذا كانت مسودة
+                    // إذا كانت مسودة
 
-                if ($model->validate()) {
-                    if (isset($request->post()['is_draft'])) {
-                        $model->is_draft = 1;
+                    if ($model->validate()) {
+                        // If saved as draft
+                        if (isset($request->post()['is_draft'])) {
+                            $model->is_draft = 1;
+                            $model->save(false);
+                            GeneralHelpers::setImages($model);
+
+                            Yii::$app->session->setFlash('success', Yii::t('app', 'Contract Saved As Draft.'));
+//                            $transaction->commit(); // Commit the transaction
+                            return $this->redirect(['index']);
+                        }
+
+
+                        $model->contract_no = $this::ContractNo();
                         $model->save();
-                        Yii::$app->session->setFlash('success', Yii::t('app', 'Contract Saved As Draft.'));
 
-                        return $this->redirect('create');
+                        GeneralHelpers::setImages($model);
+
+                        $housing->status = 1;
+                        $housing->save(false);
+                        // الخصم من رصيد العقود من المكتب
+                        $estatOffice = \common\models\EstateOffice::findOne($model->estate_office_id);
+                        $estatOffice->contract_balance -= 1;
+                        $estatOffice->save(false);
+
+                        $model->trigger(Contract::EVENT_NEW);
+
+//                    $installmentNo = $this::installmentNo();
+                        $installmentNo = 1;
+                        // تقسيم مبلغ وفترة الإيجار بحسب عدد الأقساط وإضافتها لجدول الأقساط
+                        $patrt_installment = $this::Partinstallment($model);
+
+                        for ($i = 0; $i < $model->number_installments; $i++) {
+                            $installments = new Installment;
+                            $installments->contract_id = $model->id;
+                            $installments->renter_id = $renter->id;
+                            $installments->installment_no = (string)$installmentNo++;
+                            $installments->amount = $patrt_installment[$i]['amount'];
+                            $installments->start_date = $patrt_installment[$i]['start_date'];
+                            $installments->end_date = $patrt_installment[$i]['end_date'];
+                            $installments->save();
+                        }
+
+                        $model->trigger(Contract::EVENT_STATEMENT);
+//                    $model->trigger(Contract::EVENT_MANAGEMENT_STATEMENT);
+//                    $model->trigger(Contract::EVENT_MARKETING_STATEMENT);
+
+                        if (isset($request->post()['generate-installment'])) {
+//                            $transaction->commit(); // Commit before redirect
+                            return $this->redirect(['/installment/generate-installment', 'contract_id' => $model->id]);
+                        }
+
+                        $session = Yii::$app->session;
+
+                        unset($session['housing_unit']);
+                        unset($session['owner_identity_id']);
+                        unset($session['renter_identity_id']);
+
+                        Yii::$app->session->setFlash('success', Yii::t('app','New Contract Added successfully.'));
+                        return $this->redirect(['view','id' => $model->id]);
                     }
-
-
-                    $model->contract_no = $this::ContractNo();
-                    $model->save();
-
-
-                    GeneralHelpers::setImages($model);
-
-                    $housing->status = 1;
-                    $housing->save(false);
-                    // الخصم من رصيد العقود من المكتب
-                    $estatOffice = \common\models\EstateOffice::findOne($model->estate_office_id);
-                    $estatOffice->contract_balance -= 1;
-                    $estatOffice->save(false);
-
-                    $model->trigger(Contract::EVENT_NEW);
-
-                    $installmentNo = $this::installmentNo();
-                    // تقسيم مبلغ وفترة الإيجار بحسب عدد الأقساط وإضافتها لجدول الأقساط
-                    $patrt_installment = $this::Partinstallment($model);
-                    for ($i = 0; $i < $model->number_installments; $i++) {
-                        $installments = new Installment;
-                        $installments->contract_id = $model->id;
-                        $installments->renter_id = $renter->id;
-                        $installments->installment_no = (string)$installmentNo++;
-                        $installments->amount = $patrt_installment[$i]['amount'];
-                        $installments->start_date = $patrt_installment[$i]['start_date'];
-                        $installments->end_date = $patrt_installment[$i]['end_date'];
-                        $installments->save();
-                    }
-
-                    $model->trigger(Contract::EVENT_STATEMENT);
-
-                    if (isset($request->post()['generate-installment'])) {
-                        return $this->redirect(['/installment/generate-installment', 'contract_id' => $model->id]);
-                    }
-
-                    $session = Yii::$app->session;
-                    unset($session['housing_unit']);
-                    unset($session['owner_identity_id']);
-                    unset($session['renter_identity_id']);
-
-                    Yii::$app->session->setFlash('success', Yii::t('app', 'New Contract Added successfully.'));
-                    return $this->redirect(['view', 'id' => $model->id]);
-                }
+//                } catch (\Exception $e) {
+//                    $transaction->rollBack(); // Roll back transaction if there is an error
+//                    Yii::$app->session->setFlash('error', Yii::t('app', 'Failed to save the contract.'));
+//                    throw $e;
+//                }
 
             }
             return $this->renderAjax('/contract/_add_contract', [
@@ -360,6 +377,32 @@ class ContractController extends Controller
         *   Process for non-ajax request
         */
         return $this->redirect('create');
+    }
+
+    public function actionGenerateInstallments($contractId){
+
+        $model = Contract::find()->where(['id' => $contractId])->one();
+        $renter = $model->renter;
+
+        $installmentNo = 1;
+        // تقسيم مبلغ وفترة الإيجار بحسب عدد الأقساط وإضافتها لجدول الأقساط
+        $patrt_installment = $this::Partinstallment($model);
+
+        for ($i = 0; $i < $model->number_installments; $i++) {
+            $installments = new Installment;
+            $installments->contract_id = $model->id;
+            $installments->renter_id = $renter->id;
+            $installments->installment_no = (string)$installmentNo++;
+            $installments->amount = $patrt_installment[$i]['amount'];
+            $installments->start_date = $patrt_installment[$i]['start_date'];
+            $installments->end_date = $patrt_installment[$i]['end_date'];
+
+            $installments->save();
+        }
+
+//        dd($installments);
+
+        $model->trigger(Contract::EVENT_STATEMENT);
     }
 
     public function actionIndex()
@@ -421,6 +464,7 @@ class ContractController extends Controller
         if (!Yii::$app->user->can('/contract/update')) {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+
         $request = Yii::$app->request;
         $model = $this->findModel($id);
         $owner = $model->owner;
@@ -490,7 +534,8 @@ class ContractController extends Controller
             return $this->redirect(['index']);
 
         } else {
-            // print_r($model->getErrors()); die();
+//             print_r($model->getErrors()); die();
+
             return $this->render('update', [
                 'model' => $model,
                 'owner' => $owner,

@@ -93,12 +93,12 @@ $estateOffice = $model->contract->estateOffice;
                                     <span><?=$installment->start_date?></span>
                                 </div>
                             </div>
-                            <div class="col-lg-4 col-md-4 col-sm-12 col-12">
-                                <div class="form-group">
-                                    <label><?=Yii::t('app', 'Installment End Date')?></label>
-                                    <span><?=$installment->end_date?></span>
-                                </div>
-                            </div>
+<!--                            <div class="col-lg-4 col-md-4 col-sm-12 col-12">-->
+<!--                                <div class="form-group">-->
+<!--                                    <label>--><?php //=Yii::t('app', 'Installment End Date')?><!--</label>-->
+<!--                                    <span>--><?php //=$installment->end_date?><!--</span>-->
+<!--                                </div>-->
+<!--                            </div>-->
                         </div>
                         <div class="form-group">
                             <label><?=Yii::t('app', 'Renter Name')?></label>

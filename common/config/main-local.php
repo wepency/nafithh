@@ -4,12 +4,12 @@ return [
     'components' => [
         'db' => [
             'class' => 'yii\db\Connection',
+            'dsn' => 'mysql:host=127.0.0.1;dbname=nafit',
+            'username' => 'root',
+            'password' => '',
 //            'dsn' => 'mysql:host=localhost;dbname=nafit',
 //            'username' => 'root',
 //            'password' => '',
-            'dsn' => 'mysql:host=localhost;dbname=nafit',
-            'username' => 'root',
-            'password' => '',
             'charset' => 'utf8',
             'on afterOpen' => function($event) { 
                 // set 'Asia/Bangkok' timezone

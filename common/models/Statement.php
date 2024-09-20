@@ -41,6 +41,7 @@ class Statement extends \yii\db\ActiveRecord
         return [
             [['housing_id', 'building_id', 'type', 'reference_id', 'estate_office_id', 'owner_id', 'contract_id'], 'integer'],
             [['debit', 'credit'], 'number'],
+            [['added_to_receipt'], 'boolean'],
             // [['credit'], 'required'],
             [['instalment_ids', 'detail', 'detail_en'], 'string'],
             [['created_date', 'year'], 'safe'],
@@ -111,7 +112,15 @@ class Statement extends \yii\db\ActiveRecord
             case 'brokerage':
                 $text_ar = 'مبلغ  ({amount}) عمولة المكتب من العقد  ({contract_id})';
                 $text = 'amount ({amount}) for Brokerage commission To ({contract_id})';
-                break; 
+                break;
+            case 'management':
+                $text_ar = 'مبلغ  ({amount}) عمولة ادارة أملاك من العقد  ({contract_id})';
+                $text = 'amount ({amount}) for Management commission To ({contract_id})';
+                break;
+            case 'marketing':
+                $text_ar = 'مبلغ  ({amount}) عمولة التسويق من العقد  ({contract_id})';
+                $text = 'amount ({amount}) for Marketing commission To ({contract_id})';
+                break;
             case 'installment':
                 $text_ar = 'مبلغ  ({amount})قيمة  القسط رقم  ({installment_id})';
                 $text = 'amount ({amount}) for Installment Id ({installment_id})';
@@ -123,6 +132,10 @@ class Statement extends \yii\db\ActiveRecord
             case 'maintenance':
                 $text_ar = 'مبلغ  ({amount}) سعر  الصيانة  بسند صرف رقم  ({receipt_voucher_id})';
                 $text = 'amount ({amount}) Maintenance Price by Receipt Catch Voucher Id ({receipt_voucher_id})';
+                break;
+            case 'other':
+                $text_ar = 'مبلغ  ({amount}) سعر  أخرى  بسند صرف رقم  ({receipt_voucher_id})';
+                $text = 'amount ({amount}) Other Price by Receipt Catch Voucher Id ({receipt_voucher_id})';
                 break;
             case 'receipt_catch_maintenance':
                 $text_ar = 'مبلغ  ({amount})تصفية سند صرف  الصيانة ({receipt_voucher_id})بسند قبض   ({receipt_catch_id})';

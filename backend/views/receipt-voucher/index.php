@@ -42,25 +42,45 @@ $this->params['breadcrumbs'][] = $this->title;
                    }
             ],
             [
-                'label' =>yii::t('app','Owner Name'),
-                'attribute' =>'owner_name',
-                'value'=> 'owner.name'
+                'label' => yii::t('app', 'Recipient Name'),
+                'attribute' => 'recipient_name',
+                'value' => function ($model) {
+                    return match ($model->recipient_type) {
+                        'owner' => $model?->buildingHousingUnit?->building?->owner?->name ?? $model?->owner?->name,
+                        'maintenance_office' => $model?->maintenanceOffice?->name,
+                        default => $model?->recipient_name
+                    };
+                },
+            ],
+//            [
+//                'label' =>yii::t('app','Owner Name'),
+//                'attribute' =>'owner_name',
+//                'value' => function($model) {
+//                    return $model->buildingHousingUnit?->building?->owner?->name ?? $model->owner?->name;
+//                },
+//            ],
+            [
+                'label' =>yii::t('app','Building'),
+                'attribute'=>'building_name',
+                'filter'=> true,
+                'value'=> 'buildingHousingUnit.building.building_name'
             ],
             [
                 'label' =>yii::t('app','Building Housing Unit'),
                 'attribute'=>'housing_unit_name',
+                'filter'=> true,
                 'value'=> 'buildingHousingUnit.housing_unit_name'
             ],
-            [
-               'attribute'=>'maintenance_office_id',
-               'filter'=> false,
-               'value'=> 'maintenanceOffice.name'
-            ],
+//            [
+//               'attribute'=>'maintenance_office_id',
+//               'filter'=> true,
+//               'value'=> 'maintenanceOffice.name'
+//            ],
             'amount',
             'amount_text',
             [
               'attribute' =>'user_receipt_id',
-              'filter' => false,
+              'filter' => true,
               'value'=> function($model){
                 return $model?->userReceipt?->name;
               }
@@ -74,18 +94,23 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                'attribute'=>'estate_office_id',
-               'filter'=> false,
+               'filter'=> true,
                'value'=> 'estateOffice.name'
             ],
             [
                'attribute'=>'payment_status_estate',
-               'filter'=> false,
+               'filter'=> true,
                // 'filter'=> Yii::$app->params['statusPayment2'][Yii::$app->language],
                'value'=> function($model) {
                        return Yii::$app->params['statusPayment2'][Yii::$app->language][$model->payment_status_estate];
                 },
                 'visible' => yii::$app->user->can('developer'),
             ],
+            [
+                'format' => 'html',
+                'attribute' =>'pay_against',
+            ],
+            'created_date',
             //'receipt_voucher_no',
             //'pay_against:ntext',
             //'payment_method',

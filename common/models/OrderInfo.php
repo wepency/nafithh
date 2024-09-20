@@ -37,6 +37,10 @@ class OrderInfo extends \yii\db\ActiveRecord
     public $maintenanceOffice;
     public $imageFiles;
 
+    const NOTIF_TEMP_NEW_FOR_ESTATE = 16;
+    const NOTIF_TEMP_NEW_FOR_RENTER = 15;
+    const EVENT_NEW = 'eventNew';
+
     public function behaviors()
     {
         return [
@@ -70,7 +74,7 @@ class OrderInfo extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['maintenance_type_id','maintenanceOffice', 'building_housing_unit_id', 'send_to', 'title'], 'required'],
+            [['maintenance_type_id', /*'maintenanceOffice', */ 'building_housing_unit_id', 'send_to', 'title'], 'required'],
             [['maintenance_type_id', 'estate_office_id', 'building_housing_unit_id', 'sender_id', 'is_draft'], 'integer'],
             [['details_order'], 'string'],
             [['created_date'], 'safe'],
@@ -180,5 +184,45 @@ class OrderInfo extends \yii\db\ActiveRecord
     public function getOrderMaintenances()
     {
         return $this->hasMany(OrderMaintenance::class, ['order_info_id' => 'id']);
+    }
+
+    public function eventNew($model)
+    {
+
+        $this->refresh();
+
+        // FOR ESTATE OFFICE
+        $params = [
+            're_id' => $model->estate_office_id,
+            're_type' => 'estate_officer',
+            'content' => 'New Order Added successfully.',
+            'id' => $model->id,
+            't_name' => 'contract',
+            'mobile' => $model->estateOffice?->mobile,
+            'email' => $model->estateOffice?->email,
+
+            'estate_office_name' => $model->estateOffice?->name,
+            'renter_name' => $model->sender->name,
+            'created_date' => $model->created_date,
+        ];
+
+        \common\components\GeneralHelpers::sendNotif(self::NOTIF_TEMP_NEW_FOR_ESTATE, $params, $model->estateOffice->id);
+
+        // FOR RENTER
+        $params = [
+            're_id' => $model->sender->id,
+            're_type' => 'renter',
+            'content' => 'New Order Added successfully.',
+            'id' => $model->id,
+            't_name' => 'contract',
+            'mobile' => $model->sender->mobile,
+            'email' => $model->sender->email,
+
+            'estate_office_name' => $model->estateOffice->name,
+            'renter_name' => $model->sender->name,
+            'created_date' => $model->created_date,
+        ];
+
+        \common\components\GeneralHelpers::sendNotif(self::NOTIF_TEMP_NEW_FOR_RENTER, $params, $model->estateOffice->id);
     }
 }

@@ -352,7 +352,7 @@ class EstateOffice extends \yii\db\ActiveRecord
                 return 0;
             }
 
-            return $this->contract_expire_date;
+            return $this->contract_balance;
         } elseif ($type === 'sms') {
             return $this->sms_balance;
         }

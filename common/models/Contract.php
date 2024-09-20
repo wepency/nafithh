@@ -60,6 +60,8 @@ class Contract extends \yii\db\ActiveRecord
     const EVENT_NEAR_EXPIR = 'eventExpir';
     const EVENT_EXPIRED = 'eventExpired';
     const EVENT_STATEMENT = 'eventCreateStatement';
+    const EVENT_MANAGEMENT_STATEMENT = 'eventCreateManagementStatement';
+    const EVENT_MARKETING_STATEMENT = 'eventCreateMarketingStatement';
 
     const NOTIF_TEMP_NEW_FOR_ESTATE = 2;
     const NOTIF_TEMP_NEW_FOR_RENTER = 3;
@@ -111,13 +113,13 @@ class Contract extends \yii\db\ActiveRecord
                     'fileAttribute' => 'file',
                     'saveDir' => Yii::getAlias("@upload/contract/")
                 ],
-            'convertNumToTextBehavior' => [
-                'class' => \common\behaviors\ConvertNumToTextBehavior::class,
-                // اسم الحقل الذي فيه المبلغ
-                'numberAttribute' => 'price',
-                // اسم الحقل الذي سيضاف إليه المبلغ كنص
-                'textNumberAttribute' => 'price_text'
-            ],
+//            'convertNumToTextBehavior' => [
+//                'class' => \common\behaviors\ConvertNumToTextBehavior::class,
+//                // اسم الحقل الذي فيه المبلغ
+//                'numberAttribute' => 'price',
+//                // اسم الحقل الذي سيضاف إليه المبلغ كنص
+//                'textNumberAttribute' => 'price_text'
+//            ],
 
         ];
     }
@@ -129,10 +131,10 @@ class Contract extends \yii\db\ActiveRecord
     {
         return [
             [['estate_office_id', 'owner_id', 'building_id', 'housing_unit_id', 'renter_id', 'rent_period_id', 'housing_using_type_id', 'user_created_id', 'price', 'number_installments', 'start_date', 'end_date', 'contract_no_ejar', 'brokerage_type', 'brokerage_value'], 'required'],
-            [['estate_office_id', 'owner_id', 'building_id', 'housing_unit_id', 'renter_id', 'rent_period_id', 'housing_using_type_id', 'contract_form_id', 'user_created_id', 'refrence_contract_id', 'include_water', 'include_electricity', 'include_maintenance', 'status', 'is_active', 'is_draft', 'brokerage_type'], 'integer'],
+            [['estate_office_id', 'owner_id', 'building_id', 'housing_unit_id', 'renter_id', 'rent_period_id', 'housing_using_type_id', 'contract_form_id', 'user_created_id', 'refrence_contract_id', 'include_water', 'include_electricity', 'include_maintenance', 'status', 'is_active', 'is_draft', 'brokerage_type', 'marketing_fees_type', 'property_management_fees_type'], 'integer'],
             [['number_installments'], 'integer', 'min' => 1],
-            [['brokerage_value'], 'number', 'min' => 0],
-            [['contract_info_json', 'details', 'terms_and_conditions'], 'string'],
+            [['brokerage_value', 'marketing_fees', 'property_management_fees'], 'number', 'min' => 0],
+            [['contract_info_json', 'details', 'terms_and_conditions', 'water_meter_serial', 'water_account_number', 'meter_reading_number'], 'string'],
             [['created_date', 'start_date', 'end_date'], 'safe'],
             [['price', 'added_tax', 'insurance_amount', 'water_amount'], 'number'],
             [['contract_no_ejar'], 'string', 'max' => 50],
@@ -191,6 +193,10 @@ class Contract extends \yii\db\ActiveRecord
             'file' => Yii::t('app', 'Additional File'),
             'brokerage_type' => Yii::t('app', 'Brokerage Type'),
             'brokerage_value' => Yii::t('app', 'Brokerage Value'),
+
+            'water_meter_serial' => Yii::t('app', 'Water Meter Serial'),
+            'water_account_number' => Yii::t('app', 'Water Account Number'),
+            'meter_reading_number' => Yii::t('app', 'Meter Reading Number'),
         ];
     }
 
@@ -227,16 +233,16 @@ class Contract extends \yii\db\ActiveRecord
                 return false;
             }
 
-            $housingUnit = $this->getHousingUnit();
-            if ($housingUnit !== NULL) {
-                $housingUnit->status = 0;
-
-                if (!$housingUnit->save()) {
-                    Yii::$app->session->setFlash('danger', Yii::t('app', 'Failed to update the housing unit status.'));
-                    return false;
-                }
-
-            }
+//            $housingUnit = $this->getHousingUnit();
+//            if ($housingUnit !== NULL) {
+//                $housingUnit->status = 0;
+//
+//                if (!$housingUnit->save()) {
+//                    Yii::$app->session->setFlash('danger', Yii::t('app', 'Failed to update the housing unit status.'));
+//                    return false;
+//                }
+//
+//            }
             Yii::$app->session->setFlash('success', Yii::t('app', 'Deletes are done successfully.'));
             return true;
         }
@@ -407,12 +413,12 @@ class Contract extends \yii\db\ActiveRecord
             $this->end_date = date('Y-m-d', \time());
 
             $this->is_active = 0;
-            $this->details = $this->details . ' ' . yii::t('app', 'change expire date') . ' ' . yii::t('app', 'becouse the contract expired');
+//            $this->details = $this->details . ' ' . yii::t('app', 'change expire date') . ' ' . yii::t('app', 'becouse the contract expired');
+            $this->details = "";
             $this->save(false);
         }
 
     }
-
 
     public function eventCreateStatement($event)
     {
@@ -423,7 +429,6 @@ class Contract extends \yii\db\ActiveRecord
             $amount = ($brokerage_percent * $this->price) / 100;
         } else {
             $amount = $this->brokerage_value;
-
         }
 
         $trans = new Statement();
@@ -434,14 +439,83 @@ class Contract extends \yii\db\ActiveRecord
         $trans->owner_id = $this->owner_id;
         $trans->contract_id = $this->id;
         $trans->type = 1;
+        $trans->subtype = 'brokerage';
 
         // $trans->debit = ;
         $trans->credit = $amount;
         // $trans->reference_id = ;
         $trans->setDetail('brokerage', ['amount' => $amount, 'contract_id' => $this->id]);
         $trans->save();
+
+        $this->eventCreateManagementStatement($event);
+        $this->eventCreateMarketingStatement($event);
     }
 
+    public function eventCreateManagementStatement($event)
+    {
+
+        $amount = 0;
+
+        if ($this->property_management_fees > 0) {
+
+            if ($this->property_management_fees_type == 1) {
+                $management_fees_percent = $this->property_management_fees;
+                $amount = ($management_fees_percent * $this->price) / 100;
+            } else {
+                $amount = $this->property_management_fees;
+
+            }
+
+            $trans = new Statement();
+
+            $trans->housing_id = $this->housing_unit_id;
+            $trans->building_id = $this->building_id;
+            $trans->estate_office_id = $this->estate_office_id;
+            $trans->owner_id = $this->owner_id;
+            $trans->contract_id = $this->id;
+            $trans->type = 1;
+            $trans->subtype = 'management';
+
+            // $trans->debit = ;
+            $trans->credit = $amount;
+            // $trans->reference_id = ;
+            $trans->setDetail('management', ['amount' => $amount, 'contract_id' => $this->id]);
+            $trans->save();
+        }
+    }
+
+    public function eventCreateMarketingStatement($event)
+    {
+
+        $amount = 0;
+
+        if ($this->marketing_fees > 0) {
+            if ($this->marketing_fees_type == 1) {
+                $marketing_percent = $this->marketing_fees;
+                $amount = ($marketing_percent * $this->price) / 100;
+            } else {
+                $amount = $this->marketing_fees;
+
+            }
+
+            $trans = new Statement();
+
+            $trans->housing_id = $this->housing_unit_id;
+            $trans->building_id = $this->building_id;
+            $trans->estate_office_id = $this->estate_office_id;
+            $trans->owner_id = $this->owner_id;
+            $trans->contract_id = $this->id;
+            $trans->type = 1;
+            $trans->subtype = 'marketing';
+
+            // $trans->debit = ;
+            $trans->credit = $amount;
+            // $trans->reference_id = ;
+            $trans->setDetail('marketing', ['amount' => $amount, 'contract_id' => $this->id]);
+            $trans->save();
+        }
+
+    }
 
     // public function eventExpired($event){
 

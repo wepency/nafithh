@@ -98,8 +98,10 @@ return [
     'Body Sms' => 'محتوى رسالة SMS',
     'Body Sms En' => 'محتوى رسالة SMS بالإنجليزية',
     'Brokerage Amount' => 'مبلغ العمولة',
-    'Brokerage Type' => 'نوع العمولة',
-    'Brokerage Value' => 'قيمة العمولة',
+    'Brokerage Type' => 'عمولة التأجير',
+    'Brokerage Value' => 'قيمة عمولة التأجير',
+    'Percentage' => 'نسبة مئوية',
+    'Fixed' => 'مبلغ ثابت',
     'Building' => 'المبنى',
     'Building Address' => 'عنوان المبنى',
     'Building Age' => 'عمر المبنى',
@@ -107,6 +109,7 @@ return [
     'Building Housing Units' => 'الوحدات',
     'Building ID' => 'رقم المبنى',
     'Building Info' => ' بيانات عامة عن المبنى',
+    'Unit Info' => ' بيانات عامة عن الوحدة',
     'Building Information' => 'معلومات المبنى',
     'Building Location' => 'موقع المبنى',
     'Building Name' => 'إسم المبنى',
@@ -609,6 +612,7 @@ return [
     'Remember My Account Info' => 'تذكر بيانات حسابي',
     'Renew' => 'تجديد',
     'Rent And Sale for full Building' => 'الإيجار والبيع للمبنى كامل',
+    'Rent And Sale for full Unit' => 'الإيجار والبيع للوحدة',
     'Rent Period' => 'فترة الإيجار',
     'Rent Periods' => 'فترات الإيجار',
     'Rent Price' => 'سعر الإيجار',
@@ -811,7 +815,10 @@ return [
     'Visit Number' => 'عدد الزيارات',
     'Vol Cities' => '',
     'Water Amount' => 'قيمة رسوم المياة',
-    'Water Meter Number' => 'رقم عداد الماء',
+    'Water Meter Serial' => 'رقم عداد المياه',
+    'Water Account Number' => 'رقم الحساب',
+    'Meter Reading Number' => 'رقم القراءة',
+    'Created Start Date' => 'تاريخ الابرام',
     'We will send a link to your email to activate your account' => 'سوف نرسل رابط لبريدك لتفعيل حسابك',
     'Website Info' => 'معلومات الموقع',
     'West' => 'الغرب',
@@ -1014,4 +1021,14 @@ return [
     'Your are on trial plan, {upgradeLink} now to get more sms and contracts.' => 'انت على الباقة التجريبية، يمكنك {upgradeLink} الآن للحصول على المزيد من الرسائل النصية والعقود.',
     'Contracts balance' => 'رصيد العقود',
     'SMS balance' => 'رصيد ال SMS',
+
+    'Recipient Name' => 'اسم المستلم',
+
+    'Property Management Fees Type' => 'رسوم ادارة الأملاك',
+
+    'Marketing Fees Type' => 'رسوم التسويق',
+
+    'Fees amount' => 'قيمة العمولة',
+
+    'Water Meter Number' => 'رقم عداد المياة'
 ];

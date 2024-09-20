@@ -259,7 +259,7 @@ class Building extends \yii\db\ActiveRecord
 
 
 //			[['advertiser_license_number', 'owner_id', 'building_name', 'building_type_id', 'floors', 'housing_units', 'city_id', 'district_id' /*, 'lang', 'lat', 'building_age'*/, 'neighborhood_name', 'advertiser_name', 'advertiser_mobile', 'limit_property', 'document_rights', 'information_affects', 'ad_description', 'ad_publish_date', 'ad_expire_date', 'advertiser_side', 'advertiser_adjective', 'advertiser_email', 'ad_type', 'ad_subtype', 'ad_status', 'street_name', 'real_estate_interface', 'room_type', 'using_for','width','length', 'street_view','agreeterms','authorization_number', 'space'], 'required'],
-			[['owner_id', 'building_name', 'city_id', 'district_id',  /* 'floors', 'housing_units', 'limit_property', 'document_rights', 'information_affects','real_estate_interface', */'agreeterms'], 'required'],
+			[['owner_id', 'building_name', 'city_id', 'district_id',  /* 'floors', 'housing_units', 'limit_property', 'document_rights', 'information_affects','real_estate_interface', 'agreeterms'*/], 'required'],
 
             //[['advertiser_license_number', 'owner_id', 'instrument_number', 'building_name', 'building_type_id', 'floors', 'housing_units', 'city_id', 'district_id' /*, 'lang', 'lat'*/, 'building_age', 'neighborhood_name', 'advertiser_name', 'advertiser_mobile',  'ad_description', 'ad_publish_date', 'ad_expire_date', 'advertiser_side', 'advertiser_adjective', 'advertiser_email', 'ad_type', 'ad_subtype', 'ad_status', 'real_estate_interface', 'room_type', 'using_for',   'agreeterms'], 'required'],
 

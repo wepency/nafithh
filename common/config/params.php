@@ -89,6 +89,8 @@ return [
     'statusPayment2' => ['en'=>[Installment::STATUS_UNPAID => 'Unpaid',Installment::STATUS_PART_PAID=>'part was paid',Installment::STATUS_PAID => 'Paid',Installment::STATUS_CANCEL => 'Cancelled'],'ar'=>[Installment::STATUS_UNPAID => 'غير مدفوع',Installment::STATUS_PART_PAID=>'تم دفع جزء',Installment::STATUS_PAID => 'مدفوع',Installment::STATUS_CANCEL => 'ملغي',]],
     'building_type' => ['en'=>[1 => 'Building',2 => 'Housing Unit'],'ar'=>[1 => 'مباني',2 => 'وحدات سكنية']],
     'brokerageType' => ['en'=>[1 => 'Percent',2 => 'Static Amount'],'ar'=>[1 => 'نسبة مئوية',2 => 'مبلغ ثابت']],
+    'propertyManagementFeesType' => ['en'=>[1 => 'Percent',2 => 'Static Amount'],'ar'=>[1 => 'نسبة مئوية',2 => 'مبلغ ثابت']],
+    'marketingFeesType' => ['en'=>[1 => 'Percent',2 => 'Static Amount'],'ar'=>[1 => 'نسبة مئوية',2 => 'مبلغ ثابت']],
     'recipient_type' => ['owner'=> Yii::t('app','Owner'),'maintenance_officer'=> Yii::t('app','Maintenance Office'),'other'=> Yii::t('app','Other')],
     'statusOrder' => ['en'=>[1=>'New' ,2=>'Pending View' , 3=>'Accept' , 4=>'Not Accept' , 5=>'Confirm Accept' , 6=>'Replay Fix' , 7=>'Pending Fix' , 8=>'Finish Fix' , 9=>'Active Fix' , 10=>'Close' ],'ar'=>[1=>'جديد' ,2=>'إنتظار  العروض' , 3=>'تمت الموافقة' , 4=>'تم الرفض' , 5=>'تأكيد  الموافقة' , 6=>'معادة للصيانة' , 7=>'إنتظار الصيانة' , 8=>'إنتهاء الإصلاح' , 9=>'الموافقة على الإصلاح' , 10=>'مغلق' ]],
     'defaultBalanceType'=>['en'=>[0 => 'Selected Balance',1 => 'Open Balance'],'ar'=>[0=>'رصيد محدد',1=>'رصيد مفتوح']],

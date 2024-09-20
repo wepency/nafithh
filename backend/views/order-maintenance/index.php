@@ -56,7 +56,7 @@ if($controller != 'order-info'){
                'attribute'=>'orderInfo.sender_id',
                 'value'=> function($model) {
                   return Yii::$app->params['userType'][Yii::$app->language][$model->orderInfo->sender_type].' - '.
-                    $model->orderInfo->sender->name;
+                    $model->orderInfo?->sender?->name;
                 }
             ],
             [
