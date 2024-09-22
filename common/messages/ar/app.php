@@ -1030,5 +1030,7 @@ return [
 
     'Fees amount' => 'قيمة العمولة',
 
-    'Water Meter Number' => 'رقم عداد المياة'
+    'Water Meter Number' => 'رقم عداد المياة',
+
+    'maintenance office name' => 'اسم مكتب الصيانة'
 ];

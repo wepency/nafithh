@@ -19,6 +19,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'recipient_type') ?>
 
+    <?= $form->field($model, 'recipient_name') ?>
+
     <?= $form->field($model, 'owner_id') ?>
 
     <?= $form->field($model, 'estate_office_id') ?>

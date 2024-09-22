@@ -14,6 +14,8 @@ class ReceiptVoucherSearch extends ReceiptVoucher
 {
     public $owner_name;
     public $housing_unit_name;
+    public $building_name; // Add this line
+
     /**
      * @inheritdoc
      */
@@ -21,7 +23,7 @@ class ReceiptVoucherSearch extends ReceiptVoucher
     {
         return [
             [['id', 'owner_id', 'estate_office_id', 'building_housing_unit_id', 'maintenance_office_id', 'user_receipt_id'], 'integer'],
-            [['recipient_type', 'amount_text', 'receipt_voucher_no', 'pay_against', 'payment_method', 'created_date', 'details','owner_name','housing_unit_name'], 'safe'],
+            [['recipient_type', 'recipient_name', 'building_name', 'amount_text', 'receipt_voucher_no', 'pay_against', 'payment_method', 'created_date', 'details','owner_name','housing_unit_name'], 'safe'],
             [['amount'], 'number'],
         ];
     }
@@ -46,7 +48,7 @@ class ReceiptVoucherSearch extends ReceiptVoucher
     {
         $query = ReceiptVoucher::find();
 
-        $query->joinWith(['buildingHousingUnit','owner'],false);
+        $query->joinWith(['buildingHousingUnit', 'buildingHousingUnit.building', 'buildingHousingUnit.building.owner as building_owner', 'maintenanceOffice', 'owner'],false);
 
         $user = yii::$app->user->identity;
         $andFilter = [];
@@ -101,7 +103,15 @@ class ReceiptVoucherSearch extends ReceiptVoucher
             'created_date' => $this->created_date,
         ]);
 
+        // Filter logic for recipient_name based on recipient_type
+        $query->andFilterWhere(['or',
+            ['like', 'building_owner.name', $this->recipient_name],
+            ['like', 'maintenance_office.name', $this->recipient_name],
+            ['like', 'recipient_name', $this->recipient_name],
+        ]);
+
         $query->andFilterWhere(['like', 'recipient_type', $this->recipient_type])
+            ->andFilterWhere(['like', 'building.building_name', $this->building_name])
             ->andFilterWhere(['like', 'amount_text', $this->amount_text])
             ->andFilterWhere(['like', 'receipt_voucher_no', $this->receipt_voucher_no])
             ->andFilterWhere(['like', 'pay_against', $this->pay_against])

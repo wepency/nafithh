@@ -44,6 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'label' => yii::t('app', 'Recipient Name'),
                 'attribute' => 'recipient_name',
+                'filter' => true,
                 'value' => function ($model) {
                     return match ($model->recipient_type) {
                         'owner' => $model?->buildingHousingUnit?->building?->owner?->name ?? $model?->owner?->name,
@@ -52,13 +53,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     };
                 },
             ],
-//            [
-//                'label' =>yii::t('app','Owner Name'),
-//                'attribute' =>'owner_name',
-//                'value' => function($model) {
-//                    return $model->buildingHousingUnit?->building?->owner?->name ?? $model->owner?->name;
-//                },
-//            ],
+            [
+                'label' =>yii::t('app','Owner Name'),
+                'attribute' =>'owner_name',
+                'value' => function($model) {
+                    return $model->buildingHousingUnit?->building?->owner?->name ?? $model->owner?->name;
+                },
+            ],
             [
                 'label' =>yii::t('app','Building'),
                 'attribute'=>'building_name',
@@ -71,11 +72,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filter'=> true,
                 'value'=> 'buildingHousingUnit.housing_unit_name'
             ],
-//            [
-//               'attribute'=>'maintenance_office_id',
-//               'filter'=> true,
-//               'value'=> 'maintenanceOffice.name'
-//            ],
+            [
+                'label' =>yii::t('app','maintenance office name'),
+               'attribute'=>'maintenance_office_id',
+               'filter'=> true,
+               'value'=> 'maintenanceOffice.name'
+            ],
             'amount',
             'amount_text',
             [

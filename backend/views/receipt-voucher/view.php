@@ -36,10 +36,15 @@ $this->params['breadcrumbs'][] = $this->title;
                    }
             ],
             [
+                'label' => yii::t('app', 'Recipient Name'),
                'attribute'=>'owner_id',
-               'value'=> function($model){
-                return ($model->owner)? $model->owner->name:'';
-              }
+                'value' => function ($model) {
+                    return match ($model->recipient_type) {
+                        'owner' => $model?->buildingHousingUnit?->building?->owner?->name ?? $model?->owner?->name,
+                        'maintenance_office' => $model?->maintenanceOffice?->name,
+                        default => $model?->recipient_name
+                    };
+                },
             ],
             [
                'attribute'=>'estate_office_id',

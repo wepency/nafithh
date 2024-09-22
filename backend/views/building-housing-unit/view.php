@@ -106,6 +106,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     'attribute' => 'sale_price',
                     'visible' => Yii::$app->user->can('/building/view'/*,['building'=>$model->building]*/),
                 ],
+                'electricity_meter_no',
+                'water_meter_no',
             ],
         ]) ?>
     </div>
