@@ -179,6 +179,13 @@ $estateOffice = $model?->estateOffice;
                                 <span><?= $housing?->electricity_meter_no ?></span>
                             </div>
                         </div>
+
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-12">
+                            <div class="form-group">
+                                <label><?= Yii::t('app', 'Water Meter Serial') ?></label>
+                                <span><?= $housing?->water_meter_no ?></span>
+                            </div>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-8 col-md-8 col-sm-12 col-12">
@@ -368,14 +375,14 @@ $estateOffice = $model?->estateOffice;
 
                         <div class="col-lg-4 col-md-6 col-sm-12 col-12">
                             <div class="form-group">
-                                <label><?=Yii::t('app', 'Water Account Number')?></label>
+                                <label><?= Yii::t('app', 'Water Account Number') ?></label>
                                 <span><?= $model->water_account_number ?? '--' ?></span>
                             </div>
                         </div>
 
                         <div class="col-lg-4 col-md-6 col-sm-12 col-12">
                             <div class="form-group">
-                                <label><?=Yii::t('app', 'Meter Reading Number')?></label>
+                                <label><?= Yii::t('app', 'Meter Reading Number') ?></label>
                                 <span><?= $model->meter_reading_number ?? '--' ?></span>
                             </div>
                         </div>
