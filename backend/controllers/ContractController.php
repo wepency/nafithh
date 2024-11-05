@@ -6,6 +6,7 @@ use common\components\GeneralHelpers;
 use common\models\Contract;
 use common\models\ContractFormEstateOffice;
 use common\models\ContractSearch;
+use common\models\ConvertNumToText;
 use common\models\Installment;
 use common\models\User;
 use Yii;
@@ -756,5 +757,18 @@ class ContractController extends Controller
     public function actionDeleteFile($id, $attribute = "file")
     {
         return GeneralHelpers::deleteImages(Contract::class, $id, $attribute);
+    }
+
+    public function actionConvertToNum()
+    {
+        $request = Yii::$app->request;
+
+        $ar_number= new ConvertNumToText($request->post('price'), "male");
+
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+        return [
+            'updatedPrice' => $ar_number->convert_number(). ' ريال سعودي فقط لا غير'
+        ];
     }
 }

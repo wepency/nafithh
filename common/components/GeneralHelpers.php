@@ -285,13 +285,13 @@ class GeneralHelpers
         $password_msg = $settingSms->password;
         $sender_msg = $settingSms->sender;
 
-        $msg = urlencode($message);
+        $msg = $message;
 //        $msg = urlencode($message).' - '.rand(1111,9999);
         //للإظهار jop_id والرصيد المخصوم والرصيد المتبقي
         $infos = "YES";
         //للإظهار نتيجة الإرسال على شكل XML
         $xml = "XML";
-        $to = '00966' . $to;
+        $to = '966' . $to;
 
         if ($host_msg != NULL && $user_msg != NULL && $password_msg != NULL) {
             if ($sender_msg != NULL) {
@@ -299,36 +299,39 @@ class GeneralHelpers
             } else {
                 $SendingResult = self::SendMsgSms($user_msg, $password_msg, $to, '', $msg, $infos, $xml);
             }
-            $lib = simplexml_load_string(iconv("windows-1256", "UTF-8", $SendingResult));
+//            $lib = simplexml_load_string(iconv("windows-1256", "UTF-8", $SendingResult));
 
-            if ($lib) {
-                $ResultSending = $lib->ResultSending[0];
-                $code = $ResultSending->Code;
+            return ['status' => true, 'message' => "Send Successfully ,JOB_ID : "];
 
-                // $code = $SendingResult;
 
-                if ($code == "1") {
-                    $text = "JOB_ID : " . $ResultSending->JOB_ID;
-                    $text .= "<br>";
-                    $text .= "Cost : " . $ResultSending->Cost;
-                    $text .= "<br>";
-                    $text .= "Credit : " . $ResultSending->Credit;
-                    return ['status' => true, 'message' => "Send Successfully ,JOB_ID : " . $ResultSending->JOB_ID];
-
-                } else {
-                    return ['status' => false, 'message' => "error profiver code:$code"];
-
-                }
-            }
-
+//            if ($lib) {
+//                $ResultSending = $lib->ResultSending[0];
+//                $code = $ResultSending->Code;
+//
+//                // $code = $SendingResult;
+//
+//                if ($code == "1") {
+//                    $text = "JOB_ID : " . $ResultSending->JOB_ID;
+//                    $text .= "<br>";
+//                    $text .= "Cost : " . $ResultSending->Cost;
+//                    $text .= "<br>";
+//                    $text .= "Credit : " . $ResultSending->Credit;
+//                    return ['status' => true, 'message' => "Send Successfully ,JOB_ID : " . $ResultSending->JOB_ID];
+//
+//                } else {
+//                    return ['status' => false, 'message' => "error profiver code:$code"];
+//
+//                }
+//            }
 
         } else
-            return ['status' => false, 'message' => "error data profiver $result"];
+            return ['status' => false, 'message' => "error data profiver"];
     }
 
     public static function SendMsgSms($UserName, $UserPassword, $Numbers, $Originator, $Message, $infos = "", $xml = "")
     {
-        $url = "https://mobile.net.sa/sms/gw/";
+        $url = "https://app.mobile.net.sa/api/v1/send"; // Updated URL for the request
+
         if (!$url || $url == "") {
             return "No URL";
         } else {
@@ -336,20 +339,50 @@ class GeneralHelpers
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_HEADER, false);
             curl_setopt($ch, CURLOPT_POST, true);
-            $dataPOST = array('userName' => $UserName, 'userPassword' => $UserPassword, 'userSender' => $Originator, 'numbers' => $Numbers, 'msg' => $Message, 'By' => "standard");
+
+            // Prepare the POST data
+            $dataPOST = array(
+                "number" => $Numbers,
+                "senderName" => $Originator,
+                "sendAtOption" => "Now",
+                "messageBody" => $Message,
+                "allow_duplicate" => true
+
+//                'userName' => $UserName,
+//                'userPassword' => $UserPassword,
+//                'userSender' => $Originator,
+//                'numbers' => $Numbers,
+//                'msg' => $Message,
+//                'By' => "standard"
+            );
+
             if ($infos) $dataPOST["infos"] = "YES";
             if ($xml) $dataPOST["return"] = "XML";
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $dataPOST);
+
+            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($dataPOST)); // Use http_build_query for proper encoding
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
             curl_setopt($ch, CURLOPT_VERBOSE, 0);
-            // curl_setopt($ch, CURLE_HTTP_NOT_FOUND,true); 
+
+            // Set the Authorization header with Bearer token
+            $bearerToken = "vPtRrBkjs25SFzUazyK02fKyNNgkLmjFw2JQqSVe"; // Replace with your actual token
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                "Authorization: Bearer " . $bearerToken,
+                "Content-Type: application/x-www-form-urlencoded; charset=UTF-8",
+            ));
+
             $FainalResult = curl_exec($ch);
+
+            if (curl_errno($ch)) {
+                // Handle any errors
+                $FainalResult = 'Curl error: ' . curl_error($ch);
+            }
+
             curl_close($ch);
             return $FainalResult;
         }
-    }
 
+    }
 
     public static function getTemp($notifTempId, $estateOfficeId)
     {

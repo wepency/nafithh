@@ -259,7 +259,7 @@ class Installment extends \yii\db\ActiveRecord
         //     $amount = $this->amount_remaining_owner;
         // }
 
-        if($st_type1 && ($brokerage = $stdCredit) > 0 ){
+        if($st_type1 && ($brokerage = $stdCredit) >= 0 ){
 
         // إذا كان يوجد قيد بنوع عمولة لنفس هذا العقد 
             $st_type5 = Statement::find()

@@ -168,6 +168,7 @@ class SiteController extends Controller
         $InstaAll = count($InstaIds);
         // $InstaEnd->select(['DATE_FORMAT(installment.start_date, "%d-%m-%Y") as endDate'])->where(['>=','start_date',date("Y-m-d")])->one();
         $InstaEnd = Installment::find()->where(['id' => $InstaIds, 'payment_status' => Installment::STATUS_UNPAID])->andWhere(['<', 'installment.start_date', date("Y-m-d")])->count();
+
         $InstaInMonth = Installment::find()->where(['id' => $InstaIds, 'payment_status' => Installment::STATUS_UNPAID])->andWhere(['=', 'DATE_FORMAT(installment.start_date, "%Y-%m")', date("Y-m")])->count();
         $ads = Ad::find()->where(['status' => 1, 'page_name' => 'owner'])->orderby('id DESC')->all();
 
@@ -262,8 +263,13 @@ class SiteController extends Controller
         $InstaIds = Installment::find()->joinWith(['contract'])->select(['installment.id', 'contract_id'])->where(['contract.estate_office_id' => $estate_office_id])->asArray()->all();
         $InstaIds = ArrayHelper::getColumn($InstaIds, 'id');
         $InstaAll = count($InstaIds);
+
         // $InstaEnd->select(['DATE_FORMAT(installment.start_date, "%d-%m-%Y") as endDate'])->where(['>=','start_date',date("Y-m-d")])->one();
-        $InstaEnd = Installment::find()->where(['id' => $InstaIds, 'payment_status' => Installment::STATUS_UNPAID])->andWhere(['<', 'installment.start_date', date("Y-m-d")])->count();
+        $InstaEnd = Installment::find()->where(['id' => $InstaIds])
+                            ->andWhere(['installment.payment_status' => [Installment::STATUS_PART_PAID, Installment::STATUS_UNPAID]])
+                            ->andWhere(['<', 'installment.start_date', date("Y-m-d")])
+                            ->count();
+
 //        $InstaInMonth = Installment::find()->where(['id' => $InstaIds, 'payment_status' => Installment::STATUS_UNPAID])->andWhere(['=', 'DATE_FORMAT(installment.start_date, "%Y-%m")', date("Y-m")])->count();
         $InstaInMonth = Installment::find()->where(['id' => $InstaIds])->andWhere(['=', 'DATE_FORMAT(installment.start_date, "%Y-%m")', date("Y-m")])->count();
 
@@ -287,7 +293,7 @@ class SiteController extends Controller
         // Installments counts
         $aboutToExpireInstallments = Installment::find()
             ->joinWith('contract') // Assuming you have a relation 'contract' in Installment model
-            ->where(['installment.payment_status' => [0, 2]])
+            ->where(['installment.payment_status' => [1, 2]])
             ->where(['between', 'installment.end_date', new Expression('CURDATE() + INTERVAL 1 DAY'), new Expression('CURDATE() + INTERVAL 30 DAY')])
             ->andWhere(['estate_office_id' => $id]) // start_date is before today
             ->count();

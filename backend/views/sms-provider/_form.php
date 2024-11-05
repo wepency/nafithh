@@ -9,7 +9,9 @@ use common\models\SmsProvider;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 <div class="alert alert-warning" role="alert">
-    <strong>    <?php
+    <strong>
+
+        <?php
 
     $settingSms = SmsProvider::findOne(1);
 
@@ -18,26 +20,52 @@ use common\models\SmsProvider;
     $password_msg =$settingSms->password;
 	$xml = "&return=XML";
 
-    if ($host_msg!=NULL && $user_msg!=NULL && $password_msg!=NULL){
-	    $url = "https://mobile.net.sa/sms/gw/Credits.php?userName=".$user_msg."&userPassword=".$password_msg."&By=standard".$xml;
-	    if (!(@$fp =fopen($url,"r"))){
-	        $FainalResult = "Erorr Connecting to Gateway.";
-	    }else{
-	        @$FainalResult =@fread(@$fp,8192);
-	        @fclose(@$fp);
-	    }
-	    $MyCredits = $FainalResult;
-	    $lib  = simplexml_load_string(iconv("windows-1256", "UTF-8",$MyCredits));
- 
-		$ResultCredit = $lib->ResultCredit[0];
+        if ($host_msg != NULL && $user_msg != NULL && $password_msg != NULL) {
+            // New URL for the request
+            $url = "https://app.mobile.net.sa/api/v1/get-balance";
 
-		if($ResultCredit->Code == 1){
-			echo Yii::t('app', 'Available Balance is :').' '.$ResultCredit->Credit;
-		}else{
-			echo $ResultCredit->Message;
-		}
-    }
-    ?>‏
+            // Prepare the Bearer token (replace with your actual token)
+            $bearerToken = "vPtRrBkjs25SFzUazyK02fKyNNgkLmjFw2JQqSVe";
+
+            // Set the headers, including the Authorization Bearer token
+            $options = [
+                "http" => [
+                    "header" => [
+                        "Authorization: Bearer " . $bearerToken,
+                        "Content-Type: application/json" // Adjust if needed
+                    ],
+                    "method" => "POST" // Assuming a GET request
+                ]
+            ];
+
+            // Create a stream context
+            $context = stream_context_create($options);
+
+            // Make the request
+            $response = file_get_contents($url, false, $context);
+
+            if ($response === FALSE) {
+                $FainalResult = "Error Connecting to Gateway.";
+                die($FainalResult);
+            } else {
+                $MyCredits = $response;
+            }
+
+            $lib = json_decode($response);
+
+            // Assuming the response is in XML format, adjust as needed
+//            $lib = simplexml_load_string(iconv("windows-1256", "UTF-8", $MyCredits));
+
+            $ResultCredit = $lib->data;
+
+            if ($lib->status == "Success") {
+                echo Yii::t('app', 'Available Balance is :') . ' ' . $ResultCredit->balance;
+            } else {
+                echo $ResultCredit->Message;
+            }
+        }
+
+        ?>
     </strong>
 </div>
 <div class="sms-provider-form box box-primary">

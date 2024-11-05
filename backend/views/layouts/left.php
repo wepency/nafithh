@@ -186,11 +186,13 @@ if ($userInfo['userType'] == 'estate_officer' && yii::$app->user->identity->user
                     ['label' => \Yii::t('app', 'Users'), 'icon' => 'users', 'url' => ['/user/index/'], 'active' => in_array($this->context->route, ['user/index', 'user/update', 'user/view'])],
                 ],
             ],
+
             ['label' => \Yii::t('app', 'My Information'), 'icon' => 'user', 'url' => ['/user/profile'], 'active' => in_array($this->context->route, ['/user/profile'])],
 
             ['label' => \Yii::t('app', 'Nafithh gallery'), 'icon' => 'building', 'url' => yii::$app->BaseUrl->baseUrl . '/gallery', 'template' => '<a href="{url}" target="_blank"><i class="fa fa-building"></i>{label}</a>'],
 
             ['label' => \Yii::t('app', 'My Offers'), 'icon' => 'building', 'url' => '', 'template' => $myGallery],
+
             ['label' => \Yii::t('app', 'QR Code'), 'icon' => 'qr-code', 'url' => '', 'template' => $myQR],
 
             ['label' => \Yii::t('app', 'Logout'), 'icon' => 'sign-out', 'url' => ['site/logout'], 'template' => '<a href="{url}" data-method="post">{label}</a>'],
@@ -201,18 +203,18 @@ if ($userInfo['userType'] == 'estate_officer' && yii::$app->user->identity->user
 
         $menuItems = Helper::filter($menuItems);
 
-        if (in_array(yii::$app->user->identity->user_type, ['estate_officer', 'owner_estate_officer'])) {
-
-            array_unshift($menuItems, [
-                'label' => \Yii::t('app', 'Add new advertisement'),
-                'icon' => 'plus', 'url' => ['/takamolat/'],
-                'active' => in_array($this->context->route, ['takamolat/index', 'message-sms/view'])
-            ], [
-                'label' => \Yii::t('app', 'Subscriptions'),
-                'icon' => 'list-alt', 'url' => ['/subscriptions/'],
-                'active' => in_array($this->context->route, ['subscriptions/index'])
-            ]);
-        }
+//        if (in_array(yii::$app->user->identity->user_type, ['estate_officer', 'owner_estate_officer'])) {
+//
+//            array_unshift($menuItems, [
+//                'label' => \Yii::t('app', 'Add new advertisement'),
+//                'icon' => 'plus', 'url' => ['/takamolat/'],
+//                'active' => in_array($this->context->route, ['takamolat/index', 'message-sms/view'])
+//            ], [
+//                'label' => \Yii::t('app', 'Subscriptions'),
+//                'icon' => 'list-alt', 'url' => ['/subscriptions/'],
+//                'active' => in_array($this->context->route, ['subscriptions/index'])
+//            ]);
+//        }
 
         if (yii::$app->user->identity->user_type == 'admin') {
             array_unshift($menuItems, [

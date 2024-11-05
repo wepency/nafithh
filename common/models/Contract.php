@@ -424,6 +424,7 @@ class Contract extends \yii\db\ActiveRecord
     {
 
         $amount = 0;
+
         if ($this->brokerage_type == 1) {
             $brokerage_percent = $this->brokerage_value;
             $amount = ($brokerage_percent * $this->price) / 100;
@@ -459,9 +460,12 @@ class Contract extends \yii\db\ActiveRecord
         if ($this->property_management_fees > 0) {
 
             if ($this->property_management_fees_type == 1) {
+
                 $management_fees_percent = $this->property_management_fees;
                 $amount = ($management_fees_percent * $this->price) / 100;
+
             } else {
+
                 $amount = $this->property_management_fees;
 
             }

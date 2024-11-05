@@ -55,6 +55,7 @@ extract($option);
 
         ]); ?>
     </div>
+
     <div class="col-md-3">
         <?php echo Chart::card([
             'content' => $InstaAll,
@@ -74,6 +75,7 @@ extract($option);
 
         ]); ?>
     </div>
+
     <div class="col-md-3">
         <?php echo Chart::card([
             'content' => $InstaInMonth,
@@ -130,6 +132,42 @@ extract($option);
 </div>
 <div class="row">
     <div class="col-md-6">
+
+        <!-- Notifications appears only if the office already has notifications -->
+        <div class="col-md-12">
+            <div class="box box-danger">
+                <div class="box-header with-border">
+                    <h3 class="box-title">طلبات الصيانة</h3>
+
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                    class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="box-body">
+                    <?php
+                    $notifications = \common\models\Notification::find()->where(['receiver_type' => 'estate_officer', 'receiver_id' => 568, 'table_name' => 'order-maintenance', 'readed_at' => null])->limit('10')->all();
+
+                    foreach ($notifications as $key) { ?>
+                    <li>
+                        <!-- inner menu: contains the actual data -->
+                        <ul class="menu">
+                            <li class="<?= ($key->status_read == 0) ? 'list-group-item-success' : '' ?>">
+                                <a href="<?= Yii::$app->request->baseUrl . '/notification/' . $key->id ?>">
+                                    <i class="fa fa-users text-aqua"></i><?= $key->content ?>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <?php }; ?>
+                </div>
+            </div>
+        </div>
+
         <div class="col-md-12">
             <?php echo Chart::pieChart([
                 'label' => Yii::t('app', 'Buildings'),

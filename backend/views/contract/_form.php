@@ -97,8 +97,8 @@ use yii\helpers\Url;
 
     <label for='' class='col-sm-2 control-label'><?= Yii::t('app', 'Price Text') ?></label>
     <div class='col-sm-4'>
-        <p style="margin-top: 10px;" class="form-group field-contract-price">ستظهر تلقائيا في العقد</p>
-<!--        --><?php //= $form->field($model, 'price_text')->textInput(['maxlength' => true])->label(false) ?>
+<!--        <p style="margin-top: 10px;" class="form-group field-contract-price">ستظهر تلقائيا في العقد</p>-->
+        <?= $form->field($model, 'price_text')->textInput(['maxlength' => true])->label(false) ?>
     </div>
 
     <div class="clearfix"></div>
@@ -252,9 +252,13 @@ use yii\helpers\Url;
 
 <?php
 $url = Yii::$app->urlManager->baseUrl . "/contract/contract-form";
+$convertToNumUrl = Yii::$app->urlManager->baseUrl . "/contract/convert-to-num";
+
 $script = <<< JS
     var ajaxURL = '$url';
 $(document).ready(function(){
+    updatePrice();
+    
     $("select[id='contract-contract_form_id']").change(function(){
         $.ajax({
             url: ajaxURL,
@@ -276,6 +280,26 @@ $(document).ready(function(){
             }
         });
     });
+    
+    $('#contract-price').on('keyup', function() {
+            updatePrice()
+        });
+    
+    function updatePrice() {
+        var price = $('#contract-price').val();
+            $.ajax({
+                url: '$convertToNumUrl',  // URL to send the request
+                type: 'POST',
+                data: {price: price},
+                success: function(response) {
+                    $('#contract-price_text').val(response.updatedPrice);  // Update the price-text element with the response
+                    console.log(response.updatedPrice);
+                },
+                error: function() {
+                    // alert('Error updating price');
+                }
+            });
+    }
 });
 JS;
 $this->registerJs($script);
